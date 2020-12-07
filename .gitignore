@@ -1,5 +1,10 @@
 # Compiled class file
 *.class
+*.iml
+
+# 对target和.idea文件夹进行忽略
+target/
+.idea/
 
 # Log file
 *.log
