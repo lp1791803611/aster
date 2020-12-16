@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="random-admin" />
+        <module name="random-common" />
+        <module name="random-dao" />
+        <module name="random-mbg" />
+        <module name="random-wx" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="random" target="1.8" />
+      <module name="random-admin" target="1.8" />
+      <module name="random-common" target="1.8" />
+      <module name="random-dao" target="1.8" />
+      <module name="random-mbg" target="1.8" />
+      <module name="random-wx" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
