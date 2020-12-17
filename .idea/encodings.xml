@@ -2,10 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/random-admin" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/random-common" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/random-mbg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/random-mbg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/random-wx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/random-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/random-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/random-mbg/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/random-wx/src/main/java" charset="UTF-8" />
   </component>
 </project>

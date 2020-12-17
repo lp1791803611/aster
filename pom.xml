@@ -17,8 +17,6 @@
 
 	<modules>
 		<module>random-admin</module>
-		<module>random-common</module>
-		<module>random-mbg</module>
 		<module>random-wx</module>
         <module>random-common</module>
 		<module>random-mbg</module>
@@ -31,7 +29,6 @@
 		<mybatis-generator.version>1.4.0</mybatis-generator.version>
 		<mybatis.version>3.5.5</mybatis.version>
 		<mybatis-springboot-starter.version>2.1.4</mybatis-springboot-starter.version>
-		<tkmybatis-springboot.version>2.1.5</tkmybatis-springboot.version>
 		<mysql-connector.version>8.0.22</mysql-connector.version>
 		<druid.version>1.1.23</druid.version>
 		<hutool.version>5.4.0</hutool.version>
@@ -78,12 +75,6 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis-springboot-starter.version}</version>
-		</dependency>
-		<!-- tk.mybatis -->
-		<dependency>
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper-spring-boot-starter</artifactId>
-			<version>${tkmybatis-springboot.version}</version>
 		</dependency>
 		<!--Mysql数据库驱动-->
 		<dependency>
