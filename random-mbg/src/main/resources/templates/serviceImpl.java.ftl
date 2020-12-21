@@ -1,8 +1,8 @@
-package ${package.ServiceImpl};
+package ${cfg.customServiceImplPackage};
 
 import ${cfg.customEntityPackage}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
+import ${cfg.customMapperPackage}.${table.mapperName};
+import ${cfg.customServicePackage}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
 

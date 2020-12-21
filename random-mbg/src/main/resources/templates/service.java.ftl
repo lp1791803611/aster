@@ -1,4 +1,4 @@
-package ${package.Service};
+package ${cfg.customServicePackage};
 
 import ${cfg.customEntityPackage}.${entity};
 import ${superServiceClassPackage};

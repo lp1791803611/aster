@@ -1,8 +1,8 @@
-package ${package.Controller};
+package ${cfg.customControllerPackage};
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import ${cfg.customServicePackage}.${table.serviceName}
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -34,6 +34,8 @@ public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
 public class ${table.controllerName} {
 </#if>
+    @Autowired
+    private ${table.serviceName} ${table.serviceName ? uncap_first};
 
 }
 </#if>

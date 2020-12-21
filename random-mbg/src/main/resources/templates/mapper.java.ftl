@@ -1,12 +1,15 @@
-package ${package.Mapper};
+package ${cfg.customMapperPackage};
 
 import ${cfg.customEntityPackage}.${entity};
 import ${superMapperClassPackage};
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
- * ${table.comment!} Mapper 接口
- * </p>
+    * ${table.comment!} Mapper 接口
+    * </p>
  *
  * @author ${author}
  * @since ${date}
@@ -14,7 +17,14 @@ import ${superMapperClassPackage};
 <#if kotlin>
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
+@Repository("${table.mapperName?uncap_first}")
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
+    /**
+     * 分页数据查询
+     * @param ${entity?uncap_first}
+     * @return
+     */
+    List<${entity}> select${entity}List(${entity} ${entity?uncap_first});
 }
 </#if>

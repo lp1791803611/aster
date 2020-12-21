@@ -3,6 +3,7 @@ package top.plgxs.mbg;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
@@ -12,12 +13,13 @@ import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import org.springframework.util.StringUtils;
 import top.plgxs.mbg.config.NameHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Mybatis-plus自动生成代码
- * @author Stranger.
- * @since 2020-12-21 15:11:55
  */
 public class MyBatisPlusGenerator {
     /**
@@ -47,6 +49,7 @@ public class MyBatisPlusGenerator {
 
     /**
      * 输出路径（当前为项目根目录下）
+     * 例如：F:\ideaProject\random
      */
     private String outputDir = System.getProperty("user.dir");
 
@@ -66,11 +69,6 @@ public class MyBatisPlusGenerator {
     private String commonPackageName = "sys";
 
     /**
-     * service接口是否以I开头
-     */
-    private boolean serviceNameStartWithI = false;
-
-    /**
      * controller基础类
      */
     private String superControllerClass = packageName + ".common.BaseController";
@@ -81,9 +79,9 @@ public class MyBatisPlusGenerator {
     private String superEntityClass = packageName + ".common.BaseEntity";
 
     /**
-     * 模块名 如果有模块名，则需在模块名前加. 例：.log
+     * mbg模块包名
      */
-    private String modulePackageName = ".random-mbg";
+    private String mbgPackageName = packageName + ".mbg";
 
     /**
      * mbg模块路径
@@ -94,6 +92,11 @@ public class MyBatisPlusGenerator {
      * mbg模块的包名路径
      */
     private String mbgModulePackagePath = packagePath + "/mbg";
+
+    /**
+     * admin模块包名
+     */
+    private String adminPackageName = packageName + ".admin";
 
     /**
      * admin模块路径
@@ -109,6 +112,12 @@ public class MyBatisPlusGenerator {
      * 作者名
      */
     private String author = "Stranger";
+
+    /**
+     * 逻辑删除属性名称
+     * 0-正常，1-逻辑删除
+     */
+    private String deleteFieldName = "status";
 
     /**
      * 生成代码的调用方法
@@ -131,8 +140,10 @@ public class MyBatisPlusGenerator {
         GlobalConfig globalConfig = getGlobalConfig();
         //包名配置
         PackageConfig packageConfig = getPackageConfig();
+        //自主配置
+        InjectionConfig injectionConfig = getInjectionConfig();
         //自动生成
-        atuoGenerator(dataSourceConfig, strategyConfig, globalConfig, packageConfig);
+        atuoGenerator(dataSourceConfig, strategyConfig, globalConfig, packageConfig,injectionConfig);
     }
 
     /**
@@ -143,7 +154,8 @@ public class MyBatisPlusGenerator {
      * @param config           全局变量配置
      * @param packageConfig    包名配置
      */
-    private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig, GlobalConfig config, PackageConfig packageConfig) {
+    private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
+                               GlobalConfig config, PackageConfig packageConfig, InjectionConfig injectionConfig) {
         TemplateConfig tc = new TemplateConfig();
 
         // 配置自定义输出模板
@@ -173,6 +185,7 @@ public class MyBatisPlusGenerator {
                 .setPackageInfo(packageConfig)
                 .setTemplateEngine(new FreemarkerTemplateEngine())
                 //.setTemplateEngine(new VelocityTemplateEngine()).setTemplate(tc)
+                .setCfg(injectionConfig)
                 .execute();
     }
 
@@ -187,13 +200,13 @@ public class MyBatisPlusGenerator {
         pc.setParent(null); //具体包,类似：top.plgxs
         //entity mapper层统一放在mbg模块下
         HashMap<String, String> pathMap = CollectionUtils.newHashMapWithExpectedSize(6);
-        pathMap.put(ConstVal.ENTITY_PATH, outputDir + mbgModulePath + "/src/main/java/" +
+        pathMap.put(ConstVal.ENTITY_PATH, outputDir + mbgModulePath + "/src/main/java" +
                 mbgModulePackagePath + "/entity/" + commonPackageName);
 
         pathMap.put(ConstVal.MAPPER_PATH, outputDir + mbgModulePath + "/src/main/java" +
                 mbgModulePackagePath + "/mapper/" + commonPackageName);
 
-        pathMap.put(ConstVal.XML_PATH, outputDir + mbgModulePath + "/src/main/resources/mapper");
+        pathMap.put(ConstVal.XML_PATH, outputDir + mbgModulePath + "/src/main/resources/mapper/"+commonPackageName);
 
         //controller service impl放在其他模块
         pathMap.put(ConstVal.CONTROLLER_PATH, outputDir + adminModulePath + "/src/main/java" +
@@ -220,23 +233,21 @@ public class MyBatisPlusGenerator {
         globalConfig
                 // 开启swagger
                 .setSwagger2(true)
+                .setActiveRecord(true)
                 .setBaseColumnList(true)
                 .setBaseResultMap(true)
                 //作者
                 .setAuthor(author)
                 //设置输出路径
-                .setOutputDir(outputDir + mbgModulePath+ "/src/main/java")
+                .setOutputDir(outputDir)
                 //是否覆盖已有文件
                 .setFileOverride(true);
 
-        // 命名方式
+        // 自定义命名方式
         globalConfig.setEntityName("%s");
         globalConfig.setMapperName("%sMapper");
         globalConfig.setXmlName("%sMapper");
-        if (!serviceNameStartWithI) {
-            //设置service名
-            globalConfig.setServiceName("%sService");
-        }
+        globalConfig.setServiceName("%sService");
         globalConfig.setServiceImplName("%sServiceImpl");
         globalConfig.setControllerName("%sController");
 
@@ -250,58 +261,33 @@ public class MyBatisPlusGenerator {
      * @return StrategyConfig
      */
     private StrategyConfig getStrategyConfig(String... tableNames) {
-        /*return new StrategyConfig()
-                // 全局大写命名 ORACLE 注意
-                .setCapitalMode(true)
-                //从数据库表到文件的命名策略
-                .setNaming(NamingStrategy.underline_to_camel)
-                .setNameConvert(new INameConvert() {
-                    @Override
-                    public String entityNameConvert(TableInfo tableInfo) {
-                        return NameHelper.getName(tableInfo.getName(), true);
-                    }
-
-                    @Override
-                    public String propertyNameConvert(TableField field) {
-                        return NameHelper.getName(field.getName(), false);
-                    }
-                })
-                //需要生成的的表名，多个表名传数组
-                .setInclude(tableNames)
-
-                //公共父类
-                // .setSuperControllerClass(superControllerClass)
-                // .setSuperEntityClass(superEntityClass)
-                // 写于父类中的公共字段
-                // .setSuperEntityColumns("id")
-                //使用lombok
-                .setEntityLombokModel(true)
-                //rest风格
-                .setRestControllerStyle(true);*/
-
         StrategyConfig strategy = new StrategyConfig();
         //从数据库表到文件的命名策略
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        //rest风格
-        strategy.setRestControllerStyle(true);
-        strategy.setChainModel(true);
-        strategy.setEntityTableFieldAnnotationEnable(true);
-        //使用lombok
-        strategy.setEntityLombokModel(true);
-        //需要生成的的表名，多个表名传数组
-        strategy.setInclude(tableNames);
-        strategy.setEntitySerialVersionUID(true);
-        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setNaming(NamingStrategy.underline_to_camel)
+                // 表前缀
+                .setTablePrefix(new String[] {"t_","T_"})
+                // rest风格
+                .setRestControllerStyle(false)
+                // 字段注解
+                .setEntityTableFieldAnnotationEnable(true)
+                // 使用lombok
+                .setEntityLombokModel(true)
+                // 需要生成的的表名，多个表名传数组
+                .setInclude(tableNames)
+                // 生成序列号
+                .setEntitySerialVersionUID(true)
+                // 逻辑删除属性名称
+                .setLogicDeleteFieldName(deleteFieldName)
+                // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
+                .setControllerMappingHyphenStyle(true);
 
-        //strategy.setSuperEntityClass(BaseEntity.class);
+        // 自定义实体父类
         // strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
-        // strategy.setEntityLombokModel(true);
-        // 公共父类
+        // 自定义实体，公共字段
+        // strategy.setSuperEntityColumns(new String[] { "create_time", "create_username" });
+        // 自定义 controller 父类
         // strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-        // strategy.setSuperEntityColumns("id");
-        // strategy.setTablePrefix(pc.getModuleName() + "_");
+        // 还有自定义service/mapper等
         return strategy;
     }
 
@@ -316,5 +302,41 @@ public class MyBatisPlusGenerator {
                 .setUsername(userName)
                 .setPassword(password)
                 .setDriverName(driver);
+    }
+
+    // 自定义配置
+    private InjectionConfig getInjectionConfig(){
+        InjectionConfig cfg = new InjectionConfig() {
+            //自定义属性注入:abc
+            //在.ftl(或者是.vm)模板中，通过${cfg.abc}获取属性
+            @Override
+            public void initMap() {
+                Map<String, Object> map = new HashMap<>();
+                // 实体类的package
+                map.put("customEntityPackage", mbgPackageName
+                        + ".entity." + commonPackageName);
+                // mapper的package
+                map.put("customMapperPackage", mbgPackageName
+                        + ".mapper." + commonPackageName);
+                // controller的package
+                map.put("customControllerPackage", adminPackageName
+                        + ".controller." + commonPackageName);
+                // service的package
+                map.put("customServicePackage", adminPackageName
+                        + ".service." + commonPackageName);
+                // serviceimpl的package
+                map.put("customServiceImplPackage", adminPackageName
+                        + ".service.impl." + commonPackageName);
+
+                this.setMap(map);
+            }
+        };
+        return cfg;
+    }
+
+
+
+    public static void main(String[] args) {
+        new MyBatisPlusGenerator().generateCode();
     }
 }
