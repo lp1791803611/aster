@@ -14,16 +14,17 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
-    * 
-    * </p>
+ * 用户
+ * </p>
  *
- * @author Stranger
- * @since 2020-12-21
+ * @Author Stranger
+ * @Date 2020-12-22
+ * @Version 1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_sys_user")
-@ApiModel(value="SysUser对象", description="")
+@ApiModel(value="SysUser对象", description="用户")
 public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;

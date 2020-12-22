@@ -1,8 +1,9 @@
 package ${cfg.customControllerPackage};
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ${cfg.customServicePackage}.${table.serviceName}
+import org.springframework.web.bind.annotation.ResponseBody;
+import ${cfg.customServicePackage}.${table.serviceName};
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -11,14 +12,18 @@ import org.springframework.stereotype.Controller;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
+import ${cfg.customEntityPackage}.${entity};
 
+import javax.annotation.Resource;
+import java.util.List;
 /**
  * <p>
  * ${table.comment!} 前端控制器
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @Author ${author}
+ * @Date ${date}
+ * @Version 1.0
  */
 <#if restControllerStyle>
 @RestController
@@ -34,8 +39,13 @@ public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
 public class ${table.controllerName} {
 </#if>
-    @Autowired
+    @Resource
     private ${table.serviceName} ${table.serviceName ? uncap_first};
 
+    @GetMapping(value = "/list")
+    @ResponseBody
+    public List<${entity}> get${entity}List(){
+        return ${table.serviceName ? uncap_first}.get${entity}List();
+    }
 }
 </#if>

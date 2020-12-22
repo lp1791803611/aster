@@ -6,15 +6,25 @@ import top.plgxs.admin.service.sys.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * <p>
- *  服务实现类
+ * 用户 服务实现类
  * </p>
  *
- * @author Stranger
- * @since 2020-12-21
+ * @Author Stranger
+ * @Date 2020-12-22
+ * @Version 1.0
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+    @Resource
+    private SysUserMapper sysUserMapper;
 
+    @Override
+    public List<SysUser> getSysUserList() {
+        return sysUserMapper.selectSysUserList(null);
+    }
 }

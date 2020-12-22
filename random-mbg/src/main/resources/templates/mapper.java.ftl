@@ -8,11 +8,12 @@ import java.util.List;
 
 /**
  * <p>
-    * ${table.comment!} Mapper 接口
-    * </p>
+ * ${table.comment!} Mapper 接口
+ * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @Author ${author}
+ * @Date ${date}
+ * @Version 1.0
  */
 <#if kotlin>
 interface ${table.mapperName} : ${superMapperClass}<${entity}>

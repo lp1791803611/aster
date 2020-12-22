@@ -17,11 +17,12 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
-    * ${table.comment!}
-    * </p>
+ * ${table.comment!}
+ * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @Author ${author}
+ * @Date ${date}
+ * @Version 1.0
  */
 <#if entityLombokModel>
 @Data

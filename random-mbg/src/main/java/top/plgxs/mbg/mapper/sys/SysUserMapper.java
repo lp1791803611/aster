@@ -8,11 +8,12 @@ import java.util.List;
 
 /**
  * <p>
-    *  Mapper 接口
-    * </p>
+ * 用户 Mapper 接口
+ * </p>
  *
- * @author Stranger
- * @since 2020-12-21
+ * @Author Stranger
+ * @Date 2020-12-22
+ * @Version 1.0
  */
 @Repository("sysUserMapper")
 public interface SysUserMapper extends BaseMapper<SysUser> {

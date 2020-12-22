@@ -5,17 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableField;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
-import org.springframework.util.StringUtils;
-import top.plgxs.mbg.config.NameHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -279,7 +272,7 @@ public class MyBatisPlusGenerator {
                 // 逻辑删除属性名称
                 .setLogicDeleteFieldName(deleteFieldName)
                 // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
-                .setControllerMappingHyphenStyle(true);
+                .setControllerMappingHyphenStyle(false);
 
         // 自定义实体父类
         // strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
