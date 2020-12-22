@@ -22,6 +22,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * 分页数据查询
      * @param sysUser
      * @return
+     * @author Stranger
+     * @date 2020-12-22
      */
     List<SysUser> selectSysUserList(SysUser sysUser);
 }

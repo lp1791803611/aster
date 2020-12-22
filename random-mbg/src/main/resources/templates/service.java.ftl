@@ -18,6 +18,12 @@ import java.util.List;
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+    /**
+     * 数据查询列表
+     * @return
+     * @author ${author}
+     * @date ${date}
+     */
     List<${entity}> get${entity}List();
 }
 </#if>

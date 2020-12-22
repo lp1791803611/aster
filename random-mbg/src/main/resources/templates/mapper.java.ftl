@@ -25,6 +25,8 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
      * 分页数据查询
      * @param ${entity?uncap_first}
      * @return
+     * @author ${author}
+     * @date ${date}
      */
     List<${entity}> select${entity}List(${entity} ${entity?uncap_first});
 }

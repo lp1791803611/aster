@@ -15,5 +15,11 @@ import java.util.List;
  * @Version 1.0
  */
 public interface SysUserService extends IService<SysUser> {
+    /**
+     * 数据查询列表
+     * @return
+     * @author Stranger
+     * @date 2020-12-22
+     */
     List<SysUser> getSysUserList();
 }
