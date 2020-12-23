@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * mybatis-plus配置
+ * <p>mybatis-plus配置</p>
  * @Author Stranger。
  * @Date 2020-12-22
  */

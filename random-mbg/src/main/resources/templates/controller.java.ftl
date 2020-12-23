@@ -21,9 +21,9 @@ import java.util.List;
  * ${table.comment!} 前端控制器
  * </p>
  *
- * @Author ${author}
- * @Date ${date}
- * @Version 1.0
+ * @author ${author}
+ * @since ${date}
+ * @version 1.0
  */
 <#if restControllerStyle>
 @RestController

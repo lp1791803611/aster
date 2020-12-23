@@ -14,9 +14,9 @@ import java.util.List;
  * ${table.comment!} 服务实现类
  * </p>
  *
- * @Author ${author}
- * @Date ${date}
- * @Version 1.0
+ * @author ${author}
+ * @since ${date}
+ * @version 1.0
  */
 @Service
 <#if kotlin>

@@ -11,9 +11,9 @@ import java.util.List;
  * ${table.comment!} Mapper 接口
  * </p>
  *
- * @Author ${author}
- * @Date ${date}
- * @Version 1.0
+ * @author ${author}
+ * @since ${date}
+ * @version 1.0
  */
 <#if kotlin>
 interface ${table.mapperName} : ${superMapperClass}<${entity}>

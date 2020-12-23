@@ -20,9 +20,9 @@ import lombok.experimental.Accessors;
  * ${table.comment!}
  * </p>
  *
- * @Author ${author}
- * @Date ${date}
- * @Version 1.0
+ * @author ${author}
+ * @since ${date}
+ * @version 1.0
  */
 <#if entityLombokModel>
 @Data
