@@ -1,10 +1,10 @@
 # random
 
 #### 介绍
-微信随机小程序
+random是一个可以产生各种随机数的小系统。
+后端基于SpringBoot + Mybatis-Plus + Spring Security + JWT + thymeleaf + layui进行开发，前端采用vue进行开发。
 
 #### 软件架构
-1、后端与接口采用SpringBoot+Mybatis的方式进行开发
 
 
 #### 安装教程
