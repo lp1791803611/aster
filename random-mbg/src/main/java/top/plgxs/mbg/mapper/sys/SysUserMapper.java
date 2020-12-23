@@ -11,9 +11,9 @@ import java.util.List;
  * 用户 Mapper 接口
  * </p>
  *
- * @Author Stranger
- * @Date 2020-12-22
- * @Version 1.0
+ * @author Stranger
+ * @since 2020-12-23
+ * @version 1.0
  */
 @Repository("sysUserMapper")
 public interface SysUserMapper extends BaseMapper<SysUser> {
@@ -23,7 +23,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param sysUser
      * @return
      * @author Stranger
-     * @date 2020-12-22
+     * @date 2020-12-23
      */
     List<SysUser> selectSysUserList(SysUser sysUser);
 }
