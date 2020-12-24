@@ -3,9 +3,9 @@ package top.plgxs.common.api;
 /**
  * <p>常用API操作码</p>
  *
- * @Author Stranger。
- * @Date 2020/12/23 15:30
- * @Version 1.0
+ * @author Stranger。
+ * @since  2020/12/23 15:30
+ * @version 1.0
  */
 public enum ResultCode {
 

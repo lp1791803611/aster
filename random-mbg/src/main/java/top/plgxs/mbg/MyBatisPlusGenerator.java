@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Mybatis-plus自动生成代码
+ * mybatis-plus generator自动生成代码
+ * @author Stranger。
+ * @date 2020/12/22
  */
 public class MyBatisPlusGenerator {
     /**
@@ -104,10 +106,10 @@ public class MyBatisPlusGenerator {
     /**
      * 作者名
      */
-    private String author = "Stranger";
+    private String author = "Stranger。";
 
     /**
-     * 逻辑删除属性名称
+     * 逻辑删除属性名称,数据库表中的
      * 0-正常，1-逻辑删除
      */
     private String deleteFieldName = "status";
@@ -327,8 +329,7 @@ public class MyBatisPlusGenerator {
         return cfg;
     }
 
-
-
+    // 执行main方法自动生成代码
     public static void main(String[] args) {
         new MyBatisPlusGenerator().generateCode();
     }

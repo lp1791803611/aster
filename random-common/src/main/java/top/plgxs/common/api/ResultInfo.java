@@ -9,8 +9,8 @@ import java.io.Serializable;
 /**
  * <p>通用返回对象</p>
  *
- * @Author Stranger。
- * @Date 2020/12/23 15:13
+ * @author Stranger。
+ * @since 2020/12/23 15:13
  * @Version 1.0
  */
 @Data
@@ -55,7 +55,7 @@ public class ResultInfo<T> implements Serializable {
     /**
      * 成功返回结果
      * @author Stranger。
-     * @date 2020/12/23 16:05
+     * @since 2020/12/23 16:05
      */
     public static <T> ResultInfo<T> success(){
         return success(ResultCode.SUCCESS.getMessage(),null);
@@ -65,7 +65,7 @@ public class ResultInfo<T> implements Serializable {
      * 成功返回结果
      * @param data 返回的数据
      * @author Stranger。
-     * @date 2020/12/23 0023 16:06
+     * @since 2020/12/23 0023 16:06
      */
     public static<T> ResultInfo<T> success(T data) {
         return success(ResultCode.SUCCESS.getMessage(),data);
@@ -76,7 +76,7 @@ public class ResultInfo<T> implements Serializable {
      * @param msg 提示信息
      * @param data 返回的数据
      * @author Stranger。
-     * @date 2020/12/23 16:09
+     * @since 2020/12/23 16:09
      */
     public static<T> ResultInfo<T> success(String msg, T data) {
         ResultInfo<T> r = new ResultInfo<T>();
@@ -90,7 +90,7 @@ public class ResultInfo<T> implements Serializable {
     /**
      * 失败返回结果
      * @author Stranger。
-     * @date 2020/12/23 16:10
+     * @since 2020/12/23 16:10
      */
     public static <T> ResultInfo<T> failed() {
         return failed(ResultCode.FAILED.getMessage());
@@ -100,7 +100,7 @@ public class ResultInfo<T> implements Serializable {
      * 失败返回结果
      * @param message 错误信息
      * @author Stranger。
-     * @date 2020/12/23 16:10
+     * @since 2020/12/23 16:10
      */
     public static<T> ResultInfo<T> failed(String message) {
         return failed(ResultCode.FAILED.getCode(), message);
@@ -111,7 +111,7 @@ public class ResultInfo<T> implements Serializable {
      * @param code 错误码
      * @param message 错误信息
      * @author Stranger。
-     * @date 2020/12/23 16:10
+     * @since 2020/12/23 16:10
      */
     public static<T> ResultInfo<T> failed(int code, String message) {
         ResultInfo<T> r = new ResultInfo<>();
@@ -124,7 +124,7 @@ public class ResultInfo<T> implements Serializable {
     /**
      * 参数验证失败返回结果
      * @author Stranger。
-     * @date 2020/12/23 16:12
+     * @since 2020/12/23 16:12
      */
     public static<T> ResultInfo<T> validateFailed() {
         return validateFailed(ResultCode.VALIDATE_FAILED.getMessage());
@@ -134,7 +134,7 @@ public class ResultInfo<T> implements Serializable {
      * 参数验证失败返回结果
      * @param message 错误信息
      * @author Stranger。
-     * @date 2020/12/23 16:12
+     * @since 2020/12/23 16:12
      */
     public static<T> ResultInfo<T> validateFailed(String message) {
         return failed(ResultCode.VALIDATE_FAILED.getCode(),message);
@@ -142,7 +142,7 @@ public class ResultInfo<T> implements Serializable {
     /**
      * 未登录返回结果
      * @author Stranger。
-     * @date 2020/12/23 16:12
+     * @since 2020/12/23 16:12
      */
     public static <T> ResultInfo<T> unauthorized() {
         return failed(ResultCode.UNAUTHORIZED.getCode(),ResultCode.UNAUTHORIZED.getMessage());
@@ -151,7 +151,7 @@ public class ResultInfo<T> implements Serializable {
     /**
      * 未授权返回结果
      * @author Stranger。
-     * @date 2020/12/23 16:12
+     * @since 2020/12/23 16:12
      */
     public static <T> ResultInfo<T> forbidden() {
         return failed(ResultCode.FORBIDDEN.getCode(),ResultCode.FORBIDDEN.getMessage());
