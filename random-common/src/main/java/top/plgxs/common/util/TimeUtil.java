@@ -10,8 +10,8 @@ import java.util.*;
 /**
  * 功能：日期处理相关的操作
  * @author Strangers。
+ * @since 23:17 2020/12/19
  * @version 1.0.0
- * @date 23:17 2020/12/19
  */
 public class TimeUtil {
     public static final ThreadLocal<DateFormat> datetimeFormat = new ThreadLocal<DateFormat>() {
