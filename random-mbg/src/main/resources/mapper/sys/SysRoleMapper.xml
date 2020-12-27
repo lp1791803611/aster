@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysRole">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_code" property="roleCode" />
+        <result column="priority" property="priority" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_person_id" property="updatePersonId" />
+        <result column="update_person_name" property="updatePersonName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_name, role_code, priority, status, remark, update_time, update_person_id, update_person_name
+    </sql>
+
+    <select id="selectSysRoleList" parameterType="top.plgxs.mbg.entity.sys.SysRole" resultType="top.plgxs.mbg.entity.sys.SysRole">
+        select <include refid="Base_Column_List"/>
+        from t_sys_role t
+        where 1 = 1
+            <if test="id != null and id != ''">
+                and t.id = #{id}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                and t.role_name = #{roleName}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                and t.role_code = #{roleCode}
+            </if>
+            <if test="priority != null">
+                and t.priority = #{priority}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                and t.remark = #{remark}
+            </if>
+            <if test="updateTime != null">
+                and t.update_time = #{updateTime}
+            </if>
+            <if test="updatePersonId != null and updatePersonId != ''">
+                and t.update_person_id = #{updatePersonId}
+            </if>
+            <if test="updatePersonName != null and updatePersonName != ''">
+                and t.update_person_name = #{updatePersonName}
+            </if>
+    </select>
+</mapper>

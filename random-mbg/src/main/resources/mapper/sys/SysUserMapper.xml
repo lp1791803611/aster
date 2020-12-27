@@ -31,7 +31,7 @@
     <select id="selectSysUserList" parameterType="top.plgxs.mbg.entity.sys.SysUser" resultType="top.plgxs.mbg.entity.sys.SysUser">
         select <include refid="Base_Column_List"/>
         from t_sys_user t
-        where 1 = 1
+        <where>
             <if test="id != null and id != ''">
                 and t.id = #{id}
             </if>
@@ -83,5 +83,14 @@
             <if test="emailVerificationCode != null and emailVerificationCode != ''">
                 and t.email_verification_code = #{emailVerificationCode}
             </if>
+        </where>
+    </select>
+
+    <select id="selectUserPage" resultType="java.util.HashMap">
+      select u.id,u.username,r.id,r.role_name
+      from t_sys_user u
+      left join t_sys_user_role ur on u.id = ur.user_id
+      left join t_sys_role r on ur.role_id = r.id
+      ${ew.customSqlSegment}
     </select>
 </mapper>

@@ -1,3 +1,51 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50724
+Source Host           : localhost:3306
+Source Database       : random
+
+Target Server Type    : MYSQL
+Target Server Version : 50724
+File Encoding         : 65001
+
+Date: 2020-12-27 20:47:55
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_role`;
+CREATE TABLE `t_sys_role` (
+  `id` varchar(32) NOT NULL COMMENT '主键uuid',
+  `role_name` varchar(100) DEFAULT NULL COMMENT '角色名称',
+  `role_code` varchar(100) DEFAULT NULL COMMENT '角色代码',
+  `priority` int(11) DEFAULT NULL COMMENT '优先级',
+  `status` varchar(1) DEFAULT '0' COMMENT '状态，1-冻结，0-正常',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `update_person_id` varchar(32) DEFAULT NULL,
+  `update_person_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
+
+-- ----------------------------
+-- Records of t_sys_role
+-- ----------------------------
+INSERT INTO `t_sys_role` VALUES ('1', 'admin', 'super_admin', '1', '0', '超级管理员', '2019-06-05 20:32:55', null, null);
+INSERT INTO `t_sys_role` VALUES ('4be20af409d741bfb9a855e0ed88234a', '项目组长', 'corp_group_leader', '9', '0', '', null, null, null);
+INSERT INTO `t_sys_role` VALUES ('848f167a379a4185908416627f5ac710', '读者', 'user_reader', '10', '0', null, '2019-03-12 10:02:06', null, null);
+INSERT INTO `t_sys_role` VALUES ('95942830b50346ecadb339cd915750e1', '部门经理', 'corp_manager', '7', '0', '', null, null, null);
+INSERT INTO `t_sys_role` VALUES ('a6068ae9cd97464fb5ff1a7bd4f7394d', '普通员工', 'corp_user', '10', '0', '', null, null, null);
+INSERT INTO `t_sys_role` VALUES ('ae8b1c470c124de39ef67d3d742c820b', '部门副经理', 'corp_assistant_manager', '8', '0', '', '2019-03-12 10:28:09', null, null);
+INSERT INTO `t_sys_role` VALUES ('b497f2d107bf44d09a64631de2ebe84f', '文字编辑', 'text_editor', '9', '0', '文字编辑', '2019-03-12 10:21:56', null, null);
+INSERT INTO `t_sys_role` VALUES ('b4e2c5987e0f4d438d86f3887196596b', '普通管理员', 'admin', '2', '0', '', null, null, null);
+INSERT INTO `t_sys_role` VALUES ('baab4bebfe50403e90f8cb23733686e7', '作家', 'user_writer', '10', '0', null, null, null, null);
+INSERT INTO `t_sys_role` VALUES ('bf657974c55c43a791f429b88da93a3e', '文字审核', 'text_auditor', '8', '0', '审核作品', '2019-03-12 10:23:04', null, null);
+
 -- ----------------------------
 -- Table structure for t_sys_user
 -- ----------------------------
@@ -122,3 +170,19 @@ INSERT INTO `t_sys_user` VALUES ('f14b301c4b7b44d99d1ad467990ba913', '张晓丹'
 INSERT INTO `t_sys_user` VALUES ('f74e9c3a789542a5ac01717cb73346ac', '李文', '123456', '13811036574', '13811036574@qq.com', 'nickname8', '2', '李文', null, null, '2019-01-23 17:50:38', '1', '2019-01-23 17:52:10', '2019-08-11 11:32:01', '0', null, null);
 INSERT INTO `t_sys_user` VALUES ('fbabfc5102bb4c5e89fdfaca56737838', '张绍连', '123456', '15906693484', 'zhangshaolian@mail.ipc.ac.cn', 'nickname13', '2', '张绍连', null, null, '2019-01-23 17:50:38', '1', '2019-01-23 17:52:10', '2019-08-11 11:32:01', '0', null, null);
 INSERT INTO `t_sys_user` VALUES ('ff081bfefa674531aef73f47860430f8', 'lipian', '5d74d75456c3d3e6d8b58ffc5064711b', null, 'lipian1004@163.com', null, '0', null, null, null, null, null, null, null, '0', null, null);
+
+-- ----------------------------
+-- Table structure for t_sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_user_role`;
+CREATE TABLE `t_sys_user_role` (
+  `user_id` varchar(32) NOT NULL,
+  `role_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色';
+
+-- ----------------------------
+-- Records of t_sys_user_role
+-- ----------------------------
+INSERT INTO `t_sys_user_role` VALUES ('153B42-1095', '4be20af409d741bfb9a855e0ed88234a');
+INSERT INTO `t_sys_user_role` VALUES ('153B42-1098', '848f167a379a4185908416627f5ac710');

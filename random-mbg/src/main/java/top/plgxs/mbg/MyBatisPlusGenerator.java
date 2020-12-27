@@ -40,6 +40,7 @@ public class MyBatisPlusGenerator {
 
 
     private String[] tableNames = new String[]{
+            "t_sys_role"
     };
 
     /**
