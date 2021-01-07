@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!-- th:text 用于文本的显示,并且可以进行简单的计算 -->
+    <span th:text="${key}">value</span> <br>
+    <span th:text="9+7">2018</span> <br>
+    <!-- th:utext 用于html的文本替换,常用于富文本编辑器编辑后的内容显示到前台页面上 -->
+    <p th:utext="${content}"></p> <br>
+    <!-- th:if 用于判断条件,还可以多条件 and,or(二元操作符)，!,not非(一元操作符) -->
+    <!--<div th:if="${key != null and key.length() > 0}">
+        <span th:text="${key}">key</span>
+    </div>-->
+    <!-- th:switch th:case 用于多个同等级相同目的判断,多选一时使用 -->
+    <!--<div th:switch="${user.username}">
+        <p th:case="maliming">first</p>
+    </div>-->
+    <!-- th:action 用于定义后台控制器的路径，表单的提交地址，相当于<form>标签的action属性 -->
+    <!--<form th:action="@{user/login}" method="post"></form>-->
+    <!-- th:each 用于遍历集合中的对象，相当于jstl中的<c:forEach>标签 -->
+    <table>
+        <tr th:each="a,userStat:${list}">
+            <td th:text="${a.username}"></td>
+            <td th:text="${userStat.index}"></td>
+        </tr>
+        <!-- 数组循环遍历 -->
+        <tr>
+            <td th:each="array:${arrays}" th:text="${array}"></td>
+        </tr>
+    </table>
+    <!-- Map集合循环遍历 -->
+    <!-- <div th:each="map:${maps}" th:text="${map}"></div> -->
+    <!-- th:value 用于属性赋值 -->
+    <!--<select>
+        <option th:value="${user.username}">aaa</option>
+    </select>-->
+    <!-- th:src 用于外部资源的引入，例如图片，js文件 -->
+    <img th:src="@{images/captcha.jpg}"/>
+    <!-- th:href 用于定义超链接,相当于<a></a>标签的href属性 -->
+    <!--<a th:href="@{/user/selectUser(currentPage=1,reTypeid=2)}">ttt</a>-->
+    <!-- th:selected 用于选择框设置选中值。通常和th:each一起使用 -->
+    <!-- th:object 用于表单数据对象绑定，后台controller中参数保持一致，和选择(星号)表达式 -->
+    <!--<div th:object="${user}">
+        <input th:value="*{username}">
+    </div>-->
+    <!-- th:attr 用于设置任意属性 -->
+    <!--
+        #dates：日期格式化内置对象，具体方法可以参照java.util.Date；
+        #calendars：类似于#dates，但是是java.util.Calendar类的方法；
+        #numbers： 数字格式化；
+        #strings：字符串格式化，具体方法可以参照java.lang.String，如startsWith、contains等；
+        #objects：参照java.lang.Object；
+        #bools：判断boolean类型的工具；
+        #arrays：数组操作的工具；
+        #lists：列表操作的工具，参照java.util.List；
+        #sets：Set操作工具，参照java.util.Set；
+        #maps：Map操作工具，参照java.util.Map；
+        #aggregates：操作数组或集合的工具；
+        #messages：操作消息的工具。
+     -->
+</body>
+</html>
