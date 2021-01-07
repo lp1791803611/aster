@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysMenu">
+        <id column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="menu_name" property="menuName" />
+        <result column="menu_url" property="menuUrl" />
+        <result column="menu_auth" property="menuAuth" />
+        <result column="menu_target" property="menuTarget" />
+        <result column="menu_icon" property="menuIcon" />
+        <result column="order_number" property="orderNumber" />
+        <result column="is_menu" property="isMenu" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id, menu_name, menu_url, menu_auth, menu_target, menu_icon, order_number, is_menu, gmt_create, gmt_modified, status, is_deleted
+    </sql>
+
+    <select id="selectSysMenuList" parameterType="top.plgxs.mbg.entity.sys.SysMenu" resultType="top.plgxs.mbg.entity.sys.SysMenu">
+        select <include refid="Base_Column_List"/>
+        from t_sys_menu t
+        where 1 = 1
+            <if test="id != null and id != ''">
+                and t.id = #{id}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and t.parent_id = #{parentId}
+            </if>
+            <if test="menuName != null and menuName != ''">
+                and t.menu_name = #{menuName}
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                and t.menu_url = #{menuUrl}
+            </if>
+            <if test="menuAuth != null and menuAuth != ''">
+                and t.menu_auth = #{menuAuth}
+            </if>
+            <if test="menuTarget != null and menuTarget != ''">
+                and t.menu_target = #{menuTarget}
+            </if>
+            <if test="menuIcon != null and menuIcon != ''">
+                and t.menu_icon = #{menuIcon}
+            </if>
+            <if test="orderNumber != null">
+                and t.order_number = #{orderNumber}
+            </if>
+            <if test="isMenu != null and isMenu != ''">
+                and t.is_menu = #{isMenu}
+            </if>
+            <if test="gmtCreate != null">
+                and t.gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and t.gmt_modified = #{gmtModified}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="isDeleted != null and isDeleted != ''">
+                and t.is_deleted = #{isDeleted}
+            </if>
+    </select>
+</mapper>

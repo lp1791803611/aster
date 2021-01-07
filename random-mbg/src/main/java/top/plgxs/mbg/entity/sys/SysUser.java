@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
  * 用户
  * </p>
  *
- * @author Stranger
- * @since 2020-12-23
+ * @author Stranger。
+ * @since 2021-01-07
  * @version 1.0
  */
 @Data
@@ -70,8 +70,8 @@ public class SysUser extends Model<SysUser> {
     private String headUrl;
 
     @ApiModelProperty(value = "注册时间")
-    @TableField("register_time")
-    private LocalDateTime registerTime;
+    @TableField("gmt_create")
+    private LocalDateTime gmtCreate;
 
     @ApiModelProperty(value = "登录次数")
     @TableField("login_number")
@@ -82,13 +82,13 @@ public class SysUser extends Model<SysUser> {
     private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField("update_time")
-    private LocalDateTime updateTime;
+    @TableField("gmt_modified")
+    private LocalDateTime gmtModified;
 
-    @ApiModelProperty(value = "状态，1-冻结，0-正常")
-    @TableField("status")
+    @ApiModelProperty(value = "状态，1-删除，0-正常")
+    @TableField("is_deleted")
     @TableLogic
-    private String status;
+    private String isDeleted;
 
     @ApiModelProperty(value = "手机验证码")
     @TableField("mobile_verification_code")

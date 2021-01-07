@@ -8,16 +8,15 @@
         <result column="role_name" property="roleName" />
         <result column="role_code" property="roleCode" />
         <result column="priority" property="priority" />
-        <result column="status" property="status" />
         <result column="remark" property="remark" />
-        <result column="update_time" property="updateTime" />
-        <result column="update_person_id" property="updatePersonId" />
-        <result column="update_person_name" property="updatePersonName" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="is_deleted" property="isDeleted" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_name, role_code, priority, status, remark, update_time, update_person_id, update_person_name
+        id, role_name, role_code, priority, remark, gmt_create, gmt_modified, is_deleted
     </sql>
 
     <select id="selectSysRoleList" parameterType="top.plgxs.mbg.entity.sys.SysRole" resultType="top.plgxs.mbg.entity.sys.SysRole">
@@ -36,20 +35,17 @@
             <if test="priority != null">
                 and t.priority = #{priority}
             </if>
-            <if test="status != null and status != ''">
-                and t.status = #{status}
-            </if>
             <if test="remark != null and remark != ''">
                 and t.remark = #{remark}
             </if>
-            <if test="updateTime != null">
-                and t.update_time = #{updateTime}
+            <if test="gmtCreate != null">
+                and t.gmt_create = #{gmtCreate}
             </if>
-            <if test="updatePersonId != null and updatePersonId != ''">
-                and t.update_person_id = #{updatePersonId}
+            <if test="gmtModified != null">
+                and t.gmt_modified = #{gmtModified}
             </if>
-            <if test="updatePersonName != null and updatePersonName != ''">
-                and t.update_person_name = #{updatePersonName}
+            <if test="isDeleted != null and isDeleted != ''">
+                and t.is_deleted = #{isDeleted}
             </if>
     </select>
 </mapper>

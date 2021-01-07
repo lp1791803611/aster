@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author Stranger。
- * @since 2020-12-27
+ * @since 2021-01-07
  * @version 1.0
  */
 @Controller
@@ -33,7 +33,7 @@ public class SysRoleController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2020-12-27
+     * @since 2021-01-07
      */
     @GetMapping("/list")
     @ResponseBody
@@ -51,7 +51,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2020-12-27
+     * @since 2021-01-07
      */
     @PostMapping("/insert")
     @ResponseBody
@@ -69,7 +69,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2020-12-27
+     * @since 2021-01-07
      */
     @PostMapping("/update")
     @ResponseBody
@@ -90,7 +90,7 @@ public class SysRoleController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2020-12-27
+     * @since 2021-01-07
      */
     @GetMapping("/delete/{id}")
     @ResponseBody

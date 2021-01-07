@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2020-12-27
+ * @since 2021-01-07
  * @version 1.0
  */
 @Data
@@ -45,23 +45,20 @@ public class SysRole extends Model<SysRole> {
     @TableField("priority")
     private Integer priority;
 
-    @ApiModelProperty(value = "状态，1-冻结，0-正常")
-    @TableField("status")
-    @TableLogic
-    private String status;
-
     @ApiModelProperty(value = "备注")
     @TableField("remark")
     private String remark;
 
-    @TableField("update_time")
-    private LocalDateTime updateTime;
+    @TableField("gmt_create")
+    private LocalDateTime gmtCreate;
 
-    @TableField("update_person_id")
-    private String updatePersonId;
+    @TableField("gmt_modified")
+    private LocalDateTime gmtModified;
 
-    @TableField("update_person_name")
-    private String updatePersonName;
+    @ApiModelProperty(value = "状态，1-删除，0-正常")
+    @TableField("is_deleted")
+    @TableLogic
+    private String isDeleted;
 
 
     @Override

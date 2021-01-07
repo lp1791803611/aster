@@ -40,7 +40,7 @@ public class MyBatisPlusGenerator {
 
 
     private String[] tableNames = new String[]{
-            "t_sys_role"
+            "t_sys_role","t_sys_menu","t_sys_user"
     };
 
     /**
@@ -113,7 +113,7 @@ public class MyBatisPlusGenerator {
      * 逻辑删除属性名称,数据库表中的
      * 0-正常，1-逻辑删除
      */
-    private String deleteFieldName = "status";
+    private String deleteFieldName = "is_deleted";
 
     /**
      * 生成代码的调用方法

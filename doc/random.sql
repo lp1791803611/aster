@@ -10,10 +10,35 @@ Target Server Type    : MYSQL
 Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2020-12-27 20:47:55
+Date: 2021-01-07 23:21:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_sys_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_menu`;
+CREATE TABLE `t_sys_menu` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `parent_id` varchar(32) DEFAULT NULL COMMENT '父菜单',
+  `menu_name` varchar(100) DEFAULT NULL COMMENT '菜单名称',
+  `menu_url` varchar(255) DEFAULT NULL COMMENT 'url',
+  `menu_auth` varchar(50) DEFAULT NULL COMMENT '权限控制',
+  `menu_target` varchar(50) DEFAULT '_self' COMMENT '链接打开方式',
+  `menu_icon` varchar(50) DEFAULT '' COMMENT '菜单图标',
+  `order_number` int(4) DEFAULT NULL COMMENT '排序',
+  `is_menu` varchar(2) DEFAULT '0' COMMENT '类型，"0"菜单，“1”按钮',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` varchar(1) DEFAULT '0' COMMENT '启用状态，0启用，1冻结',
+  `is_deleted` varchar(1) DEFAULT '0' COMMENT '状态，0-正常，1-删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单';
+
+-- ----------------------------
+-- Records of t_sys_menu
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_sys_role
@@ -24,27 +49,40 @@ CREATE TABLE `t_sys_role` (
   `role_name` varchar(100) DEFAULT NULL COMMENT '角色名称',
   `role_code` varchar(100) DEFAULT NULL COMMENT '角色代码',
   `priority` int(11) DEFAULT NULL COMMENT '优先级',
-  `status` varchar(1) DEFAULT '0' COMMENT '状态，1-冻结，0-正常',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `update_person_id` varchar(32) DEFAULT NULL,
-  `update_person_name` varchar(50) DEFAULT NULL,
+  `gmt_create` datetime DEFAULT NULL,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` varchar(1) DEFAULT '0' COMMENT '状态，1-删除，0-正常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
 
 -- ----------------------------
 -- Records of t_sys_role
 -- ----------------------------
-INSERT INTO `t_sys_role` VALUES ('1', 'admin', 'super_admin', '1', '0', '超级管理员', '2019-06-05 20:32:55', null, null);
-INSERT INTO `t_sys_role` VALUES ('4be20af409d741bfb9a855e0ed88234a', '项目组长', 'corp_group_leader', '9', '0', '', null, null, null);
-INSERT INTO `t_sys_role` VALUES ('848f167a379a4185908416627f5ac710', '读者', 'user_reader', '10', '0', null, '2019-03-12 10:02:06', null, null);
-INSERT INTO `t_sys_role` VALUES ('95942830b50346ecadb339cd915750e1', '部门经理', 'corp_manager', '7', '0', '', null, null, null);
-INSERT INTO `t_sys_role` VALUES ('a6068ae9cd97464fb5ff1a7bd4f7394d', '普通员工', 'corp_user', '10', '0', '', null, null, null);
-INSERT INTO `t_sys_role` VALUES ('ae8b1c470c124de39ef67d3d742c820b', '部门副经理', 'corp_assistant_manager', '8', '0', '', '2019-03-12 10:28:09', null, null);
-INSERT INTO `t_sys_role` VALUES ('b497f2d107bf44d09a64631de2ebe84f', '文字编辑', 'text_editor', '9', '0', '文字编辑', '2019-03-12 10:21:56', null, null);
-INSERT INTO `t_sys_role` VALUES ('b4e2c5987e0f4d438d86f3887196596b', '普通管理员', 'admin', '2', '0', '', null, null, null);
-INSERT INTO `t_sys_role` VALUES ('baab4bebfe50403e90f8cb23733686e7', '作家', 'user_writer', '10', '0', null, null, null, null);
-INSERT INTO `t_sys_role` VALUES ('bf657974c55c43a791f429b88da93a3e', '文字审核', 'text_auditor', '8', '0', '审核作品', '2019-03-12 10:23:04', null, null);
+INSERT INTO `t_sys_role` VALUES ('1', 'admin', 'super_admin', '1', '超级管理员', null, '2019-06-05 20:32:55', '0');
+INSERT INTO `t_sys_role` VALUES ('4be20af409d741bfb9a855e0ed88234a', '项目组长', 'corp_group_leader', '9', '', null, null, '0');
+INSERT INTO `t_sys_role` VALUES ('848f167a379a4185908416627f5ac710', '读者', 'user_reader', '10', null, null, '2019-03-12 10:02:06', '0');
+INSERT INTO `t_sys_role` VALUES ('95942830b50346ecadb339cd915750e1', '部门经理', 'corp_manager', '7', '', null, null, '0');
+INSERT INTO `t_sys_role` VALUES ('a6068ae9cd97464fb5ff1a7bd4f7394d', '普通员工', 'corp_user', '10', '', null, null, '0');
+INSERT INTO `t_sys_role` VALUES ('ae8b1c470c124de39ef67d3d742c820b', '部门副经理', 'corp_assistant_manager', '8', '', null, '2019-03-12 10:28:09', '0');
+INSERT INTO `t_sys_role` VALUES ('b497f2d107bf44d09a64631de2ebe84f', '文字编辑', 'text_editor', '9', '文字编辑', null, '2019-03-12 10:21:56', '0');
+INSERT INTO `t_sys_role` VALUES ('b4e2c5987e0f4d438d86f3887196596b', '普通管理员', 'admin', '2', '', null, null, '0');
+INSERT INTO `t_sys_role` VALUES ('baab4bebfe50403e90f8cb23733686e7', '作家', 'user_writer', '10', null, null, null, '0');
+INSERT INTO `t_sys_role` VALUES ('bf657974c55c43a791f429b88da93a3e', '文字审核', 'text_auditor', '8', '审核作品', null, '2019-03-12 10:23:04', '0');
+
+-- ----------------------------
+-- Table structure for t_sys_role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_role_menu`;
+CREATE TABLE `t_sys_role_menu` (
+  `role_id` varchar(32) NOT NULL COMMENT '角色主键',
+  `menu_id` varchar(32) NOT NULL COMMENT '菜单主键',
+  PRIMARY KEY (`role_id`,`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
+
+-- ----------------------------
+-- Records of t_sys_role_menu
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_sys_user
@@ -61,11 +99,11 @@ CREATE TABLE `t_sys_user` (
   `realname` varchar(50) DEFAULT NULL COMMENT '真实姓名',
   `id_number` varchar(255) DEFAULT NULL COMMENT '身份证号',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像url',
-  `register_time` datetime DEFAULT NULL COMMENT '注册时间',
+  `gmt_create` datetime DEFAULT NULL COMMENT '注册时间',
   `login_number` bigint(11) DEFAULT NULL COMMENT '登录次数',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` varchar(1) DEFAULT '0' COMMENT '状态，1-冻结，0-正常',
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `is_deleted` varchar(1) DEFAULT '0' COMMENT '状态，1-删除，0-正常',
   `mobile_verification_code` varchar(10) DEFAULT NULL COMMENT '手机验证码',
   `email_verification_code` varchar(10) DEFAULT NULL COMMENT '邮箱验证码',
   PRIMARY KEY (`id`)
@@ -184,5 +222,3 @@ CREATE TABLE `t_sys_user_role` (
 -- ----------------------------
 -- Records of t_sys_user_role
 -- ----------------------------
-INSERT INTO `t_sys_user_role` VALUES ('153B42-1095', '4be20af409d741bfb9a855e0ed88234a');
-INSERT INTO `t_sys_user_role` VALUES ('153B42-1098', '848f167a379a4185908416627f5ac710');

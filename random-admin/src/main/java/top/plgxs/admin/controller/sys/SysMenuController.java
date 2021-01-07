@@ -6,14 +6,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.admin.service.sys.SysMenuService;
 import top.plgxs.common.api.ResultInfo;
-import top.plgxs.mbg.entity.sys.SysUser;
+import top.plgxs.mbg.entity.sys.SysMenu;
 import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- * 用户 前端控制器
+ * 菜单 前端控制器
  * </p>
  *
  * @author Stranger。
@@ -21,10 +21,10 @@ import org.springframework.stereotype.Controller;
  * @version 1.0
  */
 @Controller
-@RequestMapping("/sysUser")
-public class SysUserController {
+@RequestMapping("/sysMenu")
+public class SysMenuController {
     @Resource
-    private SysUserService sysUserService;
+    private SysMenuService sysMenuService;
 
     /**
      * 分页查询列表
@@ -37,26 +37,26 @@ public class SysUserController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public ResultInfo<IPage<SysUser>> queryPageList(@RequestParam("query") String query, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public ResultInfo<IPage<SysMenu>> queryPageList(@RequestParam("query") String query, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        Page<SysUser> page = new Page<>(pageNo, pageSize);
-        IPage<SysUser> pageList = sysUserService.page(page, queryWrapper);
+        Page<SysMenu> page = new Page<>(pageNo, pageSize);
+        IPage<SysMenu> pageList = sysMenuService.page(page, queryWrapper);
         return ResultInfo.success(pageList);
     }
 
     /**
      * 插入一条数据
-     * @param sysUser
+     * @param sysMenu
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
      * @since 2021-01-07
      */
     @PostMapping("/insert")
     @ResponseBody
-    public ResultInfo<Object> insert(@RequestBody SysUser sysUser){
-        boolean result = sysUserService.save(sysUser);
+    public ResultInfo<Object> insert(@RequestBody SysMenu sysMenu){
+        boolean result = sysMenuService.save(sysMenu);
         if(result){
             return ResultInfo.success();
         }else{
@@ -66,18 +66,18 @@ public class SysUserController {
 
     /**
      * 更新一条数据
-     * @param sysUser
+     * @param sysMenu
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
      * @since 2021-01-07
      */
     @PostMapping("/update")
     @ResponseBody
-    public ResultInfo<Object> update(@RequestBody SysUser sysUser){
-        if(sysUser == null || StringUtils.isBlank(sysUser.getId())){
+    public ResultInfo<Object> update(@RequestBody SysMenu sysMenu){
+        if(sysMenu == null || StringUtils.isBlank(sysMenu.getId())){
             return ResultInfo.validateFailed();
         }
-        boolean result = sysUserService.updateById(sysUser);
+        boolean result = sysMenuService.updateById(sysMenu);
         if(result){
             return ResultInfo.success();
         }else{
@@ -98,7 +98,7 @@ public class SysUserController {
         if(StringUtils.isBlank(id)){
             return ResultInfo.validateFailed();
         }
-        boolean result = sysUserService.removeById(id);
+        boolean result = sysMenuService.removeById(id);
         if(result){
             return ResultInfo.success();
         }else{
