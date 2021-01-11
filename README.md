@@ -2,7 +2,7 @@
 
 #### 介绍
 random是一个可以产生各种随机数的小系统。
-后端基于SpringBoot + Mybatis-Plus + Spring Security + JWT + thymeleaf + layui进行开发，前端采用vue进行开发。
+后端基于SpringBoot + Mybatis-Plus + Spring Security + JWT + thymeleaf + layui进行开发。
 
 #### 软件架构
 
