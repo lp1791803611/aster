@@ -1,5 +1,6 @@
 package top.plgxs.admin;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.mbg.config.MybatisPlusConfig;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.mapper.sys.SysUserMapper;
 
@@ -157,5 +159,12 @@ class RandomAdminApplicationTests {
 		System.out.println("totalCount"+pageInfo.getTotal());
 		System.out.println("totalPages"+pageInfo.getPages());
 		list.forEach(System.out::println);
+	}
+
+	@Test
+	public void test(){
+		String tableName = "SysUser";
+		String name = StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableName, "sys"));
+		System.out.println(name);
 	}
 }

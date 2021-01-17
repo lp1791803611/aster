@@ -1,14 +1,20 @@
 package top.plgxs.mbg;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import top.plgxs.mbg.config.MybatisPlusConfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,121 +23,19 @@ import java.util.Map;
  * @date 2020/12/22
  */
 public class MyBatisPlusGenerator {
-    /**
-     * 数据库类型
-     */
-    private DbType dbType = DbType.MYSQL;
-
-    /**
-     * 数据库连接信息
-     */
-    private String dbUrl = "jdbc:mysql://localhost:3306/random?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2b8";
-    private String driver = "com.mysql.cj.jdbc.Driver";
-    private String userName = "random";
-    private String password = "random";
-
-    /**
-     * 指定生成的表名。如果想生成整个库的，这里设为null即可
-     */
-    /*private String[] tableNames = new String[]{
-            "tb_resource",
-            "t_order"
-    };*/
-
-
-    private String[] tableNames = new String[]{
-            "t_sys_role","t_sys_menu","t_sys_user"
-    };
-
-    /**
-     * 输出路径（当前为项目根目录下）
-     * 例如：F:\ideaProject\random
-     */
-    private String outputDir = System.getProperty("user.dir");
-
-    /**
-     * 公共包名
-     */
-    private String packageName = "top.plgxs";
-
-    /**
-     * 公共包名路径
-     */
-    private String packagePath = "/top/plgxs";
-
-    /**
-     * 实体分类存放，如以sys_开头的表统一放在sys包下
-     */
-    private String commonPackageName = "sys";
-
-    /**
-     * controller基础类
-     */
-    private String superControllerClass = packageName + ".common.BaseController";
-
-    /**
-     * entity基础类
-     */
-    private String superEntityClass = packageName + ".common.BaseEntity";
-
-    /**
-     * mbg模块包名
-     */
-    private String mbgPackageName = packageName + ".mbg";
-
-    /**
-     * mbg模块路径
-     */
-    private String mbgModulePath = "/random-mbg";
-
-    /**
-     * mbg模块的包名路径
-     */
-    private String mbgModulePackagePath = packagePath + "/mbg";
-
-    /**
-     * admin模块包名
-     */
-    private String adminPackageName = packageName + ".admin";
-
-    /**
-     * admin模块路径
-     */
-    private String adminModulePath = "/random-admin";
-
-    /**
-     * admin模块的包名路径
-     */
-    private String adminModulePackagePath = packagePath + "/admin";
-
-    /**
-     * 作者名
-     */
-    private String author = "Stranger。";
-
-    /**
-     * 逻辑删除属性名称,数据库表中的
-     * 0-正常，1-逻辑删除
-     */
-    private String deleteFieldName = "is_deleted";
+    // 执行main方法自动生成代码
+    public static void main(String[] args) {
+        new MyBatisPlusGenerator().generate();
+    }
 
     /**
      * 生成代码的调用方法
      */
-    public void generateCode() {
-        generateByTables(tableNames);
-    }
-
-    /**
-     * 根据表自动生成
-     *
-     * @param tableNames 表名
-     */
-    private void generateByTables(String... tableNames) {
+    private void generate() {
         //配置数据源
         DataSourceConfig dataSourceConfig = getDataSourceConfig();
         // 策略配置
-        StrategyConfig strategyConfig = getStrategyConfig(tableNames);
+        StrategyConfig strategyConfig = getStrategyConfig();
         //全局变量配置
         GlobalConfig globalConfig = getGlobalConfig();
         //包名配置
@@ -143,46 +47,80 @@ public class MyBatisPlusGenerator {
     }
 
     /**
-     * 集成
-     *
-     * @param dataSourceConfig 配置数据源
-     * @param strategyConfig   策略配置
-     * @param config           全局变量配置
-     * @param packageConfig    包名配置
+     * 配置数据源
+     * @return 数据源配置 DataSourceConfig
      */
-    private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
-                               GlobalConfig config, PackageConfig packageConfig, InjectionConfig injectionConfig) {
-        TemplateConfig tc = new TemplateConfig();
+    private DataSourceConfig getDataSourceConfig() {
+        return new DataSourceConfig().setDbType(MybatisPlusConfig.DB_TYPE)
+                .setUrl(MybatisPlusConfig.DB_URL)
+                .setUsername(MybatisPlusConfig.DB_USERNAME)
+                .setPassword(MybatisPlusConfig.DB_PASSWORD)
+                .setDriverName(MybatisPlusConfig.DB_DRIVER);
+    }
 
-        // 配置自定义输出模板
-        // 如果模板引擎是 freemarker
-        String templatePath = "/templates/mapper.xml.ftl";
-        // 如果模板引擎是 velocity
-        // String templatePath = "/templates/mapper.xml.vm";
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        String templatePathController = "/templates/controller.java";
-        String templatePathService = "/templates/service.java";
-        String templatePathServiceImpl = "/templates/serviceImpl.java";
-        String templatePathEntity = "/templates/entity.java";
-        String templatePathMapper = "/templates/mapper.java";
-        String templatePathMapperXML = "/templates/mapper.xml";
+    /**
+     * 策略配置
+     * @return StrategyConfig
+     */
+    private StrategyConfig getStrategyConfig() {
+        StrategyConfig strategy = new StrategyConfig();
+        //从数据库表到文件的命名策略
+        strategy.setNaming(NamingStrategy.underline_to_camel)
+                // 表前缀
+                .setTablePrefix(MybatisPlusConfig.STRATEGY_TABLE_PREFIX)
+                // rest风格
+                .setRestControllerStyle(MybatisPlusConfig.STRATEGY_REST_CONTROLLER)
+                // 字段注解
+                .setEntityTableFieldAnnotationEnable(MybatisPlusConfig.STRATEGY_FIELD_ANNOTATION)
+                // 使用lombok
+                .setEntityLombokModel(MybatisPlusConfig.STRATEGY_LOMBOK)
+                // 需要生成的的表名，多个表名传数组
+                .setInclude(MybatisPlusConfig.STRATEGY_TABLE_NAMES)
+                // 生成序列号
+                .setEntitySerialVersionUID(MybatisPlusConfig.STRATEGY_VERSION_UID)
+                // 逻辑删除属性名称
+                .setLogicDeleteFieldName(MybatisPlusConfig.STRATEGY_LOGIC_DELETE_FIELD_NAME)
+                // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
+                .setControllerMappingHyphenStyle(MybatisPlusConfig.STRATEGY_CONTROLLER_MAPPING_HYPHEN_STYLE);
 
-        tc.setController(templatePathController);
-        tc.setService(templatePathService);
-        tc.setServiceImpl(templatePathServiceImpl);
-        tc.setEntity(templatePathEntity);
-        tc.setMapper(templatePathMapper);
-        tc.setXml(templatePathMapperXML);
+        // 自定义实体父类
+        // strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
+        // 自定义实体，公共字段
+        // strategy.setSuperEntityColumns(new String[] { "create_time", "create_username" });
+        // 自定义 controller 父类
+        // strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
+        // 还有自定义service/mapper等
+        return strategy;
+    }
 
-        new AutoGenerator()
-                .setGlobalConfig(config)
-                .setDataSource(dataSourceConfig)
-                .setStrategy(strategyConfig)
-                .setPackageInfo(packageConfig)
-                .setTemplateEngine(new FreemarkerTemplateEngine())
-                //.setTemplateEngine(new VelocityTemplateEngine()).setTemplate(tc)
-                .setCfg(injectionConfig)
-                .execute();
+    /**
+     * 全局配置
+     *
+     * @return GlobalConfig
+     */
+    private GlobalConfig getGlobalConfig() {
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig
+                // 开启swagger
+                .setSwagger2(MybatisPlusConfig.SWAGGER2)
+                .setActiveRecord(true)
+                .setBaseColumnList(true)
+                .setBaseResultMap(true)
+                //作者
+                .setAuthor(MybatisPlusConfig.AUTHOR)
+                //设置输出路径
+                .setOutputDir(MybatisPlusConfig.OUTPUTDIR)
+                //是否覆盖已有文件
+                .setFileOverride(MybatisPlusConfig.FILE_OVERRIDE);
+
+        // 自定义命名方式
+        globalConfig.setEntityName(MybatisPlusConfig.GLOBAL_ENTITY_NAME);
+        globalConfig.setMapperName(MybatisPlusConfig.GLOBAL_MAPPER_NAME);
+        globalConfig.setXmlName(MybatisPlusConfig.GLOBAL_XML_NAME);
+        globalConfig.setServiceName(MybatisPlusConfig.GLOBAL_SERVICE_NAME);
+        globalConfig.setServiceImplName(MybatisPlusConfig.GLOBAL_SERVICEIMPL_NAME);
+        globalConfig.setControllerName(MybatisPlusConfig.GLOBAL_CONTROLLER_NAME);
+        return globalConfig;
     }
 
     /**
@@ -196,108 +134,15 @@ public class MyBatisPlusGenerator {
         pc.setParent(null); //具体包,类似：top.plgxs
         //entity mapper层统一放在mbg模块下
         HashMap<String, String> pathMap = CollectionUtils.newHashMapWithExpectedSize(6);
-        pathMap.put(ConstVal.ENTITY_PATH, outputDir + mbgModulePath + "/src/main/java" +
-                mbgModulePackagePath + "/entity/" + commonPackageName);
-
-        pathMap.put(ConstVal.MAPPER_PATH, outputDir + mbgModulePath + "/src/main/java" +
-                mbgModulePackagePath + "/mapper/" + commonPackageName);
-
-        pathMap.put(ConstVal.XML_PATH, outputDir + mbgModulePath + "/src/main/resources/mapper/"+commonPackageName);
-
+        pathMap.put(ConstVal.ENTITY_PATH, MybatisPlusConfig.PACKAGE_ENTITY);
+        pathMap.put(ConstVal.MAPPER_PATH, MybatisPlusConfig.PACKAGE_MAPPER);
+        pathMap.put(ConstVal.XML_PATH, MybatisPlusConfig.PACKAGE_MAPPER_XML);
         //controller service impl放在其他模块
-        pathMap.put(ConstVal.CONTROLLER_PATH, outputDir + adminModulePath + "/src/main/java" +
-                adminModulePackagePath + "/controller/" + commonPackageName);
-
-
-        pathMap.put(ConstVal.SERVICE_PATH, outputDir + adminModulePath + "/src/main/java" +
-                adminModulePackagePath + "/service/" + commonPackageName);
-
-        pathMap.put(ConstVal.SERVICE_IMPL_PATH, outputDir + adminModulePath + "/src/main/java" +
-                adminModulePackagePath + "/service/impl/" + commonPackageName);
-
+        pathMap.put(ConstVal.CONTROLLER_PATH, MybatisPlusConfig.PACKAGE_CONTROLLER);
+        pathMap.put(ConstVal.SERVICE_PATH, MybatisPlusConfig.PACKAGE_SERVICE);
+        pathMap.put(ConstVal.SERVICE_IMPL_PATH, MybatisPlusConfig.PACKAGE_SERVICE_IMPL);
         pc.setPathInfo(pathMap);
         return pc;
-    }
-
-    /**
-     * 全局配置
-     *
-     * @return GlobalConfig
-     */
-    private GlobalConfig getGlobalConfig() {
-        GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig
-                // 开启swagger
-                .setSwagger2(true)
-                .setActiveRecord(true)
-                .setBaseColumnList(true)
-                .setBaseResultMap(true)
-                //作者
-                .setAuthor(author)
-                //设置输出路径
-                .setOutputDir(outputDir)
-                //是否覆盖已有文件
-                .setFileOverride(true);
-
-        // 自定义命名方式
-        globalConfig.setEntityName("%s");
-        globalConfig.setMapperName("%sMapper");
-        globalConfig.setXmlName("%sMapper");
-        globalConfig.setServiceName("%sService");
-        globalConfig.setServiceImplName("%sServiceImpl");
-        globalConfig.setControllerName("%sController");
-
-        return globalConfig;
-    }
-
-    /**
-     * 策略配置
-     *
-     * @param tableNames 表名
-     * @return StrategyConfig
-     */
-    private StrategyConfig getStrategyConfig(String... tableNames) {
-        StrategyConfig strategy = new StrategyConfig();
-        //从数据库表到文件的命名策略
-        strategy.setNaming(NamingStrategy.underline_to_camel)
-                // 表前缀
-                .setTablePrefix(new String[] {"t_","T_"})
-                // rest风格
-                .setRestControllerStyle(false)
-                // 字段注解
-                .setEntityTableFieldAnnotationEnable(true)
-                // 使用lombok
-                .setEntityLombokModel(true)
-                // 需要生成的的表名，多个表名传数组
-                .setInclude(tableNames)
-                // 生成序列号
-                .setEntitySerialVersionUID(true)
-                // 逻辑删除属性名称
-                .setLogicDeleteFieldName(deleteFieldName)
-                // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
-                .setControllerMappingHyphenStyle(false);
-
-        // 自定义实体父类
-        // strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
-        // 自定义实体，公共字段
-        // strategy.setSuperEntityColumns(new String[] { "create_time", "create_username" });
-        // 自定义 controller 父类
-        // strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 还有自定义service/mapper等
-        return strategy;
-    }
-
-    /**
-     * 配置数据源
-     *
-     * @return 数据源配置 DataSourceConfig
-     */
-    private DataSourceConfig getDataSourceConfig() {
-        return new DataSourceConfig().setDbType(dbType)
-                .setUrl(dbUrl)
-                .setUsername(userName)
-                .setPassword(password)
-                .setDriverName(driver);
     }
 
     // 自定义配置
@@ -309,29 +154,75 @@ public class MyBatisPlusGenerator {
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
                 // 实体类的package
-                map.put("customEntityPackage", mbgPackageName
-                        + ".entity." + commonPackageName);
+                map.put("customEntityPackage", MybatisPlusConfig.CUSTOM_ENTITY_PACKAGE);
                 // mapper的package
-                map.put("customMapperPackage", mbgPackageName
-                        + ".mapper." + commonPackageName);
+                map.put("customMapperPackage", MybatisPlusConfig.CUSTOM_MAPPER_PACKAGE);
                 // controller的package
-                map.put("customControllerPackage", adminPackageName
-                        + ".controller." + commonPackageName);
+                map.put("customControllerPackage", MybatisPlusConfig.CUSTOM_CONTROLLER_PACKAGE);
                 // service的package
-                map.put("customServicePackage", adminPackageName
-                        + ".service." + commonPackageName);
+                map.put("customServicePackage", MybatisPlusConfig.CUSTOM_SERVICE_PACKAGE);
                 // serviceimpl的package
-                map.put("customServiceImplPackage", adminPackageName
-                        + ".service.impl." + commonPackageName);
-
+                map.put("customServiceImplPackage", MybatisPlusConfig.CUSTOM_SERVICE_IMPL_PACKAGE);
                 this.setMap(map);
             }
         };
+        // 自定义输出配置
+        List<FileOutConfig> focList = new ArrayList<>();
+
+        // 自定义配置会被优先输出
+        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_LIST_TEMPLATE + ".ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                // 去除前缀，首字母小写，例如SysUser转换后为user
+                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/list.html";
+            }
+        });
+        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_ADD_TEMPLATE + ".ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/add.html";
+            }
+        });
+        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_EDIT_TEMPLATE + ".ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/edit.html";
+            }
+        });
+        cfg.setFileOutConfigList(focList);
         return cfg;
     }
 
-    // 执行main方法自动生成代码
-    public static void main(String[] args) {
-        new MyBatisPlusGenerator().generateCode();
+    /**
+     * 集成
+     *
+     * @param dataSourceConfig 配置数据源
+     * @param strategyConfig   策略配置
+     * @param config           全局变量配置
+     * @param packageConfig    包名配置
+     */
+    private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
+                               GlobalConfig config, PackageConfig packageConfig, InjectionConfig injectionConfig) {
+        TemplateConfig tc = new TemplateConfig();
+        tc.setController(MybatisPlusConfig.TEMPLATE_CONTROLLER);
+        tc.setService(MybatisPlusConfig.TEMPLATE_SERVICE);
+        tc.setServiceImpl(MybatisPlusConfig.TEMPLATE_SERVICE_IMPL);
+        tc.setEntity(MybatisPlusConfig.TEMPLATE_ENTITY);
+        tc.setMapper(MybatisPlusConfig.TEMPLATE_MAPPER);
+        tc.setXml(MybatisPlusConfig.TEMPLATE_MAPPER_XML);
+
+        new AutoGenerator()
+                .setGlobalConfig(config)
+                .setDataSource(dataSourceConfig)
+                .setStrategy(strategyConfig)
+                .setPackageInfo(packageConfig)
+                .setTemplateEngine(new FreemarkerTemplateEngine())
+                //.setTemplateEngine(new VelocityTemplateEngine()).setTemplate(tc)
+                .setCfg(injectionConfig)
+                .execute();
     }
 }
