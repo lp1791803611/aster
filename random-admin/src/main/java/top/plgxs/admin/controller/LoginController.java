@@ -2,6 +2,7 @@ package top.plgxs.admin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.plgxs.mbg.entity.sys.SysUser;
 
@@ -18,8 +19,18 @@ import java.util.List;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/index")
-    public String index(Model model){
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
+
+    @GetMapping("/menu")
+    public String menu(){
+        return "menu";
+    }
+
+    @RequestMapping("/index_bak")
+    public String index_bak(Model model){
         model.addAttribute("key","Hello World!");
         model.addAttribute("content","my name is <b>maliming</b>");
 
@@ -39,6 +50,6 @@ public class LoginController {
 
         String[] arrays = new String[]{"a","b","c"};
         model.addAttribute("arrays",arrays);
-        return "index";
+        return "index_bak";
     }
 }

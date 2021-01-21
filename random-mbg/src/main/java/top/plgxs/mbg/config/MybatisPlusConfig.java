@@ -43,7 +43,7 @@ public class MybatisPlusConfig {
     // 表前缀
     public static final String[] STRATEGY_TABLE_PREFIX = new String[] {"t_","T_"};
     // rest风格
-    public static final boolean STRATEGY_REST_CONTROLLER = true;
+    public static final boolean STRATEGY_REST_CONTROLLER = false;
     // 字段注解
     public static final boolean STRATEGY_FIELD_ANNOTATION = true;
     // 使用lombok

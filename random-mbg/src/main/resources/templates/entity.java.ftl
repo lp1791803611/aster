@@ -151,7 +151,7 @@ public class ${entity} implements Serializable {
             ", ${field.propertyName}=" + ${field.propertyName} +
         </#if>
     </#list>
-        "}";
+        "}";/
     }
 </#if>
 }

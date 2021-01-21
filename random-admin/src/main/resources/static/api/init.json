@@ -5,7 +5,7 @@
   },
   "logoInfo": {
     "title": "LAYUI MINI",
-    "image": "static/images/logo.png",
+    "image": "../static/images/logo.png",
     "href": ""
   },
   "menuInfo": [
@@ -43,7 +43,7 @@
         },
         {
           "title": "菜单管理",
-          "href": "templates/menu.html",
+          "href": "menu",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },
