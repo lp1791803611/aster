@@ -45,23 +45,43 @@ public class ${table.controllerName} {
     private ${table.serviceName} ${table.serviceName ? uncap_first};
 
     /**
+     * ${table.comment!}页面
+     * @author ${author}
+     * @since ${date}
+     */
+    @GetMapping("/list")
+    public String list(){
+        return "${cfg.customTableName}/${table.entityPath?replace(cfg.customTableName,"")?uncap_first}/list";
+    }
+
+    /**
      * 分页查询列表
-     * @param query 查询条件
+     * @param searchParams 查询条件
      * @param pageNo 第几页
      * @param pageSize 每页几条
      * @return
      * @author ${author}
      * @since ${date}
      */
-    @GetMapping("/list")
+    @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<IPage<${entity}>> queryPageList(@RequestParam("query") String query, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
+    public ResultInfo<IPage<${entity}>> queryPageList(@RequestParam("searchParams") String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+                                                    @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
         Page<${entity}> page = new Page<>(pageNo, pageSize);
         IPage<${entity}> pageList = ${table.serviceName ? uncap_first}.page(page, queryWrapper);
         return ResultInfo.success(pageList);
+    }
+
+    /**
+     * 添加页面
+     * @author ${author}
+     * @since ${date}
+     */
+    @GetMapping("/add")
+    public String add(){
+        return "${cfg.customTableName}/${table.entityPath?replace(cfg.customTableName,"")?uncap_first}/add";
     }
 
     /**
@@ -80,6 +100,15 @@ public class ${table.controllerName} {
         }else{
             return ResultInfo.failed();
         }
+    }
+    /**
+     * 编辑页面
+     * @author ${author}
+     * @since ${date}
+     */
+    @GetMapping("/edit")
+    public String edit(){
+        return "${cfg.customTableName}/${table.entityPath?replace(cfg.customTableName,"")?uncap_first}/edit";
     }
 
     /**

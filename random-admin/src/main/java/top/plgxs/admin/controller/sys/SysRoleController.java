@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-07
+ * @since 2021-01-27
  * @version 1.0
  */
 @Controller
@@ -27,18 +27,28 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     /**
+     * 角色页面
+     * @author Stranger。
+     * @since 2021-01-27
+     */
+    @GetMapping("/list")
+    public String list(){
+        return "sys/role/list";
+    }
+
+    /**
      * 分页查询列表
-     * @param query 查询条件
+     * @param searchParams 查询条件
      * @param pageNo 第几页
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-07
+     * @since 2021-01-27
      */
-    @GetMapping("/list")
+    @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<IPage<SysRole>> queryPageList(@RequestParam("query") String query, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
+    public ResultInfo<IPage<SysRole>> queryPageList(@RequestParam("searchParams") String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+                                                    @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
         Page<SysRole> page = new Page<>(pageNo, pageSize);
@@ -47,11 +57,21 @@ public class SysRoleController {
     }
 
     /**
+     * 添加页面
+     * @author Stranger。
+     * @since 2021-01-27
+     */
+    @GetMapping("/add")
+    public String add(){
+        return "sys/role/add";
+    }
+
+    /**
      * 插入一条数据
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-07
+     * @since 2021-01-27
      */
     @PostMapping("/insert")
     @ResponseBody
@@ -63,13 +83,22 @@ public class SysRoleController {
             return ResultInfo.failed();
         }
     }
+    /**
+     * 编辑页面
+     * @author Stranger。
+     * @since 2021-01-27
+     */
+    @GetMapping("/edit")
+    public String edit(){
+        return "sys/role/edit";
+    }
 
     /**
      * 更新一条数据
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-07
+     * @since 2021-01-27
      */
     @PostMapping("/update")
     @ResponseBody
@@ -90,7 +119,7 @@ public class SysRoleController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-07
+     * @since 2021-01-27
      */
     @GetMapping("/delete/{id}")
     @ResponseBody

@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-07
+ * @since 2021-01-27
  * @version 1.0
  */
 @Data
@@ -29,7 +29,7 @@ public class SysRole extends Model<SysRole> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键uuid")
+    @ApiModelProperty(value = "ID")
     @TableId("id")
     private String id;
 

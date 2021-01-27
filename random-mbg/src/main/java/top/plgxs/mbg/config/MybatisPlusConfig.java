@@ -49,7 +49,7 @@ public class MybatisPlusConfig {
     // 使用lombok
     public static final boolean STRATEGY_LOMBOK = true;
     // 需要生成的的表名，多个表名传数组。如果想生成整个库的，这里设为null即可
-    public static final String[] STRATEGY_TABLE_NAMES = new String[] {"t_sys_role","t_sys_menu","t_sys_user"};
+    public static final String[] STRATEGY_TABLE_NAMES = new String[] {"t_sys_role"};
     // 生成序列号
     public static final boolean STRATEGY_VERSION_UID = true;
     // 逻辑删除属性名称

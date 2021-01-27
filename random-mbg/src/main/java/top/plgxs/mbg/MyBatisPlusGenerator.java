@@ -163,6 +163,8 @@ public class MyBatisPlusGenerator {
                 map.put("customServicePackage", MybatisPlusConfig.CUSTOM_SERVICE_PACKAGE);
                 // serviceimpl的package
                 map.put("customServiceImplPackage", MybatisPlusConfig.CUSTOM_SERVICE_IMPL_PACKAGE);
+                // 表名前缀sys
+                map.put("customTableName",MybatisPlusConfig.PACKAGE_COMMON_NAME);
                 this.setMap(map);
             }
         };

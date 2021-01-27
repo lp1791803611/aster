@@ -45,7 +45,7 @@
 
                 table.render({
                         elem: '#currentTableId',
-                        url: '${table.entityPath}/pageList',
+                        url: 'sysRole/pageList',
                         toolbar: '#toolbarDemo',
                         defaultToolbar: ['filter', 'exports', 'print', {
                                 title: '提示',
@@ -54,9 +54,14 @@
                         }],
                         cols: [ [
                                 {type: "checkbox", width: 50},
-                                <#list table.fields as field>
-                                {field: '${field.propertyName}', width: 80, title: '${field.comment}', sort: true},
-                                </#list>
+                                {field: 'id', width: 80, title: 'ID', sort: true},
+                                {field: 'roleName', width: 80, title: '角色名称', sort: true},
+                                {field: 'roleCode', width: 80, title: '角色代码', sort: true},
+                                {field: 'priority', width: 80, title: '优先级', sort: true},
+                                {field: 'remark', width: 80, title: '备注', sort: true},
+                                {field: 'gmtCreate', width: 80, title: '', sort: true},
+                                {field: 'gmtModified', width: 80, title: '', sort: true},
+                                {field: 'isDeleted', width: 80, title: '状态，1-删除，0-正常', sort: true},
                                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
                         ] ],
                         limits: [10, 15, 20, 25, 50, 100],
