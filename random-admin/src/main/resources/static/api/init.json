@@ -55,7 +55,7 @@
         },
         {
           "title": "表格示例",
-          "href": "templates/table.html",
+          "href": "sysRole/list",
           "icon": "fa fa-file-text",
           "target": "_self"
         },

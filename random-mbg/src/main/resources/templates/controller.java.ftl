@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ${cfg.customServicePackage}.${table.serviceName};
 import top.plgxs.common.api.ResultInfo;
+import top.plgxs.common.page.PageDataInfo;
 import ${cfg.customEntityPackage}.${entity};
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Controller;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
+
+import java.util.List;
 
 /**
  * <p>
@@ -65,13 +68,13 @@ public class ${table.controllerName} {
      */
     @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<IPage<${entity}>> queryPageList(@RequestParam("searchParams") String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "searchParams", required = false) String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
         Page<${entity}> page = new Page<>(pageNo, pageSize);
         IPage<${entity}> pageList = ${table.serviceName ? uncap_first}.page(page, queryWrapper);
-        return ResultInfo.success(pageList);
+        return ResultInfo.success(new PageDataInfo<${entity}>(pageList.getRecords(),pageList.getTotal()));
     }
 
     /**
@@ -101,6 +104,7 @@ public class ${table.controllerName} {
             return ResultInfo.failed();
         }
     }
+
     /**
      * 编辑页面
      * @author ${author}
@@ -150,6 +154,23 @@ public class ${table.controllerName} {
             return ResultInfo.success();
         }else{
             return ResultInfo.failed();
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param ids id数组
+     * @author ${author}
+     * @since ${date}
+     */
+    @PostMapping("/batchDelete")
+    @ResponseBody
+    public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
+        boolean result = ${table.serviceName ? uncap_first}.removeByIds(ids);
+        if(result){
+            return ResultInfo.success("删除成功",null);
+        }else{
+            return ResultInfo.failed("删除失败");
         }
     }
 }

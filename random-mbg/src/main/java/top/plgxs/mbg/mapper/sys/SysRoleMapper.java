@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-27
+ * @since 2021-01-28
  * @version 1.0
  */
 @Repository("sysRoleMapper")
@@ -23,7 +23,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param sysRole
      * @return
      * @author Stranger。
-     * @date 2021-01-27
+     * @date 2021-01-28
      */
     List<SysRole> selectSysRoleList(SysRole sysRole);
 }

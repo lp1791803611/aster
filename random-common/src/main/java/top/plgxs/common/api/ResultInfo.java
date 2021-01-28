@@ -28,7 +28,7 @@ public class ResultInfo<T> implements Serializable {
      * 返回处理消息
      */
     @ApiModelProperty(value = "返回处理消息")
-    private String message = "操作成功！";
+    private String msg = "操作成功！";
 
     /**
      * 返回代码
@@ -82,7 +82,7 @@ public class ResultInfo<T> implements Serializable {
         ResultInfo<T> r = new ResultInfo<T>();
         r.setSuccess(true);
         r.setCode(ResultCode.SUCCESS.getCode());
-        r.setMessage(msg);
+        r.setMsg(msg);
         r.setData(data);
         return r;
     }
@@ -116,7 +116,7 @@ public class ResultInfo<T> implements Serializable {
     public static<T> ResultInfo<T> failed(int code, String message) {
         ResultInfo<T> r = new ResultInfo<>();
         r.setCode(code);
-        r.setMessage(message);
+        r.setMsg(message);
         r.setSuccess(false);
         return r;
     }

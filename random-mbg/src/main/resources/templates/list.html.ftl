@@ -52,6 +52,9 @@
                                 layEvent: 'LAYTABLE_TIPS',
                                 icon: 'layui-icon-tips'
                         }],
+                        parseData: function(res){
+                                return res.data;
+                        },
                         cols: [ [
                                 {type: "checkbox", width: 50},
                                 <#list table.fields as field>
@@ -90,7 +93,7 @@
                  */
                 table.on('toolbar(currentTableFilter)', function (obj) {
                         if (obj.event === 'add') {   // 监听添加操作
-                                var content = miniPage.getHrefContent('page/table/add.html');
+                                var content = miniPage.getHrefContent('${table.entityPath}/add');
                                 var openWH = miniPage.getOpenWidthHeight();
 
                                 var index = layer.open({
@@ -109,25 +112,58 @@
                         } else if (obj.event === 'delete') {  // 监听删除操作
                                 var checkStatus = table.checkStatus('currentTableId')
                                         , data = checkStatus.data;
-                                //TODO
                                 layer.alert(JSON.stringify(data));
+                                if(data != null && data.length>0){
+                                        layer.confirm('真的删除行么', function (index) {
+                                                layer.close(index);
+
+                                                var ids = [];
+                                                for(var i=0; i < data.length; i++){
+                                                        ids[i] = data[i].id;
+                                                }
+
+                                                $.ajax({
+                                                        url: '${table.entityPath}/batchDelete',
+                                                        type: 'GET',
+                                                        async: false,
+                                                        data: JSON.stringify(ids),
+                                                        contentType: 'application/json; charset=UTF-8',
+                                                        dataType: "json",
+                                                        success: function (res) {
+                                                                layer.msg(res.msg);
+                                                                obj.del();
+                                                        },
+                                                        error:function (XMLHttpRequest, textStatus, errorThrown) {
+                                                                layer.close(index);
+                                                                if(XMLHttpRequest.status==404){
+                                                                        window.location.href="404";
+                                                                }else{
+                                                                        layer.msg("服务器好像出了点问题！请稍后试试");
+                                                                }
+                                                        }
+                                                });
+                                        });
+                                }else{
+                                        layer.alert("请先选择行");
+                                }
+
                         }
                 });
 
                 //监听表格复选框选择
                 table.on('checkbox(currentTableFilter)', function (obj) {
-                        console.log(obj)
+                        console.log(obj);
                 });
 
                 table.on('tool(currentTableFilter)', function (obj) {
                         var data = obj.data;
                         if (obj.event === 'edit') {
 
-                                var content = miniPage.getHrefContent('page/table/add.html');
+                                var content = miniPage.getHrefContent('${table.entityPath}/edit');
                                 var openWH = miniPage.getOpenWidthHeight();
 
                                 var index = layer.open({
-                                        title: '编辑用户',
+                                        title: '编辑',
                                         type: 1,
                                         shade: 0.2,
                                         maxmin:true,
@@ -142,8 +178,26 @@
                                 return false;
                         } else if (obj.event === 'delete') {
                                 layer.confirm('真的删除行么', function (index) {
-                                        obj.del();
                                         layer.close(index);
+                                        $.ajax({
+                                            url: '${table.entityPath}/delete/'+obj.data.id,
+                                            type: 'GET',
+                                            async: false,
+                                            contentType: 'application/json; charset=UTF-8',
+                                            dataType: "json",
+                                            success: function (res) {
+                                                layer.msg(res.msg);
+                                                obj.del();
+                                            },
+                                            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                                                layer.close(index);
+                                                if(XMLHttpRequest.status==404){
+                                                    window.location.href="404";
+                                                }else{
+                                                    layer.msg("服务器好像出了点问题！请稍后试试");
+                                                }
+                                            }
+                                        });
                                 });
                         }
                 });
