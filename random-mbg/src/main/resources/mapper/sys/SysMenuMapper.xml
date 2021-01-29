@@ -11,17 +11,18 @@
         <result column="menu_auth" property="menuAuth" />
         <result column="menu_target" property="menuTarget" />
         <result column="menu_icon" property="menuIcon" />
-        <result column="order_number" property="orderNumber" />
-        <result column="is_menu" property="isMenu" />
+        <result column="menu_type" property="menuType" />
+        <result column="sort" property="sort" />
         <result column="gmt_create" property="gmtCreate" />
         <result column="gmt_modified" property="gmtModified" />
         <result column="status" property="status" />
         <result column="is_deleted" property="isDeleted" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, menu_name, menu_url, menu_auth, menu_target, menu_icon, order_number, is_menu, gmt_create, gmt_modified, status, is_deleted
+        id, parent_id, menu_name, menu_url, menu_auth, menu_target, menu_icon, menu_type, sort, gmt_create, gmt_modified, status, is_deleted, remark
     </sql>
 
     <select id="selectSysMenuList" parameterType="top.plgxs.mbg.entity.sys.SysMenu" resultType="top.plgxs.mbg.entity.sys.SysMenu">
@@ -49,11 +50,11 @@
             <if test="menuIcon != null and menuIcon != ''">
                 and t.menu_icon = #{menuIcon}
             </if>
-            <if test="orderNumber != null">
-                and t.order_number = #{orderNumber}
+            <if test="menuType != null and menuType != ''">
+                and t.menu_type = #{menuType}
             </if>
-            <if test="isMenu != null and isMenu != ''">
-                and t.is_menu = #{isMenu}
+            <if test="sort != null">
+                and t.sort = #{sort}
             </if>
             <if test="gmtCreate != null">
                 and t.gmt_create = #{gmtCreate}
@@ -66,6 +67,9 @@
             </if>
             <if test="isDeleted != null and isDeleted != ''">
                 and t.is_deleted = #{isDeleted}
+            </if>
+            <if test="remark != null and remark != ''">
+                and t.remark = #{remark}
             </if>
     </select>
 </mapper>

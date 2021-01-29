@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.plgxs.mbg.mapper.sys.SysRoleMapper">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysDictTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysRole">
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysDictType">
         <id column="id" property="id" />
-        <result column="role_name" property="roleName" />
-        <result column="role_code" property="roleCode" />
-        <result column="priority" property="priority" />
+        <result column="dict_type_name" property="dictTypeName" />
+        <result column="dict_type_code" property="dictTypeCode" />
         <result column="gmt_create" property="gmtCreate" />
         <result column="gmt_modified" property="gmtModified" />
         <result column="status" property="status" />
@@ -17,24 +16,21 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_name, role_code, priority, gmt_create, gmt_modified, status, is_deleted, remark
+        id, dict_type_name, dict_type_code, gmt_create, gmt_modified, status, is_deleted, remark
     </sql>
 
-    <select id="selectSysRoleList" parameterType="top.plgxs.mbg.entity.sys.SysRole" resultType="top.plgxs.mbg.entity.sys.SysRole">
+    <select id="selectSysDictTypeList" parameterType="top.plgxs.mbg.entity.sys.SysDictType" resultType="top.plgxs.mbg.entity.sys.SysDictType">
         select <include refid="Base_Column_List"/>
-        from t_sys_role t
+        from t_sys_dict_type t
         where 1 = 1
             <if test="id != null and id != ''">
                 and t.id = #{id}
             </if>
-            <if test="roleName != null and roleName != ''">
-                and t.role_name = #{roleName}
+            <if test="dictTypeName != null and dictTypeName != ''">
+                and t.dict_type_name = #{dictTypeName}
             </if>
-            <if test="roleCode != null and roleCode != ''">
-                and t.role_code = #{roleCode}
-            </if>
-            <if test="priority != null">
-                and t.priority = #{priority}
+            <if test="dictTypeCode != null and dictTypeCode != ''">
+                and t.dict_type_code = #{dictTypeCode}
             </if>
             <if test="gmtCreate != null">
                 and t.gmt_create = #{gmtCreate}

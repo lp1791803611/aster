@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<body>
+<!-- 通用CSS -->
+<head th:fragment=header(title)>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title th:text="${title}"></title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" href="../static/images/favicon.ico">
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.5.5/css/layui.css}" href="../static/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" media="all">
+</head>
+
+<!-- 通用JS -->
+<div th:fragment="footer">
+    <script th:inline="javascript"> var ctx = [[@{/}]];</script>
+    <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" src="../static/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+    <script th:src="@{/lib/layui-v2.5.5/layui.js}" src="../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script th:src="@{/js/lay-config.js?v=2.0.0}" src="../static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+</div>
+</body>
+</html>
+

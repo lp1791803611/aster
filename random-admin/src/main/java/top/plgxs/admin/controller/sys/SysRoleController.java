@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.common.api.ResultInfo;
@@ -20,7 +21,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-28
+ * @since 2021-01-29
  * @version 1.0
  */
 @Controller
@@ -32,7 +33,7 @@ public class SysRoleController {
     /**
      * 角色页面
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @GetMapping("/list")
     public String list(){
@@ -46,7 +47,7 @@ public class SysRoleController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @GetMapping("/pageList")
     @ResponseBody
@@ -54,6 +55,7 @@ public class SysRoleController {
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
+        queryWrapper.orderByDesc("gmt_modified");
         Page<SysRole> page = new Page<>(pageNo, pageSize);
         IPage<SysRole> pageList = sysRoleService.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<SysRole>(pageList.getRecords(),pageList.getTotal()));
@@ -62,7 +64,7 @@ public class SysRoleController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @GetMapping("/add")
     public String add(){
@@ -74,7 +76,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @PostMapping("/insert")
     @ResponseBody
@@ -90,10 +92,12 @@ public class SysRoleController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
-    @GetMapping("/edit")
-    public String edit(){
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable("id") String id){
+        SysRole sysRole = sysRoleService.getById(id);
+        model.addAttribute("sysRole",sysRole);
         return "sys/role/edit";
     }
 
@@ -102,7 +106,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @PostMapping("/update")
     @ResponseBody
@@ -123,7 +127,7 @@ public class SysRoleController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -143,7 +147,7 @@ public class SysRoleController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-28
+     * @since 2021-01-29
      */
     @PostMapping("/batchDelete")
     @ResponseBody

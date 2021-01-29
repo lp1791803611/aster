@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 菜单
+ * 字典类型
  * </p>
  *
  * @author Stranger。
@@ -23,9 +23,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_sys_menu")
-@ApiModel(value="SysMenu对象", description="菜单")
-public class SysMenu extends Model<SysMenu> {
+@TableName("t_sys_dict_type")
+@ApiModel(value="SysDictType对象", description="")
+public class SysDictType extends Model<SysDictType> {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,37 +33,13 @@ public class SysMenu extends Model<SysMenu> {
     @TableId("id")
     private String id;
 
-    @ApiModelProperty(value = "父菜单ID")
-    @TableField("parent_id")
-    private String parentId;
+    @ApiModelProperty(value = "字典类型名称")
+    @TableField("dict_type_name")
+    private String dictTypeName;
 
-    @ApiModelProperty(value = "菜单名称")
-    @TableField("menu_name")
-    private String menuName;
-
-    @ApiModelProperty(value = "菜单url")
-    @TableField("menu_url")
-    private String menuUrl;
-
-    @ApiModelProperty(value = "权限控制")
-    @TableField("menu_auth")
-    private String menuAuth;
-
-    @ApiModelProperty(value = "链接打开方式")
-    @TableField("menu_target")
-    private String menuTarget;
-
-    @ApiModelProperty(value = "菜单图标")
-    @TableField("menu_icon")
-    private String menuIcon;
-
-    @ApiModelProperty(value = "菜单类型")
-    @TableField("menu_type")
-    private String menuType;
-
-    @ApiModelProperty(value = "菜单排序")
-    @TableField("sort")
-    private Integer sort;
+    @ApiModelProperty(value = "字典类型编码")
+    @TableField("dict_type_code")
+    private String dictTypeCode;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("gmt_create")

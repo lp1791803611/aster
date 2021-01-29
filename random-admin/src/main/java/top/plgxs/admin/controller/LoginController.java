@@ -24,11 +24,6 @@ public class LoginController {
         return "index";
     }
 
-    @GetMapping("/menu")
-    public String menu(){
-        return "menu";
-    }
-
     @RequestMapping("/index_bak")
     public String index_bak(Model model){
         model.addAttribute("key","Hello World!");

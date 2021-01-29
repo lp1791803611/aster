@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-07
+ * @since 2021-01-29
  * @version 1.0
  */
 @Data
@@ -29,7 +29,7 @@ public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键uuid")
+    @ApiModelProperty(value = "ID")
     @TableId("id")
     private String id;
 
@@ -37,7 +37,7 @@ public class SysUser extends Model<SysUser> {
     @TableField("username")
     private String username;
 
-    @ApiModelProperty(value = "密码md5")
+    @ApiModelProperty(value = "密码")
     @TableField("password")
     private String password;
 
@@ -53,9 +53,9 @@ public class SysUser extends Model<SysUser> {
     @TableField("nickname")
     private String nickname;
 
-    @ApiModelProperty(value = "性别，0-保密，1-男，2-女")
+    @ApiModelProperty(value = "性别")
     @TableField("gender")
-    private Integer gender;
+    private String gender;
 
     @ApiModelProperty(value = "真实姓名")
     @TableField("realname")
@@ -65,13 +65,9 @@ public class SysUser extends Model<SysUser> {
     @TableField("id_number")
     private String idNumber;
 
-    @ApiModelProperty(value = "头像url")
+    @ApiModelProperty(value = "头像")
     @TableField("head_url")
     private String headUrl;
-
-    @ApiModelProperty(value = "注册时间")
-    @TableField("gmt_create")
-    private LocalDateTime gmtCreate;
 
     @ApiModelProperty(value = "登录次数")
     @TableField("login_number")
@@ -81,15 +77,6 @@ public class SysUser extends Model<SysUser> {
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("gmt_modified")
-    private LocalDateTime gmtModified;
-
-    @ApiModelProperty(value = "状态，1-删除，0-正常")
-    @TableField("is_deleted")
-    @TableLogic
-    private String isDeleted;
-
     @ApiModelProperty(value = "手机验证码")
     @TableField("mobile_verification_code")
     private String mobileVerificationCode;
@@ -97,6 +84,23 @@ public class SysUser extends Model<SysUser> {
     @ApiModelProperty(value = "邮箱验证码")
     @TableField("email_verification_code")
     private String emailVerificationCode;
+
+    @ApiModelProperty(value = "注册时间")
+    @TableField("gmt_create")
+    private LocalDateTime gmtCreate;
+
+    @ApiModelProperty(value = "更新时间")
+    @TableField("gmt_modified")
+    private LocalDateTime gmtModified;
+
+    @ApiModelProperty(value = "启用状态")
+    @TableField("status")
+    private String status;
+
+    @ApiModelProperty(value = "删除状态")
+    @TableField("is_deleted")
+    @TableLogic
+    private String isDeleted;
 
 
     @Override

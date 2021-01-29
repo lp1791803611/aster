@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('新增${table.comment!}')" />
+    <th:block th:include="common/include :: header('新增')" />
     <style>
         body {
             background-color: #ffffff;
@@ -10,26 +10,42 @@
 </head>
 <body>
 <div class="layui-form layuimini-form">
-<#list table.fields as field>
-    <#if field.propertyName != 'id' && field.propertyName != 'gmtCreate'
-        && field.propertyName != 'gmtModified' && field.propertyName != 'isDeleted'>
-        <#if field.propertyName == 'remark'>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">字典标签</label>
+        <div class="layui-input-block">
+            <input type="text" name="dictLabel" lay-verify="required" lay-reqtext="字典标签不能为空" placeholder="请输入字典标签" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">字典键值</label>
+        <div class="layui-input-block">
+            <input type="text" name="dictValue" lay-verify="required" lay-reqtext="字典键值不能为空" placeholder="请输入字典键值" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">字典类型编码</label>
+        <div class="layui-input-block">
+            <input type="text" name="dictTypeCode" lay-verify="required" lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">字典排序</label>
+        <div class="layui-input-block">
+            <input type="text" name="sort" lay-verify="required" lay-reqtext="字典排序不能为空" placeholder="请输入字典排序" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">启用状态</label>
+        <div class="layui-input-block">
+            <input type="text" name="status" lay-verify="required" lay-reqtext="启用状态不能为空" placeholder="请输入启用状态" value="" class="layui-input">
+        </div>
+    </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
             <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
         </div>
     </div>
-        <#else>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">${field.comment}</label>
-        <div class="layui-input-block">
-            <input type="text" name="${field.propertyName}" lay-verify="required" lay-reqtext="${field.comment}不能为空" placeholder="请输入${field.comment}" value="" class="layui-input">
-        </div>
-    </div>
-        </#if>
-    </#if>
-</#list>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -47,7 +63,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             $.ajax({
-                url: ctx + '${table.entityPath}/insert',
+                url: ctx + 'sysDict/insert',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',

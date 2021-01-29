@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-07
+ * @since 2021-01-29
  * @version 1.0
  */
 public interface SysMenuService extends IService<SysMenu> {
@@ -19,7 +19,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * 数据查询列表
      * @return
      * @author Stranger。
-     * @date 2021-01-07
+     * @date 2021-01-29
      */
     List<SysMenu> getSysMenuList();
 }

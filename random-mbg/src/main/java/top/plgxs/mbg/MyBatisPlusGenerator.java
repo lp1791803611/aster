@@ -169,33 +169,34 @@ public class MyBatisPlusGenerator {
             }
         };
         // 自定义输出配置
-        List<FileOutConfig> focList = new ArrayList<>();
-
-        // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_LIST_TEMPLATE + ".ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                // 去除前缀，首字母小写，例如SysUser转换后为user
-                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
-                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/list.html";
-            }
-        });
-        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_ADD_TEMPLATE + ".ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
-                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/add.html";
-            }
-        });
-        focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_EDIT_TEMPLATE + ".ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
-                return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/edit.html";
-            }
-        });
-        cfg.setFileOutConfigList(focList);
+        if(MybatisPlusConfig.CUSTOM_HTML_TEMPLATE){
+            List<FileOutConfig> focList = new ArrayList<>();
+            // 自定义配置会被优先输出
+            focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_LIST_TEMPLATE + ".ftl") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                    // 去除前缀，首字母小写，例如SysUser转换后为user
+                    String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                    return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/list.html";
+                }
+            });
+            focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_ADD_TEMPLATE + ".ftl") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                    return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/add.html";
+                }
+            });
+            focList.add(new FileOutConfig(MybatisPlusConfig.CUSTOM_EDIT_TEMPLATE + ".ftl") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    String name =  StrUtil.lowerFirst(StrUtil.removePrefixIgnoreCase(tableInfo.getEntityName(),MybatisPlusConfig.PACKAGE_COMMON_NAME));
+                    return MybatisPlusConfig.CUSTOM_HTML_OUTPUT + name + "/edit.html";
+                }
+            });
+            cfg.setFileOutConfigList(focList);
+        }
         return cfg;
     }
 

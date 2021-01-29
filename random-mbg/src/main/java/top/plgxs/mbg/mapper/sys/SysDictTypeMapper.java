@@ -1,6 +1,6 @@
 package top.plgxs.mbg.mapper.sys;
 
-import top.plgxs.mbg.entity.sys.SysRole;
+import top.plgxs.mbg.entity.sys.SysDictType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -8,22 +8,22 @@ import java.util.List;
 
 /**
  * <p>
- * 角色 Mapper 接口
+ *  Mapper 接口
  * </p>
  *
  * @author Stranger。
  * @since 2021-01-29
  * @version 1.0
  */
-@Repository("sysRoleMapper")
-public interface SysRoleMapper extends BaseMapper<SysRole> {
+@Repository("sysDictTypeMapper")
+public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
 
     /**
      * 分页数据查询
-     * @param sysRole
+     * @param sysDictType
      * @return
      * @author Stranger。
      * @date 2021-01-29
      */
-    List<SysRole> selectSysRoleList(SysRole sysRole);
+    List<SysDictType> selectSysDictTypeList(SysDictType sysDictType);
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-        <th:block th:include="common/include :: header('角色列表')" />
+        <th:block th:include="common/include :: header('菜单列表')" />
 </head>
 <body>
 <div class="layuimini-container">
@@ -52,7 +52,7 @@
 
                 table.render({
                         elem: '#currentTableId',
-                        url: ctx + 'sysRole/pageList',
+                        url: ctx + 'sysMenu/pageList',
                         toolbar: '#toolbarDemo',
                         defaultToolbar: ['filter', 'exports', 'print', {
                                 title: '提示',
@@ -65,9 +65,14 @@
                         cols: [ [
                                 {type: "checkbox", width: 50},
                                 {field: 'id', width: 80, title: 'ID', sort: true},
-                                {field: 'roleName', width: 80, title: '角色名称', sort: true},
-                                {field: 'roleCode', width: 80, title: '角色代码', sort: true},
-                                {field: 'priority', width: 80, title: '优先级', sort: true},
+                                {field: 'parentId', width: 80, title: '父菜单ID', sort: true},
+                                {field: 'menuName', width: 80, title: '菜单名称', sort: true},
+                                {field: 'menuUrl', width: 80, title: '菜单url', sort: true},
+                                {field: 'menuAuth', width: 80, title: '权限控制', sort: true},
+                                {field: 'menuTarget', width: 80, title: '链接打开方式', sort: true},
+                                {field: 'menuIcon', width: 80, title: '菜单图标', sort: true},
+                                {field: 'menuType', width: 80, title: '菜单类型', sort: true},
+                                {field: 'sort', width: 80, title: '菜单排序', sort: true},
                                 {field: 'gmtCreate', width: 80, title: '创建时间', sort: true},
                                 {field: 'gmtModified', width: 80, title: '更新时间', sort: true},
                                 {field: 'status', width: 80, title: '启用状态', sort: true},
@@ -113,7 +118,7 @@
                                         maxmin:true,
                                         shadeClose: true,
                                         area: ['100%', '100%'],
-                                        content: ctx + 'sysRole/add',
+                                        content: ctx + 'sysMenu/add',
                                 });
                                 $(window).on("resize", function () {
                                         layer.full(index);
@@ -131,7 +136,7 @@
                                                 }
 
                                                 $.ajax({
-                                                        url: ctx + 'sysRole/batchDelete',
+                                                        url: ctx + 'sysMenu/batchDelete',
                                                         type: 'POST',
                                                         async: false,
                                                         data: JSON.stringify(ids),
@@ -173,7 +178,7 @@
                                         maxmin:true,
                                         shadeClose: true,
                                         area: ['100%', '100%'],
-                                        content: ctx + 'sysRole/edit/'+data.id,
+                                        content: ctx + 'sysMenu/edit/'+data.id,
                                 });
                                 $(window).on("resize", function () {
                                         layer.full(index);
@@ -183,7 +188,7 @@
                                 layer.confirm('真的删除行么', function (index) {
                                         layer.close(index);
                                         $.ajax({
-                                                url: ctx + 'sysRole/delete/'+data.id,
+                                                url: ctx + 'sysMenu/delete/'+data.id,
                                                 type: 'GET',
                                                 async: false,
                                                 contentType: 'application/json; charset=UTF-8',

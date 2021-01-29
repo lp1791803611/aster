@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('编辑角色')" />
+    <th:block th:include="common/include :: header('编辑')" />
     <style>
         body {
             background-color: #ffffff;
@@ -9,26 +9,33 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form" th:object="${sysRole}">
+<div class="layui-form layuimini-form" th:object="${sysDict}">
     <input name="id"  type="hidden"  th:field="*{id}" />
                  <div class="layui-form-item">
-                     <label class="layui-form-label required">角色名称</label>
+                     <label class="layui-form-label required">字典标签</label>
                      <div class="layui-input-block">
-                         <input type="text" name="roleName" lay-verify="required" lay-reqtext="角色名称不能为空" placeholder="请输入角色名称" th:field="*{roleName}" class="layui-input">
+                         <input type="text" name="dictLabel" lay-verify="required" lay-reqtext="字典标签不能为空" placeholder="请输入字典标签" th:field="*{dictLabel}" class="layui-input">
                      </div>
                  </div>
 
                  <div class="layui-form-item">
-                     <label class="layui-form-label required">角色代码</label>
+                     <label class="layui-form-label required">字典键值</label>
                      <div class="layui-input-block">
-                         <input type="text" name="roleCode" lay-verify="required" lay-reqtext="角色代码不能为空" placeholder="请输入角色代码" th:field="*{roleCode}" class="layui-input">
+                         <input type="text" name="dictValue" lay-verify="required" lay-reqtext="字典键值不能为空" placeholder="请输入字典键值" th:field="*{dictValue}" class="layui-input">
                      </div>
                  </div>
 
                  <div class="layui-form-item">
-                     <label class="layui-form-label required">优先级</label>
+                     <label class="layui-form-label required">字典类型编码</label>
                      <div class="layui-input-block">
-                         <input type="text" name="priority" lay-verify="required" lay-reqtext="优先级不能为空" placeholder="请输入优先级" th:field="*{priority}" class="layui-input">
+                         <input type="text" name="dictTypeCode" lay-verify="required" lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码" th:field="*{dictTypeCode}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">字典排序</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="sort" lay-verify="required" lay-reqtext="字典排序不能为空" placeholder="请输入字典排序" th:field="*{sort}" class="layui-input">
                      </div>
                  </div>
 
@@ -65,7 +72,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             $.ajax({
-                url: ctx + 'sysRole/update',
+                url: ctx + 'sysDict/update',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',

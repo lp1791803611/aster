@@ -14,18 +14,19 @@
         <result column="realname" property="realname" />
         <result column="id_number" property="idNumber" />
         <result column="head_url" property="headUrl" />
-        <result column="gmt_create" property="gmtCreate" />
         <result column="login_number" property="loginNumber" />
         <result column="last_login_time" property="lastLoginTime" />
-        <result column="gmt_modified" property="gmtModified" />
-        <result column="is_deleted" property="isDeleted" />
         <result column="mobile_verification_code" property="mobileVerificationCode" />
         <result column="email_verification_code" property="emailVerificationCode" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, mobile, email, nickname, gender, realname, id_number, head_url, gmt_create, login_number, last_login_time, gmt_modified, is_deleted, mobile_verification_code, email_verification_code
+        id, username, password, mobile, email, nickname, gender, realname, id_number, head_url, login_number, last_login_time, mobile_verification_code, email_verification_code, gmt_create, gmt_modified, status, is_deleted
     </sql>
 
     <select id="selectSysUserList" parameterType="top.plgxs.mbg.entity.sys.SysUser" resultType="top.plgxs.mbg.entity.sys.SysUser">
@@ -50,7 +51,7 @@
             <if test="nickname != null and nickname != ''">
                 and t.nickname = #{nickname}
             </if>
-            <if test="gender != null">
+            <if test="gender != null and gender != ''">
                 and t.gender = #{gender}
             </if>
             <if test="realname != null and realname != ''">
@@ -62,20 +63,11 @@
             <if test="headUrl != null and headUrl != ''">
                 and t.head_url = #{headUrl}
             </if>
-            <if test="gmtCreate != null">
-                and t.gmt_create = #{gmtCreate}
-            </if>
             <if test="loginNumber != null">
                 and t.login_number = #{loginNumber}
             </if>
             <if test="lastLoginTime != null">
                 and t.last_login_time = #{lastLoginTime}
-            </if>
-            <if test="gmtModified != null">
-                and t.gmt_modified = #{gmtModified}
-            </if>
-            <if test="isDeleted != null and isDeleted != ''">
-                and t.is_deleted = #{isDeleted}
             </if>
             <if test="mobileVerificationCode != null and mobileVerificationCode != ''">
                 and t.mobile_verification_code = #{mobileVerificationCode}
@@ -83,13 +75,17 @@
             <if test="emailVerificationCode != null and emailVerificationCode != ''">
                 and t.email_verification_code = #{emailVerificationCode}
             </if>
-    </select>
-
-    <select id="selectUserPage" resultType="java.util.HashMap">
-        select u.id,u.username,r.id,r.role_name
-        from t_sys_user u
-        left join t_sys_user_role ur on u.id = ur.user_id
-        left join t_sys_role r on ur.role_id = r.id
-        ${ew.customSqlSegment}
+            <if test="gmtCreate != null">
+                and t.gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and t.gmt_modified = #{gmtModified}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="isDeleted != null and isDeleted != ''">
+                and t.is_deleted = #{isDeleted}
+            </if>
     </select>
 </mapper>

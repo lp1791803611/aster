@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('新增角色')" />
+    <th:block th:include="common/include :: header('新增菜单')" />
     <style>
         body {
             background-color: #ffffff;
@@ -11,21 +11,51 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">角色名称</label>
+        <label class="layui-form-label required">父菜单ID</label>
         <div class="layui-input-block">
-            <input type="text" name="roleName" lay-verify="required" lay-reqtext="角色名称不能为空" placeholder="请输入角色名称" value="" class="layui-input">
+            <input type="text" name="parentId" lay-verify="required" lay-reqtext="父菜单ID不能为空" placeholder="请输入父菜单ID" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">角色代码</label>
+        <label class="layui-form-label required">菜单名称</label>
         <div class="layui-input-block">
-            <input type="text" name="roleCode" lay-verify="required" lay-reqtext="角色代码不能为空" placeholder="请输入角色代码" value="" class="layui-input">
+            <input type="text" name="menuName" lay-verify="required" lay-reqtext="菜单名称不能为空" placeholder="请输入菜单名称" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">优先级</label>
+        <label class="layui-form-label required">菜单url</label>
         <div class="layui-input-block">
-            <input type="text" name="priority" lay-verify="required" lay-reqtext="优先级不能为空" placeholder="请输入优先级" value="" class="layui-input">
+            <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">权限控制</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuAuth" lay-verify="required" lay-reqtext="权限控制不能为空" placeholder="请输入权限控制" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">链接打开方式</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuTarget" lay-verify="required" lay-reqtext="链接打开方式不能为空" placeholder="请输入链接打开方式" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单图标</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuIcon" lay-verify="required" lay-reqtext="菜单图标不能为空" placeholder="请输入菜单图标" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuType" lay-verify="required" lay-reqtext="菜单类型不能为空" placeholder="请输入菜单类型" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单排序</label>
+        <div class="layui-input-block">
+            <input type="text" name="sort" lay-verify="required" lay-reqtext="菜单排序不能为空" placeholder="请输入菜单排序" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -57,7 +87,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             $.ajax({
-                url: ctx + 'sysRole/insert',
+                url: ctx + 'sysMenu/insert',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',

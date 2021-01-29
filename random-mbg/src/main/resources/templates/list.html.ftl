@@ -1,5 +1,12 @@
-<div class="layuimini-container layuimini-page-anim">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+        <th:block th:include="common/include :: header('${table.comment!}列表')" />
+</head>
+<body>
+<div class="layuimini-container">
         <div class="layuimini-main">
+
                 <fieldset class="table-search-fieldset">
                         <legend>搜索信息</legend>
                         <div style="margin: 10px 10px 10px 10px">
@@ -8,7 +15,7 @@
                                                 <div class="layui-inline">
                                                         <label class="layui-form-label">查询条件</label>
                                                         <div class="layui-input-inline">
-                                                                <input type="text" name="name" autocomplete="off" class="layui-input" placeholder="请输入...">
+                                                                <input type="text" name="name" autocomplete="off" class="layui-input">
                                                         </div>
                                                 </div>
                                                 <div class="layui-inline">
@@ -35,17 +42,17 @@
 
         </div>
 </div>
+<th:block th:include="common/include :: footer" />
 
 <script>
-        layui.use(['form', 'table','miniPage','element'], function () {
+        layui.use(['form', 'table'], function () {
                 var $ = layui.jquery,
                         form = layui.form,
-                        table = layui.table,
-                        miniPage = layui.miniPage;
+                        table = layui.table;
 
                 table.render({
                         elem: '#currentTableId',
-                        url: '${table.entityPath}/pageList',
+                        url: ctx + '${table.entityPath}/pageList',
                         toolbar: '#toolbarDemo',
                         defaultToolbar: ['filter', 'exports', 'print', {
                                 title: '提示',
@@ -89,22 +96,18 @@
                 });
 
                 /**
-                 * toolbar事件监听
+                 * toolbar监听事件
                  */
                 table.on('toolbar(currentTableFilter)', function (obj) {
-                        if (obj.event === 'add') {   // 监听添加操作
-                                var content = miniPage.getHrefContent('${table.entityPath}/add');
-                                var openWH = miniPage.getOpenWidthHeight();
-
+                        if (obj.event === 'add') {  // 监听添加操作
                                 var index = layer.open({
                                         title: '添加',
-                                        type: 1,
+                                        type: 2,
                                         shade: 0.2,
                                         maxmin:true,
                                         shadeClose: true,
-                                        area: [openWH[0] + 'px', openWH[1] + 'px'],
-                                        offset: [openWH[2] + 'px', openWH[3] + 'px'],
-                                        content: content,
+                                        area: ['100%', '100%'],
+                                        content: ctx + '${table.entityPath}/add',
                                 });
                                 $(window).on("resize", function () {
                                         layer.full(index);
@@ -112,7 +115,6 @@
                         } else if (obj.event === 'delete') {  // 监听删除操作
                                 var checkStatus = table.checkStatus('currentTableId')
                                         , data = checkStatus.data;
-                                layer.alert(JSON.stringify(data));
                                 if(data != null && data.length>0){
                                         layer.confirm('真的删除行么', function (index) {
                                                 layer.close(index);
@@ -123,8 +125,8 @@
                                                 }
 
                                                 $.ajax({
-                                                        url: '${table.entityPath}/batchDelete',
-                                                        type: 'GET',
+                                                        url: ctx + '${table.entityPath}/batchDelete',
+                                                        type: 'POST',
                                                         async: false,
                                                         data: JSON.stringify(ids),
                                                         contentType: 'application/json; charset=UTF-8',
@@ -136,7 +138,7 @@
                                                         error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                                 layer.close(index);
                                                                 if(XMLHttpRequest.status==404){
-                                                                        window.location.href="404";
+                                                                        window.location.href = ctx + "/404";
                                                                 }else{
                                                                         layer.msg("服务器好像出了点问题！请稍后试试");
                                                                 }
@@ -146,31 +148,26 @@
                                 }else{
                                         layer.alert("请先选择行");
                                 }
-
                         }
                 });
 
                 //监听表格复选框选择
                 table.on('checkbox(currentTableFilter)', function (obj) {
-                        console.log(obj);
+                        console.log(obj)
                 });
 
                 table.on('tool(currentTableFilter)', function (obj) {
                         var data = obj.data;
                         if (obj.event === 'edit') {
 
-                                var content = miniPage.getHrefContent('${table.entityPath}/edit');
-                                var openWH = miniPage.getOpenWidthHeight();
-
                                 var index = layer.open({
                                         title: '编辑',
-                                        type: 1,
+                                        type: 2,
                                         shade: 0.2,
                                         maxmin:true,
                                         shadeClose: true,
-                                        area: [openWH[0] + 'px', openWH[1] + 'px'],
-                                        offset: [openWH[2] + 'px', openWH[3] + 'px'],
-                                        content: content,
+                                        area: ['100%', '100%'],
+                                        content: ctx + '${table.entityPath}/edit/'+data.id,
                                 });
                                 $(window).on("resize", function () {
                                         layer.full(index);
@@ -180,23 +177,23 @@
                                 layer.confirm('真的删除行么', function (index) {
                                         layer.close(index);
                                         $.ajax({
-                                            url: '${table.entityPath}/delete/'+obj.data.id,
-                                            type: 'GET',
-                                            async: false,
-                                            contentType: 'application/json; charset=UTF-8',
-                                            dataType: "json",
-                                            success: function (res) {
-                                                layer.msg(res.msg);
-                                                obj.del();
-                                            },
-                                            error:function (XMLHttpRequest, textStatus, errorThrown) {
-                                                layer.close(index);
-                                                if(XMLHttpRequest.status==404){
-                                                    window.location.href="404";
-                                                }else{
-                                                    layer.msg("服务器好像出了点问题！请稍后试试");
+                                                url: ctx + '${table.entityPath}/delete/'+data.id,
+                                                type: 'GET',
+                                                async: false,
+                                                contentType: 'application/json; charset=UTF-8',
+                                                dataType: "json",
+                                                success: function (res) {
+                                                        layer.msg(res.msg);
+                                                        obj.del();
+                                                },
+                                                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                                                        layer.close(index);
+                                                        if(XMLHttpRequest.status==404){
+                                                                window.location.href="404";
+                                                        }else{
+                                                                layer.msg("服务器好像出了点问题！请稍后试试");
+                                                        }
                                                 }
-                                            }
                                         });
                                 });
                         }

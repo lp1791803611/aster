@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-07
+ * @since 2021-01-29
  * @version 1.0
  */
 @Repository("sysMenuMapper")
@@ -23,7 +23,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param sysMenu
      * @return
      * @author Stranger。
-     * @date 2021-01-07
+     * @date 2021-01-29
      */
     List<SysMenu> selectSysMenuList(SysMenu sysMenu);
 }
