@@ -50,8 +50,10 @@ public class MybatisPlusConfig {
     public static final boolean STRATEGY_LOMBOK = true;
     // 需要生成的的表名，多个表名传数组。如果想生成整个库的，这里设为null即可
     public static final String[] STRATEGY_TABLE_NAMES = new String[] {
-            /*"t_sys_user", "t_sys_role", "t_sys_menu"*/
-            "t_sys_dict","t_sys_dict_type"
+//            "t_sys_user", "t_sys_role", "t_sys_menu",
+//            "t_sys_dict","t_sys_dict_type",
+//            "t_sys_position","t_sys_dept"
+            "t_sys_menu"
     };
     // 生成序列号
     public static final boolean STRATEGY_VERSION_UID = true;

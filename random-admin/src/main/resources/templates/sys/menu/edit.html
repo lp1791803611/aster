@@ -12,9 +12,16 @@
 <div class="layui-form layuimini-form" th:object="${sysMenu}">
     <input name="id"  type="hidden"  th:field="*{id}" />
                  <div class="layui-form-item">
-                     <label class="layui-form-label required">父菜单ID</label>
+                     <label class="layui-form-label required">菜单编码</label>
                      <div class="layui-input-block">
-                         <input type="text" name="parentId" lay-verify="required" lay-reqtext="父菜单ID不能为空" placeholder="请输入父菜单ID" th:field="*{parentId}" class="layui-input">
+                         <input type="text" name="code" lay-verify="required" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" th:field="*{code}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">父菜单编码</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="parentCode" lay-verify="required" lay-reqtext="父菜单编码不能为空" placeholder="请输入父菜单编码" th:field="*{parentCode}" class="layui-input">
                      </div>
                  </div>
 
@@ -57,6 +64,13 @@
                      <label class="layui-form-label required">菜单类型</label>
                      <div class="layui-input-block">
                          <input type="text" name="menuType" lay-verify="required" lay-reqtext="菜单类型不能为空" placeholder="请输入菜单类型" th:field="*{menuType}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">祖级列表</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="ancestors" lay-verify="required" lay-reqtext="祖级列表不能为空" placeholder="请输入祖级列表" th:field="*{ancestors}" class="layui-input">
                      </div>
                  </div>
 

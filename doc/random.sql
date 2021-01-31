@@ -2,18 +2,40 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50621
+Source Server Version : 50724
 Source Host           : localhost:3306
 Source Database       : random
 
 Target Server Type    : MYSQL
-Target Server Version : 50621
+Target Server Version : 50724
 File Encoding         : 65001
 
-Date: 2021-01-29 16:27:10
+Date: 2021-01-31 00:01:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_sys_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_dept`;
+CREATE TABLE `t_sys_dept` (
+  `id` varchar(32) NOT NULL COMMENT 'ID',
+  `parent_id` varchar(32) DEFAULT '0' COMMENT '父部门ID',
+  `ancestors` varchar(255) DEFAULT NULL COMMENT '祖级列表',
+  `dept_name` varchar(50) DEFAULT NULL COMMENT '部门名称',
+  `sort` int(4) DEFAULT NULL COMMENT '排序',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` varchar(1) DEFAULT '0' COMMENT '启用状态',
+  `is_deleted` varchar(1) DEFAULT '0' COMMENT '删除状态',
+  `remark` varchar(500) DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
+
+-- ----------------------------
+-- Records of t_sys_dept
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_sys_dict
@@ -63,13 +85,15 @@ CREATE TABLE `t_sys_dict_type` (
 DROP TABLE IF EXISTS `t_sys_menu`;
 CREATE TABLE `t_sys_menu` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
-  `parent_id` varchar(32) DEFAULT NULL COMMENT '父菜单ID',
+  `code` varchar(50) DEFAULT NULL COMMENT '菜单编码',
+  `parent_code` varchar(255) DEFAULT NULL COMMENT '父菜单编码',
   `menu_name` varchar(100) DEFAULT NULL COMMENT '菜单名称',
   `menu_url` varchar(255) DEFAULT NULL COMMENT '菜单url',
   `menu_auth` varchar(50) DEFAULT NULL COMMENT '权限控制',
   `menu_target` varchar(50) DEFAULT '_self' COMMENT '链接打开方式',
   `menu_icon` varchar(50) DEFAULT '' COMMENT '菜单图标',
   `menu_type` varchar(2) DEFAULT '0' COMMENT '菜单类型',
+  `ancestors` varchar(255) DEFAULT NULL COMMENT '祖级列表',
   `sort` int(4) DEFAULT NULL COMMENT '菜单排序',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -81,6 +105,29 @@ CREATE TABLE `t_sys_menu` (
 
 -- ----------------------------
 -- Records of t_sys_menu
+-- ----------------------------
+INSERT INTO `t_sys_menu` VALUES ('94f51875631211ebb3b600ff633443b0', 'user', 'system', '用户管理', 'sysUser/list', null, '_self', '', '1', '0,system', '1', '2021-01-30 23:49:19', '2021-01-30 23:55:26', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('b7bf613a631011ebb3b600ff633443b0', 'system', '0', '系统管理', '#', null, '_self', 'fa fa-address-book', '0', '0,', '1', '2021-01-30 23:38:00', '2021-01-30 23:54:44', '0', '0', null);
+
+-- ----------------------------
+-- Table structure for t_sys_position
+-- ----------------------------
+DROP TABLE IF EXISTS `t_sys_position`;
+CREATE TABLE `t_sys_position` (
+  `id` varchar(32) NOT NULL COMMENT 'ID',
+  `position_name` varchar(50) DEFAULT NULL COMMENT '职位名称',
+  `position_code` varchar(50) DEFAULT NULL COMMENT '职位编码',
+  `sort` int(4) DEFAULT NULL COMMENT '排序',
+  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` varchar(1) DEFAULT '0' COMMENT '启用状态',
+  `is_deleted` varchar(1) DEFAULT '0' COMMENT '删除状态',
+  `remark` varchar(500) DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职位';
+
+-- ----------------------------
+-- Records of t_sys_position
 -- ----------------------------
 
 -- ----------------------------

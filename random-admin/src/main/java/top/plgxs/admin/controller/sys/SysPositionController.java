@@ -7,17 +7,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import top.plgxs.admin.service.sys.SysMenuService;
+import top.plgxs.admin.service.sys.SysPositionService;
 import top.plgxs.common.api.ResultInfo;
 import top.plgxs.common.page.PageDataInfo;
-import top.plgxs.mbg.entity.sys.SysMenu;
+import top.plgxs.mbg.entity.sys.SysPosition;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 /**
  * <p>
- * 菜单 前端控制器
+ * 职位 前端控制器
  * </p>
  *
  * @author Stranger。
@@ -25,19 +25,19 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
-@RequestMapping("/sysMenu")
-public class SysMenuController {
+@RequestMapping("/sysPosition")
+public class SysPositionController {
     @Resource
-    private SysMenuService sysMenuService;
+    private SysPositionService sysPositionService;
 
     /**
-     * 菜单页面
+     * 职位页面
      * @author Stranger。
      * @since 2021-01-30
      */
     @GetMapping("/list")
     public String list(){
-        return "sys/menu/list";
+        return "sys/position/list";
     }
 
     /**
@@ -53,12 +53,12 @@ public class SysMenuController {
     @ResponseBody
     public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "searchParams", required = false) String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysPosition> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
         queryWrapper.orderByDesc("gmt_modified");
-        Page<SysMenu> page = new Page<>(pageNo, pageSize);
-        IPage<SysMenu> pageList = sysMenuService.page(page, queryWrapper);
-        return ResultInfo.success(new PageDataInfo<SysMenu>(pageList.getRecords(),pageList.getTotal()));
+        Page<SysPosition> page = new Page<>(pageNo, pageSize);
+        IPage<SysPosition> pageList = sysPositionService.page(page, queryWrapper);
+        return ResultInfo.success(new PageDataInfo<SysPosition>(pageList.getRecords(),pageList.getTotal()));
     }
 
     /**
@@ -68,20 +68,20 @@ public class SysMenuController {
      */
     @GetMapping("/add")
     public String add(){
-        return "sys/menu/add";
+        return "sys/position/add";
     }
 
     /**
      * 插入一条数据
-     * @param sysMenu
+     * @param sysPosition
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
      * @since 2021-01-30
      */
     @PostMapping("/insert")
     @ResponseBody
-    public ResultInfo<Object> insert(@RequestBody SysMenu sysMenu){
-        boolean result = sysMenuService.save(sysMenu);
+    public ResultInfo<Object> insert(@RequestBody SysPosition sysPosition){
+        boolean result = sysPositionService.save(sysPosition);
         if(result){
             return ResultInfo.success();
         }else{
@@ -96,25 +96,25 @@ public class SysMenuController {
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
-        SysMenu sysMenu = sysMenuService.getById(id);
-        model.addAttribute("sysMenu",sysMenu);
-        return "sys/menu/edit";
+        SysPosition sysPosition = sysPositionService.getById(id);
+        model.addAttribute("sysPosition",sysPosition);
+        return "sys/position/edit";
     }
 
     /**
      * 更新一条数据
-     * @param sysMenu
+     * @param sysPosition
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
      * @since 2021-01-30
      */
     @PostMapping("/update")
     @ResponseBody
-    public ResultInfo<Object> update(@RequestBody SysMenu sysMenu){
-        if(sysMenu == null || StringUtils.isBlank(sysMenu.getId())){
+    public ResultInfo<Object> update(@RequestBody SysPosition sysPosition){
+        if(sysPosition == null || StringUtils.isBlank(sysPosition.getId())){
             return ResultInfo.validateFailed();
         }
-        boolean result = sysMenuService.updateById(sysMenu);
+        boolean result = sysPositionService.updateById(sysPosition);
         if(result){
             return ResultInfo.success();
         }else{
@@ -135,7 +135,7 @@ public class SysMenuController {
         if(StringUtils.isBlank(id)){
             return ResultInfo.validateFailed();
         }
-        boolean result = sysMenuService.removeById(id);
+        boolean result = sysPositionService.removeById(id);
         if(result){
             return ResultInfo.success();
         }else{
@@ -152,7 +152,7 @@ public class SysMenuController {
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
-        boolean result = sysMenuService.removeByIds(ids);
+        boolean result = sysPositionService.removeByIds(ids);
         if(result){
             return ResultInfo.success("删除成功",null);
         }else{

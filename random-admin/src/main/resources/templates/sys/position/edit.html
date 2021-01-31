@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('编辑职位')" />
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form" th:object="${sysPosition}">
+    <input name="id"  type="hidden"  th:field="*{id}" />
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">职位名称</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="positionName" lay-verify="required" lay-reqtext="职位名称不能为空" placeholder="请输入职位名称" th:field="*{positionName}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">职位编码</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="positionCode" lay-verify="required" lay-reqtext="职位编码不能为空" placeholder="请输入职位编码" th:field="*{positionCode}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">排序</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="sort" lay-verify="required" lay-reqtext="排序不能为空" placeholder="请输入排序" th:field="*{sort}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item">
+                     <label class="layui-form-label required">启用状态</label>
+                     <div class="layui-input-block">
+                         <input type="text" name="status" lay-verify="required" lay-reqtext="启用状态不能为空" placeholder="请输入启用状态" th:field="*{status}" class="layui-input">
+                     </div>
+                 </div>
+
+                 <div class="layui-form-item layui-form-text">
+                     <label class="layui-form-label">备注信息</label>
+                     <div class="layui-input-block">
+                         <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
+                     </div>
+                 </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+</div>
+<th:block th:include="common/include :: footer" />
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            $.ajax({
+                url: ctx + 'sysPosition/update',
+                type: 'POST',
+                async: false,
+                contentType: 'application/json; charset=UTF-8',
+                dataType: "json",
+                data:JSON.stringify(data.field),
+                success: function (res) {
+                    var index = layer.alert(res.msg, {
+                        title: '提示信息'
+                    }, function () {
+                        // 关闭弹出层
+                        layer.close(index);
+
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    });
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index);
+                    if(XMLHttpRequest.status==404){
+                        window.location.href="404";
+                    }else{
+                        layer.msg("服务器好像出了点问题！请稍后试试");
+                    }
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

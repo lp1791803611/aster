@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 菜单
+ * 部门
  * </p>
  *
  * @author Stranger。
@@ -23,9 +23,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_sys_menu")
-@ApiModel(value="SysMenu对象", description="菜单")
-public class SysMenu extends Model<SysMenu> {
+@TableName("t_sys_dept")
+@ApiModel(value="SysDept对象", description="部门")
+public class SysDept extends Model<SysDept> {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,43 +33,19 @@ public class SysMenu extends Model<SysMenu> {
     @TableId("id")
     private String id;
 
-    @ApiModelProperty(value = "菜单编码")
-    @TableField("code")
-    private String code;
-
-    @ApiModelProperty(value = "父菜单编码")
-    @TableField("parent_code")
-    private String parentCode;
-
-    @ApiModelProperty(value = "菜单名称")
-    @TableField("menu_name")
-    private String menuName;
-
-    @ApiModelProperty(value = "菜单url")
-    @TableField("menu_url")
-    private String menuUrl;
-
-    @ApiModelProperty(value = "权限控制")
-    @TableField("menu_auth")
-    private String menuAuth;
-
-    @ApiModelProperty(value = "链接打开方式")
-    @TableField("menu_target")
-    private String menuTarget;
-
-    @ApiModelProperty(value = "菜单图标")
-    @TableField("menu_icon")
-    private String menuIcon;
-
-    @ApiModelProperty(value = "菜单类型")
-    @TableField("menu_type")
-    private String menuType;
+    @ApiModelProperty(value = "父部门ID")
+    @TableField("parent_id")
+    private String parentId;
 
     @ApiModelProperty(value = "祖级列表")
     @TableField("ancestors")
     private String ancestors;
 
-    @ApiModelProperty(value = "菜单排序")
+    @ApiModelProperty(value = "部门名称")
+    @TableField("dept_name")
+    private String deptName;
+
+    @ApiModelProperty(value = "排序")
     @TableField("sort")
     private Integer sort;
 

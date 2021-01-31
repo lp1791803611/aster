@@ -5,13 +5,15 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysMenu">
         <id column="id" property="id" />
-        <result column="parent_id" property="parentId" />
+        <result column="code" property="code" />
+        <result column="parent_code" property="parentCode" />
         <result column="menu_name" property="menuName" />
         <result column="menu_url" property="menuUrl" />
         <result column="menu_auth" property="menuAuth" />
         <result column="menu_target" property="menuTarget" />
         <result column="menu_icon" property="menuIcon" />
         <result column="menu_type" property="menuType" />
+        <result column="ancestors" property="ancestors" />
         <result column="sort" property="sort" />
         <result column="gmt_create" property="gmtCreate" />
         <result column="gmt_modified" property="gmtModified" />
@@ -22,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, menu_name, menu_url, menu_auth, menu_target, menu_icon, menu_type, sort, gmt_create, gmt_modified, status, is_deleted, remark
+        id, code, parent_code, menu_name, menu_url, menu_auth, menu_target, menu_icon, menu_type, ancestors, sort, gmt_create, gmt_modified, status, is_deleted, remark
     </sql>
 
     <select id="selectSysMenuList" parameterType="top.plgxs.mbg.entity.sys.SysMenu" resultType="top.plgxs.mbg.entity.sys.SysMenu">
@@ -32,8 +34,11 @@
             <if test="id != null and id != ''">
                 and t.id = #{id}
             </if>
-            <if test="parentId != null and parentId != ''">
-                and t.parent_id = #{parentId}
+            <if test="code != null and code != ''">
+                and t.code = #{code}
+            </if>
+            <if test="parentCode != null and parentCode != ''">
+                and t.parent_code = #{parentCode}
             </if>
             <if test="menuName != null and menuName != ''">
                 and t.menu_name = #{menuName}
@@ -52,6 +57,9 @@
             </if>
             <if test="menuType != null and menuType != ''">
                 and t.menu_type = #{menuType}
+            </if>
+            <if test="ancestors != null and ancestors != ''">
+                and t.ancestors = #{ancestors}
             </if>
             <if test="sort != null">
                 and t.sort = #{sort}
