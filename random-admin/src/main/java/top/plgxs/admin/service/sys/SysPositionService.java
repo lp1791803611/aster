@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-01
  * @version 1.0
  */
 public interface SysPositionService extends IService<SysPosition> {
@@ -19,7 +19,7 @@ public interface SysPositionService extends IService<SysPosition> {
      * 数据查询列表
      * @return
      * @author Stranger。
-     * @date 2021-01-30
+     * @date 2021-02-01
      */
     List<SysPosition> getSysPositionList();
 }

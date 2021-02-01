@@ -12,7 +12,8 @@
 <div class="layui-form layuimini-form">
 <#list table.fields as field>
     <#if field.propertyName != 'id' && field.propertyName != 'gmtCreate'
-        && field.propertyName != 'gmtModified' && field.propertyName != 'isDeleted'>
+        && field.propertyName != 'gmtModified' && field.propertyName != 'isDeleted'
+        && field.propertyName != 'status'>
         <#if field.propertyName == 'remark'>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注信息</label>

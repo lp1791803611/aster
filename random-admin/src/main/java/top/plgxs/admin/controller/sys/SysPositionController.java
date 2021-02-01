@@ -21,7 +21,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-01
  * @version 1.0
  */
 @Controller
@@ -33,7 +33,7 @@ public class SysPositionController {
     /**
      * 职位页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @GetMapping("/list")
     public String list(){
@@ -47,7 +47,7 @@ public class SysPositionController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @GetMapping("/pageList")
     @ResponseBody
@@ -64,7 +64,7 @@ public class SysPositionController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @GetMapping("/add")
     public String add(){
@@ -76,7 +76,7 @@ public class SysPositionController {
      * @param sysPosition
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @PostMapping("/insert")
     @ResponseBody
@@ -92,7 +92,7 @@ public class SysPositionController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -106,7 +106,7 @@ public class SysPositionController {
      * @param sysPosition
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @PostMapping("/update")
     @ResponseBody
@@ -127,7 +127,7 @@ public class SysPositionController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -147,7 +147,7 @@ public class SysPositionController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-01
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -157,6 +157,27 @@ public class SysPositionController {
             return ResultInfo.success("删除成功",null);
         }else{
             return ResultInfo.failed("删除失败");
+        }
+    }
+
+    /**
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
+     * @author Stranger。
+     * @since 2021-02-01
+     */
+    @PostMapping("/switchStatus")
+    @ResponseBody
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        SysPosition sysPosition = new SysPosition();
+        sysPosition.setId(id);
+        sysPosition.setStatus(status);
+        boolean result = sysPositionService.updateById(sysPosition);
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
         }
     }
 }

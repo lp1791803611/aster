@@ -44,6 +44,14 @@
 </div>
 <th:block th:include="common/include :: footer" />
 
+<#list table.fields as field>
+    <#if field.propertyName == 'status'>
+            <script type="text/html" id="statusTpl">
+                    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" {{d.status=='1'?'':'checked'}} />
+            </script>
+    </#if>
+</#list>
+
 <script>
         layui.use(['form', 'table'], function () {
                 var $ = layui.jquery,
@@ -63,11 +71,18 @@
                                 return res.data;
                         },
                         cols: [ [
-                                {type: "checkbox", width: 50},
+                                {type: "checkbox"},
                                 <#list table.fields as field>
-                                {field: '${field.propertyName}', width: 80, title: '${field.comment}', sort: true},
+                                  <#if field.propertyName != 'id' && field.propertyName != 'gmtCreate'
+                                        && field.propertyName != 'isDeleted' && field.propertyName != 'remark'>
+                                    <#if field.propertyName == 'status'>
+                                {field: 'status', title: '启用状态', templet: '#statusTpl'},
+                                    <#else>
+                                {field: '${field.propertyName}', title: '${field.comment}', sort: true},
+                                    </#if>
+                                  </#if>
                                 </#list>
-                                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                                {title: '操作', toolbar: '#currentTableBar', align: "center"}
                         ] ],
                         limits: [10, 15, 20, 25, 50, 100],
                         limit: 15,
@@ -189,7 +204,7 @@
                                                 error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                         layer.close(index);
                                                         if(XMLHttpRequest.status==404){
-                                                                window.location.href="404";
+                                                                window.location.href = ctx + "404";
                                                         }else{
                                                                 layer.msg("服务器好像出了点问题！请稍后试试");
                                                         }
@@ -199,5 +214,32 @@
                         }
                 });
 
+                <#list table.fields as field>
+                <#if field.propertyName == 'status'>
+                form.on('switch(status)', function (obj) {
+                        var checked = this.checked ? "0" : "1";
+                        $.ajax({
+                                url: ctx + '${table.entityPath}/switchStatus',
+                                type: 'POST',
+                                async: false,
+                                data: {
+                                        "id" : obj.value,
+                                        "status" : checked
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                        layer.msg(res.msg);
+                                },
+                                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                                        if(XMLHttpRequest.status==404){
+                                                window.location.href = ctx + "404";
+                                        }else{
+                                                layer.msg("服务器好像出了点问题！请稍后试试");
+                                        }
+                                }
+                        });
+                });
+                </#if>
+                </#list>
         });
 </script>

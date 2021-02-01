@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-01
  * @version 1.0
  */
 @Repository("sysPositionMapper")
@@ -23,7 +23,7 @@ public interface SysPositionMapper extends BaseMapper<SysPosition> {
      * @param sysPosition
      * @return
      * @author Stranger。
-     * @date 2021-01-30
+     * @date 2021-02-01
      */
     List<SysPosition> selectSysPositionList(SysPosition sysPosition);
 }

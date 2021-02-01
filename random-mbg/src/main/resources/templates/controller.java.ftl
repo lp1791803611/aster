@@ -177,5 +177,26 @@ public class ${table.controllerName} {
             return ResultInfo.failed("删除失败");
         }
     }
+
+    /**
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
+     * @author ${author}
+     * @since ${date}
+     */
+    @PostMapping("/switchStatus")
+    @ResponseBody
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        ${entity} ${entity?uncap_first} = new ${entity}();
+        ${entity?uncap_first}.setId(id);
+        ${entity?uncap_first}.setStatus(status);
+        boolean result = ${table.serviceName ? uncap_first}.updateById(${entity?uncap_first});
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
+        }
+    }
 }
 </#if>
