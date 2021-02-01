@@ -148,7 +148,7 @@
                                                         dataType: "json",
                                                         success: function (res) {
                                                                 layer.msg(res.msg);
-                                                                obj.del();
+                                                                table.reload('currentTableId');
                                                         },
                                                         error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                                 layer.close(index);
@@ -168,7 +168,7 @@
 
                 //监听表格复选框选择
                 table.on('checkbox(currentTableFilter)', function (obj) {
-                        console.log(obj)
+                        // console.log(obj)
                 });
 
                 table.on('tool(currentTableFilter)', function (obj) {
@@ -229,6 +229,7 @@
                                 dataType: "json",
                                 success: function (res) {
                                         layer.msg(res.msg);
+                                        table.reload('currentTableId');
                                 },
                                 error:function (XMLHttpRequest, textStatus, errorThrown) {
                                         if(XMLHttpRequest.status==404){

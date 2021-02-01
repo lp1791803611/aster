@@ -21,6 +21,14 @@
                          <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
                      </div>
                  </div>
+             <#elseif field.propertyName == 'status'>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                               th:checked="${r'$'}{${entity?uncap_first}.status == '1' ? false : true}">
+                    </div>
+                </div>
              <#else>
                  <div class="layui-form-item">
                      <label class="layui-form-label required">${field.comment}</label>
@@ -50,20 +58,26 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            <#list table.fields as field>
+                <#if field.propertyName == 'status'>
+            data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
+                </#if>
+            </#list>
             $.ajax({
                 url: ctx + '${table.entityPath}/update',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',
                 dataType: "json",
-                data:JSON.stringify(data.field),
+                data: JSON.stringify(data.field),
                 success: function (res) {
                     var index = layer.alert(res.msg, {
                         title: '提示信息'
                     }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
                         // 关闭弹出层
                         layer.close(index);
-
                         var iframeIndex = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(iframeIndex);
                     });

@@ -1,6 +1,7 @@
 package top.plgxs.admin.controller.sys;
 
 import javax.annotation.Resource;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,6 +14,7 @@ import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysPosition;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -81,6 +83,7 @@ public class SysPositionController {
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysPosition sysPosition){
+        sysPosition.setGmtCreate(LocalDateTime.now());
         boolean result = sysPositionService.save(sysPosition);
         if(result){
             return ResultInfo.success();

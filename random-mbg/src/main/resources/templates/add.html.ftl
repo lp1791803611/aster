@@ -58,9 +58,10 @@
                     var index = layer.alert(res.msg, {
                         title: '提示信息'
                     }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
                         // 关闭弹出层
                         layer.close(index);
-
                         var iframeIndex = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(iframeIndex);
                     });

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import ${superControllerClassPackage};
 </#if>
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -99,6 +100,7 @@ public class ${table.controllerName} {
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody ${entity} ${entity?uncap_first}){
+        ${entity?uncap_first}.setGmtCreate(LocalDateTime.now());
         boolean result = ${table.serviceName ? uncap_first}.save(${entity?uncap_first});
         if(result){
             return ResultInfo.success();
