@@ -1,5 +1,7 @@
 package top.plgxs.admin.service.impl.sys;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import top.plgxs.common.domain.TreeTable;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import top.plgxs.mbg.mapper.sys.SysMenuMapper;
 import top.plgxs.admin.service.sys.SysMenuService;
@@ -15,7 +17,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-02
  * @version 1.0
  */
 @Service
@@ -26,5 +28,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenu> getSysMenuList() {
         return sysMenuMapper.selectSysMenuList(null);
+    }
+
+    @Override
+    public List<TreeTable> treeTableList(QueryWrapper<SysMenu> queryWrapper) {
+        return null;
     }
 }

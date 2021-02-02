@@ -229,7 +229,6 @@
                                 dataType: "json",
                                 success: function (res) {
                                         layer.msg(res.msg);
-                                        table.reload('currentTableId');
                                 },
                                 error:function (XMLHttpRequest, textStatus, errorThrown) {
                                         if(XMLHttpRequest.status==404){
