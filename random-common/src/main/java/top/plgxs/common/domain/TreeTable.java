@@ -11,5 +11,44 @@ import lombok.Data;
  */
 @Data
 public class TreeTable {
+    /**
+     * 编码
+     */
+    private String code;
+    /**
+     * 父编码
+     */
+    private String parentCode;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * url
+     */
+    private String url;
+    /**
+     * 图标
+     */
+    private String icon;
+    /**
+     * 权限标识
+     */
+    private String auth;
+    /**
+     * 状态
+     */
+    private String status;
+    /**
+     * 类型
+     */
+    private String type;
 
+    public TreeTable(){
+        super();
+    }
 }
