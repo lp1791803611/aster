@@ -94,12 +94,14 @@ public class SysMenuController {
 
     /**
      * 编辑页面
-     * @author Stranger。
-     * @since 2021-02-02
+     * @author Strangers。
+     * @since 2021/2/2 
      */
-    @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable("id") String id){
-        SysMenu sysMenu = sysMenuService.getById(id);
+    @GetMapping("/edit/{code}")
+    public String edit(Model model, @PathVariable("code") String code){
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        SysMenu sysMenu = sysMenuService.getOne(queryWrapper);
         model.addAttribute("sysMenu",sysMenu);
         return "sys/menu/edit";
     }
@@ -127,18 +129,20 @@ public class SysMenuController {
 
     /**
      * 逻辑删除一条数据
-     * @param id 主键
+     * @param code 编码
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
      * @since 2021-02-02
      */
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/{code}")
     @ResponseBody
-    public ResultInfo<Object> delete(@PathVariable("id") String id){
-        if(StringUtils.isBlank(id)){
+    public ResultInfo<Object> delete(@PathVariable("code") String code){
+        if(StringUtils.isBlank(code)){
             return ResultInfo.validateFailed();
         }
-        boolean result = sysMenuService.removeById(id);
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        boolean result = sysMenuService.remove(queryWrapper);
         if(result){
             return ResultInfo.success();
         }else{
@@ -148,14 +152,16 @@ public class SysMenuController {
 
     /**
      * 批量删除
-     * @param ids id数组
+     * @param codes code数组
      * @author Stranger。
      * @since 2021-02-02
      */
     @PostMapping("/batchDelete")
     @ResponseBody
-    public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
-        boolean result = sysMenuService.removeByIds(ids);
+    public ResultInfo<Object> batchDelete(@RequestBody List<String> codes){
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("code", codes);
+        boolean result = sysMenuService.remove(queryWrapper);
         if(result){
             return ResultInfo.success("删除成功",null);
         }else{
@@ -165,18 +171,19 @@ public class SysMenuController {
 
     /**
      * 切换状态
-     * @param id 主键
+     * @param code 编码
      * @param status 状态
      * @author Stranger。
      * @since 2021-02-02
      */
     @PostMapping("/switchStatus")
     @ResponseBody
-    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+    public ResultInfo<String> switchStatus(@RequestParam(name="code") String code, @RequestParam(name = "status") String status){
         SysMenu sysMenu = new SysMenu();
-        sysMenu.setId(id);
         sysMenu.setStatus(status);
-        boolean result = sysMenuService.updateById(sysMenu);
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        boolean result = sysMenuService.update(sysMenu, queryWrapper);
         if(result){
             return ResultInfo.success("切换成功",null);
         }else{

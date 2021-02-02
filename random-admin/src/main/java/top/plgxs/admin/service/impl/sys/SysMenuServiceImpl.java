@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,23 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<TreeTable> treeTableList(QueryWrapper<SysMenu> queryWrapper) {
-        return null;
+        List<TreeTable> treeTables = new ArrayList<>();
+        List<SysMenu> menus = sysMenuMapper.selectList(queryWrapper);
+        if(menus != null && menus.size() > 0){
+            for(int i = 0, len = menus.size(); i < len; i++) {
+                TreeTable table = new TreeTable();
+                table.setCode(menus.get(i).getCode());
+                table.setParentCode(menus.get(i).getParentCode());
+                table.setName(menus.get(i).getMenuName());
+                table.setUrl(menus.get(i).getMenuUrl());
+                table.setAuth(menus.get(i).getMenuAuth());
+                table.setIcon(menus.get(i).getMenuIcon());
+                table.setStatus(menus.get(i).getStatus());
+                table.setType(menus.get(i).getMenuType());
+                table.setSort(menus.get(i).getSort());
+                treeTables.add(table);
+            }
+        }
+        return treeTables;
     }
 }

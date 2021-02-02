@@ -7,25 +7,6 @@
 <div class="layuimini-container">
         <div class="layuimini-main">
 
-                <fieldset class="table-search-fieldset">
-                        <legend>搜索信息</legend>
-                        <div style="margin: 10px 10px 10px 10px">
-                                <form class="layui-form layui-form-pane" action="">
-                                        <div class="layui-form-item">
-                                                <div class="layui-inline">
-                                                        <label class="layui-form-label">查询条件</label>
-                                                        <div class="layui-input-inline">
-                                                                <input type="text" name="menuName" autocomplete="off" class="layui-input">
-                                                        </div>
-                                                </div>
-                                                <div class="layui-inline">
-                                                        <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
-                                                </div>
-                                        </div>
-                                </form>
-                        </div>
-                </fieldset>
-
                 <script type="text/html" id="toolbarDemo">
                         <div class="layui-btn-container">
                                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
@@ -70,18 +51,12 @@
                         toolbar: '#toolbarDemo',
                         cols: [ [
                                 {type: "checkbox"},
-                                {field: 'menuName', title: '菜单名称', templet: function (d) {
-                                                //if (d.menuIcon == null || d.menuIcon == '') {
-                                                return d.menuName;
-                                                //} else {
-                                                //        return '<i class="' + d.menuIcon + '"></i> <span>' + d.menuName + '</span>';
-                                                //}
-                                        }},
-                                {field: 'code', title: '菜单编码', sort: true},
-                                {field: 'menuUrl', title: '菜单url', sort: true},
-                                {field: 'menuAuth', title: '权限控制', sort: true},
-                                {field: 'menuType', title: '菜单类型', templet: function (d) {
-                                                if (d.menuType == '1') {
+                                {field: 'name', title: '菜单名称'},
+                                {field: 'code', title: '菜单编码'},
+                                {field: 'url', title: '菜单url'},
+                                {field: 'auth', title: '权限控制'},
+                                {field: 'type', title: '菜单类型', templet: function (d) {
+                                                if (d.type == '1') {
                                                         return '<span class="layui-badge layui-bg-gray">按钮</span>';
                                                 }
                                                 if (d.parentCode == '-1') {
@@ -97,24 +72,6 @@
                         done: function () {
                                 layer.closeAll('loading');
                         }
-                });
-
-                // 监听搜索操作
-                form.on('submit(data-search-btn)', function (data) {
-                        console.log(data.field);
-                        var result = JSON.stringify(data.field);
-                        /*layer.alert(result, {
-                                title: '最终的搜索信息'
-                        });*/
-
-                        //执行搜索重载
-                        table.reload('currentTableId', {
-                                where: {
-                                        searchParams: result
-                                }
-                        }, 'data');
-
-                        return false;
                 });
 
                 /**
@@ -141,21 +98,21 @@
                                         layer.confirm('真的删除行么', function (index) {
                                                 layer.close(index);
 
-                                                var ids = [];
+                                                var codes = [];
                                                 for(var i=0; i < data.length; i++){
-                                                        ids[i] = data[i].id;
+                                                    codes[i] = data[i].code;
                                                 }
 
                                                 $.ajax({
                                                         url: ctx + 'sysMenu/batchDelete',
                                                         type: 'POST',
                                                         async: false,
-                                                        data: JSON.stringify(ids),
+                                                        data: JSON.stringify(codes),
                                                         contentType: 'application/json; charset=UTF-8',
                                                         dataType: "json",
                                                         success: function (res) {
                                                                 layer.msg(res.msg);
-                                                                table.reload('currentTableId');
+                                                                window.location.reload();
                                                         },
                                                         error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                                 layer.close(index);
@@ -193,7 +150,7 @@
                                         maxmin:true,
                                         shadeClose: true,
                                         area: ['100%', '100%'],
-                                        content: ctx + 'sysMenu/edit/'+data.id,
+                                        content: ctx + 'sysMenu/edit/'+data.code,
                                 });
                                 $(window).on("resize", function () {
                                         layer.full(index);
@@ -203,7 +160,7 @@
                                 layer.confirm('真的删除行么', function (index) {
                                         layer.close(index);
                                         $.ajax({
-                                                url: ctx + 'sysMenu/delete/'+data.id,
+                                                url: ctx + 'sysMenu/delete/'+data.code,
                                                 type: 'GET',
                                                 async: false,
                                                 contentType: 'application/json; charset=UTF-8',
@@ -232,7 +189,7 @@
                                 type: 'POST',
                                 async: false,
                                 data: {
-                                        "id" : obj.value,
+                                        "code" : obj.value,
                                         "status" : checked
                                 },
                                 dataType: "json",
