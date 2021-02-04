@@ -4,7 +4,7 @@
   "count": 19,
   "data": [
     {
-      "authorityId": "1a",
+      "authorityId": 1,
       "authorityName": "系统管理",
       "orderNumber": 1,
       "menuUrl": null,

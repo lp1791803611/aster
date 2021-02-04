@@ -49,7 +49,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单图标</label>
         <div class="layui-input-block">
-            <input type="text" name="menuIcon" lay-verify="required" lay-reqtext="菜单图标不能为空" placeholder="请输入菜单图标" value="" class="layui-input">
+            <input type="text" name="menuIcon" id="menuIcon" lay-verify="required" lay-reqtext="菜单图标不能为空" placeholder="请输入菜单图标" lay-filter="iconPicker" class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -79,10 +79,33 @@
 <th:block th:include="common/include :: footer" />
 
 <script>
-    layui.use(['form'], function () {
-        var form = layui.form,
+    layui.use(['iconPicker', 'form', 'layer'], function () {
+        var iconPicker = layui.iconPicker,
+            form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        // 初始化图标选择
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#menuIcon',
+            type: 'fontClass',
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                console.log(d);
+            }
+        });
+        iconPicker.checkIcon('iconPicker', 'layui-icon-star-fill');
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
