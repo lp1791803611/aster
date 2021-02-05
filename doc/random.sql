@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50724
+Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : random
 
 Target Server Type    : MYSQL
-Target Server Version : 50724
+Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2021-01-31 00:01:17
+Date: 2021-02-05 16:39:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,6 +58,8 @@ CREATE TABLE `t_sys_dict` (
 -- ----------------------------
 -- Records of t_sys_dict
 -- ----------------------------
+INSERT INTO `t_sys_dict` VALUES ('3d6f426b675b11eb9b7274e6e24360ef', '按钮', '1', 'MENU_TYPE', '2', '2021-02-05 10:39:08', '2021-02-05 10:39:48', '0', '0', '菜单类型-按钮');
+INSERT INTO `t_sys_dict` VALUES ('988f5005675a11eb9b7274e6e24360ef', '菜单', '0', 'MENU_TYPE', '1', '2021-02-05 10:38:33', '2021-02-05 10:39:55', '0', '0', '菜单类型-菜单');
 
 -- ----------------------------
 -- Table structure for t_sys_dict_type
@@ -78,6 +80,7 @@ CREATE TABLE `t_sys_dict_type` (
 -- ----------------------------
 -- Records of t_sys_dict_type
 -- ----------------------------
+INSERT INTO `t_sys_dict_type` VALUES ('66f8a864675a11eb9b7274e6e24360ef', '菜单类型', 'MENU_TYPE', '2021-02-05 10:33:56', '2021-02-05 10:33:56', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for t_sys_menu
@@ -106,8 +109,8 @@ CREATE TABLE `t_sys_menu` (
 -- ----------------------------
 -- Records of t_sys_menu
 -- ----------------------------
-INSERT INTO `t_sys_menu` VALUES ('94f51875631211ebb3b600ff633443b0', 'user', 'system', '用户管理', 'sysUser/list', null, '_self', '', '1', '0,system', '1', '2021-01-30 23:49:19', '2021-01-30 23:55:26', '0', '0', null);
-INSERT INTO `t_sys_menu` VALUES ('b7bf613a631011ebb3b600ff633443b0', 'system', '0', '系统管理', '#', null, '_self', 'fa fa-address-book', '0', '0,', '1', '2021-01-30 23:38:00', '2021-01-30 23:54:44', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('94f51875631211ebb3b600ff633443b0', 'user', 'system', '用户管理', 'sysUser/list', null, '_self', '', '0', '0,system', '2', '2021-01-30 23:49:19', '2021-02-02 16:15:04', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('b7bf613a631011ebb3b600ff633443b0', 'system', '-1', '系统管理', '#', null, '_self', 'fa fa-address-book', '0', '0,', '1', '2021-01-30 23:38:00', '2021-02-02 10:14:58', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for t_sys_position
@@ -129,6 +132,10 @@ CREATE TABLE `t_sys_position` (
 -- ----------------------------
 -- Records of t_sys_position
 -- ----------------------------
+INSERT INTO `t_sys_position` VALUES ('1356149090910617601', '董事长', 'chairman', '1', '2021-02-01 15:06:01', '2021-02-02 09:02:30', '0', '0', '');
+INSERT INTO `t_sys_position` VALUES ('1356405221725736961', 'CTO', 'cto', '2', '2021-02-02 08:53:00', '2021-02-02 08:54:23', '0', '0', '');
+INSERT INTO `t_sys_position` VALUES ('1356405705857470465', '项目经理', 'pm', '3', '2021-02-02 08:54:56', '2021-02-02 09:02:30', '0', '0', '');
+INSERT INTO `t_sys_position` VALUES ('1356407538382442498', '码农', 'programmer', '4', '2021-02-02 09:02:13', '2021-02-02 09:02:37', '0', '0', '');
 
 -- ----------------------------
 -- Table structure for t_sys_role
