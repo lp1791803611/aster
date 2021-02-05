@@ -22,6 +22,14 @@
     <script th:src="@{/lib/layui-v2.5.5/layui.js}" src="../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script th:src="@{/js/lay-config.js?v=2.0.0}" src="../static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 </div>
+
+<!-- ztree树插件 -->
+<div th:fragment="ztree-css">
+    <link th:href="@{/js/lay-module/zTree/css/zTreeStyle/zTreeStyle.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="ztree-js">
+    <script th:src="@{/js/lay-module/zTree/zTree.js}"></script>
+</div>
 </body>
 </html>
 

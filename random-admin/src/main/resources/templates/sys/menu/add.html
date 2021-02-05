@@ -23,9 +23,15 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">父菜单编码</label>
+        <label class="layui-form-label required">上级菜单</label>
         <div class="layui-input-block">
             <input type="text" name="parentCode" lay-verify="required" lay-reqtext="父菜单编码不能为空" placeholder="请输入父菜单编码" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单类型</label>
+        <div class="layui-input-block" id="menuType">
+            <input type="radio" name="menuType" value="" title="无" disabled="disabled">
         </div>
     </div>
     <div class="layui-form-item">
@@ -35,33 +41,30 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">权限控制</label>
+        <label class="layui-form-label">权限控制</label>
         <div class="layui-input-block">
-            <input type="text" name="menuAuth" lay-verify="required" lay-reqtext="权限控制不能为空" placeholder="请输入权限控制" value="" class="layui-input">
+            <input type="text" name="menuAuth" placeholder="请输入权限控制" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">链接打开方式</label>
+        <label class="layui-form-label">链接打开方式</label>
         <div class="layui-input-block">
-            <input type="text" name="menuTarget" lay-verify="required" lay-reqtext="链接打开方式不能为空" placeholder="请输入链接打开方式" value="" class="layui-input">
+            <select name="menuTarget" lay-filter="menuTarget">
+                <option value="_self">页签</option>
+                <option value="_blank">新窗口</option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">菜单图标</label>
+        <label class="layui-form-label">菜单图标</label>
         <div class="layui-input-block">
-            <input type="text" name="menuIcon" id="menuIcon" lay-verify="required" lay-reqtext="菜单图标不能为空" placeholder="请输入菜单图标" lay-filter="iconPicker" class="layui-input"/>
+            <input type="text" name="menuIcon" id="menuIcon" lay-filter="iconPicker" class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">菜单类型</label>
+        <label class="layui-form-label">菜单排序</label>
         <div class="layui-input-block">
-            <input type="text" name="menuType" lay-verify="required" lay-reqtext="菜单类型不能为空" placeholder="请输入菜单类型" value="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">菜单排序</label>
-        <div class="layui-input-block">
-            <input type="text" name="sort" lay-verify="required" lay-reqtext="菜单排序不能为空" placeholder="请输入菜单排序" value="" class="layui-input">
+            <input type="text" name="sort" lay-verify="required|number" placeholder="请输入菜单排序" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -77,8 +80,13 @@
     </div>
 </div>
 <th:block th:include="common/include :: footer" />
-
 <script>
+    // 用于从弹出层获取父菜单信息
+    var menuInfoDlg = {
+        parentCode:"",
+        parentName:""
+    };
+
     layui.use(['iconPicker', 'form', 'layer'], function () {
         var iconPicker = layui.iconPicker,
             form = layui.form,
@@ -107,9 +115,30 @@
         });
         iconPicker.checkIcon('iconPicker', 'layui-icon-star-fill');
 
+        // 初始化菜单类型
+        $.ajax({
+            url: ctx + 'sysDict/listDictsByCode',
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            data: {code : "MENU_TYPE"},
+            success: function (res) {
+                if(res.data.length > 0){
+                    $("#menuType").html('');
+                    for(var i=0; i<res.data.length; i++){
+                        var name = res.data[i].dictLabel;
+                        var value = res.data[i].dictValue;
+                        $("#menuType").append('<input type="radio" name="menuType" value="' + value + '" title="' + name + '">');
+                    }
+                    form.render();
+                }
+            }
+        });
+
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            $.ajax({
+            console.log(data.field);
+            /*$.ajax({
                 url: ctx + 'sysMenu/insert',
                 type: 'POST',
                 async: false,
@@ -136,7 +165,7 @@
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }
-            });
+            });*/
 
             return false;
         });

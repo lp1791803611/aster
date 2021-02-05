@@ -159,4 +159,17 @@ public class SysDictController {
             return ResultInfo.failed("删除失败");
         }
     }
+
+    /**
+     * 根据字典类型编码查询字典数据
+     * @param code 字典类型编码
+     * @author Stranger。
+     * @since 2021/2/5 0005
+     */
+    @PostMapping("/listDictsByCode")
+    @ResponseBody
+    public ResultInfo<List<SysDict>> listDictsByCode(@RequestParam(name = "code") String code){
+        List<SysDict> dicts = sysDictService.listDictsByCode(code);
+        return ResultInfo.success(dicts);
+    }
 }
