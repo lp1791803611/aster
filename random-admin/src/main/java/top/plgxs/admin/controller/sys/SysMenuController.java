@@ -1,20 +1,19 @@
 package top.plgxs.admin.controller.sys;
 
-import javax.annotation.Resource;
-
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysMenuService;
 import top.plgxs.common.api.ResultInfo;
 import top.plgxs.common.domain.TreeTable;
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysMenu;
-import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -189,5 +188,19 @@ public class SysMenuController {
         }else{
             return ResultInfo.failed("切换失败");
         }
+    }
+
+    /**
+     * 获取菜单列表(选择父级菜单用)
+     * @return top.plgxs.common.api.ResultInfo<java.util.List<top.plgxs.common.node.ZTreeNode>>
+     * @author Stranger。
+     * @since 2021/2/6
+     */
+    @RequestMapping("/selectMenuTreeList")
+    @ResponseBody
+    public ResultInfo<List<ZTreeNode>> selectMenuTreeList(){
+        List<ZTreeNode> roleTreeList = sysMenuService.menuTreeList();
+        roleTreeList.add(ZTreeNode.createParent());
+        return ResultInfo.success(roleTreeList);
     }
 }

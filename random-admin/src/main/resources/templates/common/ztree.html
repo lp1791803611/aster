@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('通用树形菜单')" />
+    <th:block th:include="common/include :: ztree-css" />
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row" style="margin-top:15px;background: #f2f7f8;padding: 20px;">
+        <ul id="zTree" class="ztree"></ul>
+    </div>
+    <div class="layui-row" style="background: #CFD4D5;padding: 10px;">
+        <div style="text-align: center;">
+            <button class="layui-btn layui-btn-sm" id="saveButton">保存</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </div>
+</div>
+<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: ztree-js" />
+<script>
+    layui.use(['ztree'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$,
+            $ZTree = layui.ztree;
+
+        var ZTreeDlg = {
+            index: parent.layer.getFrameIndex(window.name),
+            tempName: "",
+            tempCode: ""
+        };
+
+        ZTreeDlg.onClickItem = function (e, treeId, treeNode) {
+            ZTreeDlg.tempName = ZTreeDlg.instance.getSelectedVal();
+            ZTreeDlg.tempCode = treeNode.id;
+        };
+
+        ZTreeDlg.onDBClickItem = function (e, treeId, treeNode) {
+            ${formName} = ZTreeDlg.instance.getSelectedVal();
+            ${formCode} = treeNode.id;
+            parent.layer.close(ZTreeDlg.index);
+        };
+
+        $("#saveButton").bind("click", function () {
+            ${formName} = ZTreeDlg.tempName;
+            ${formCode} = ZTreeDlg.tempCode;
+            parent.layer.close(ZTreeDlg.index);
+        });
+
+        var ztree = new $ZTree("zTree", "${treeUrl}");
+        ztree.bindOnClick(ZTreeDlg.onClickItem);
+        ztree.bindOnDblClick(ZTreeDlg.onDBClickItem);
+        ztree.init();
+        ZTreeDlg.instance = ztree;
+
+    });
+</script>
+</body>
+</html>

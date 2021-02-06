@@ -25,7 +25,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">上级菜单</label>
         <div class="layui-input-block">
-            <input type="text" name="parentCode" lay-verify="required" lay-reqtext="父菜单编码不能为空" placeholder="请输入父菜单编码" value="" class="layui-input">
+            <input type="hidden" id="parentCode" name="parentCode">
+            <input type="text" id="parentName" name="parentName" lay-verify="required" lay-reqtext="父菜单不能为空" placeholder="请输入父菜单" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -82,16 +83,37 @@
 <th:block th:include="common/include :: footer" />
 <script>
     // 用于从弹出层获取父菜单信息
-    var menuInfoDlg = {
-        parentCode:"",
-        parentName:""
+    var MenuInfoDlg = {
+        data: {
+            parentCode:"",
+            parentName:""
+        }
     };
 
-    layui.use(['iconPicker', 'form', 'layer'], function () {
+    layui.use(['iconPicker', 'form', 'layer', 'miniTab'], function () {
         var iconPicker = layui.iconPicker,
             form = layui.form,
             layer = layui.layer,
+            miniTab = layui.miniTab,
             $ = layui.$;
+
+        // 点击父级菜单
+        $('#parentName').click(function () {
+            var formName = encodeURIComponent("parent.MenuInfoDlg.data.parentName");
+            var formCode = encodeURIComponent("parent.MenuInfoDlg.data.parentCode");
+            var treeUrl = encodeURIComponent("menu/selectMenuTreeList");
+
+            layer.open({
+                type: 2,
+                title: '父级菜单',
+                area: ['400px', '600px'],
+                content: ctx + 'common/commonTree?formName='  + formName + "&formCode=" + formCode + "&treeUrl=" + treeUrl,
+                end: function () {
+                    $("#parentCode").val(MenuInfoDlg.data.parentCode);
+                    $("#parentName").val(MenuInfoDlg.data.parentName);
+                }
+            });
+        });
 
         // 初始化图标选择
         iconPicker.render({

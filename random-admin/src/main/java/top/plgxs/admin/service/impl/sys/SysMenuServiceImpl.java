@@ -2,6 +2,7 @@ package top.plgxs.admin.service.impl.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import top.plgxs.common.domain.TreeTable;
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import top.plgxs.mbg.mapper.sys.SysMenuMapper;
 import top.plgxs.admin.service.sys.SysMenuService;
@@ -51,5 +52,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
         return treeTables;
+    }
+
+    @Override
+    public List<ZTreeNode> menuTreeList() {
+        return sysMenuMapper.menuTreeList();
     }
 }

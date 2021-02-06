@@ -1,5 +1,6 @@
 package top.plgxs.mbg.mapper.sys;
 
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,12 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @date 2021-02-02
      */
     List<SysMenu> selectSysMenuList(SysMenu sysMenu);
+
+    /**
+     * 树形菜单列表
+     * @return java.util.List<top.plgxs.common.node.ZTreeNode>
+     * @author Stranger。
+     * @since 2021/2/6
+     */
+    List<ZTreeNode> menuTreeList();
 }

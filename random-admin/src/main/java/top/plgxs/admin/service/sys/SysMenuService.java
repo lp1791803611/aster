@@ -2,6 +2,7 @@ package top.plgxs.admin.service.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import top.plgxs.common.domain.TreeTable;
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -32,4 +33,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/2/2 0002
      */
     List<TreeTable> treeTableList(QueryWrapper<SysMenu> queryWrapper);
+
+    /**
+     * 树形菜单列表
+     * @return java.util.List<top.plgxs.common.node.ZTreeNode>
+     * @author Stranger。
+     * @since 2021/2/6
+     */
+    List<ZTreeNode> menuTreeList();
 }

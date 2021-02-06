@@ -80,4 +80,14 @@
                 and t.remark = #{remark}
             </if>
     </select>
+
+    <select id="menuTreeList" resultType="top.plgxs.common.node.ZTreeNode">
+        SELECT
+           t.code AS id,
+           t.parent_code AS pid,
+           t.menu_name AS name,
+           (CASE WHEN (t.parent_code = '-1') THEN 'true' ELSE 'false' END) AS "open"
+        FROM t_sys_menu t
+        ORDER BY t.sort, t.gmt_create ASC
+    </select>
 </mapper>
