@@ -41,4 +41,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/2/6
      */
     List<ZTreeNode> menuTreeList();
+
+    /**
+     * 根据code查询菜单名称
+     * @param code 菜单编码
+     * @author Stranger。
+     * @since 2021/2/7 0007
+     */
+    String getMenuNameByCode(String code);
 }

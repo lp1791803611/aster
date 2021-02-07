@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2021-02-05 16:39:57
+Date: 2021-02-07 16:15:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -109,8 +109,15 @@ CREATE TABLE `t_sys_menu` (
 -- ----------------------------
 -- Records of t_sys_menu
 -- ----------------------------
+INSERT INTO `t_sys_menu` VALUES ('111812b068ed11ebbe2c74e6e24360ef', 'user-add', 'user', '用户新增', 'sysUser/add', null, '_self', 'layui-icon-add-1', '1', '0,system,user', '1', '2021-01-30 23:49:19', '2021-02-07 15:49:04', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('1358324972823744514', 'user-edit', 'user', '用户编辑', 'sysUser/edit', '', '_self', 'layui-icon-edit', '1', null, '2', '2021-02-07 16:01:25', '2021-02-07 16:01:54', '0', '0', '');
+INSERT INTO `t_sys_menu` VALUES ('1358325509623353346', 'user-delete', 'user', '用户删除', 'sysUser/delete', '', '_self', 'layui-icon-delete', '1', null, '3', '2021-02-07 16:03:33', null, '0', '0', '');
+INSERT INTO `t_sys_menu` VALUES ('2b689fa768eb11ebbe2c74e6e24360ef', 'role', 'system', '角色管理', 'sysRole/list', null, '_self', '', '0', '0,system', '3', '2021-01-30 23:49:19', '2021-02-02 16:15:04', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('48b617c368eb11ebbe2c74e6e24360ef', 'menu', 'system', '菜单管理', 'sysMenu/list', null, '_self', '', '0', '0,system', '4', '2021-01-30 23:49:19', '2021-02-02 16:15:04', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('5859134468eb11ebbe2c74e6e24360ef', 'dept', 'system', '部门管理', 'sysDept/list', null, '_self', '', '0', '0,system', '5', '2021-01-30 23:49:19', '2021-02-02 16:15:04', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('739151e368ec11ebbe2c74e6e24360ef', 'dashboard', '0', '系统监控', '#', null, '_self', 'fa fa-address-book', '0', '0,', '2', '2021-01-30 23:38:00', '2021-02-07 10:48:18', '0', '0', null);
 INSERT INTO `t_sys_menu` VALUES ('94f51875631211ebb3b600ff633443b0', 'user', 'system', '用户管理', 'sysUser/list', null, '_self', '', '0', '0,system', '2', '2021-01-30 23:49:19', '2021-02-02 16:15:04', '0', '0', null);
-INSERT INTO `t_sys_menu` VALUES ('b7bf613a631011ebb3b600ff633443b0', 'system', '-1', '系统管理', '#', null, '_self', 'fa fa-address-book', '0', '0,', '1', '2021-01-30 23:38:00', '2021-02-02 10:14:58', '0', '0', null);
+INSERT INTO `t_sys_menu` VALUES ('b7bf613a631011ebb3b600ff633443b0', 'system', '0', '系统管理', '#', null, '_self', 'fa fa-address-book', '0', '0,', '1', '2021-01-30 23:38:00', '2021-02-07 14:42:55', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for t_sys_position

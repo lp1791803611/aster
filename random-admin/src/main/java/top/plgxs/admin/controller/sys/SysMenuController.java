@@ -101,7 +101,9 @@ public class SysMenuController {
         QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("code", code);
         SysMenu sysMenu = sysMenuService.getOne(queryWrapper);
+        String parentName = sysMenuService.getMenuNameByCode(sysMenu.getParentCode());
         model.addAttribute("sysMenu",sysMenu);
+        model.addAttribute("parentName", parentName);
         return "sys/menu/edit";
     }
 
@@ -196,11 +198,29 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021/2/6
      */
-    @RequestMapping("/selectMenuTreeList")
+    @PostMapping("/selectMenuTreeList")
     @ResponseBody
     public ResultInfo<List<ZTreeNode>> selectMenuTreeList(){
         List<ZTreeNode> roleTreeList = sysMenuService.menuTreeList();
         roleTreeList.add(ZTreeNode.createParent());
         return ResultInfo.success(roleTreeList);
+    }
+
+    /**
+     * 验证编码是否唯一
+     * @param code 编码
+     * @author Stranger。
+     * @since 2021/2/7 0007
+     */
+    @GetMapping("/verifyCode")
+    @ResponseBody
+    public ResultInfo<String> verifyCode(@RequestParam("code") String code){
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        List<SysMenu> list = sysMenuService.list(queryWrapper);
+        if(list != null && list.size() > 0) {
+            return ResultInfo.success("该编码已存在，请重新填写", null);
+        }
+        return ResultInfo.failed();
     }
 }

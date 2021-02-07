@@ -22,8 +22,6 @@ public class CommonController {
 
     /**
      * 通用的树列表选择器
-     * @param formName 父窗口定义的变量，用于接收父菜单name
-     * @param formCode 父窗口定义的变量，用于接收父菜单code
      * @param treeUrl ztrr请求json的url
      * @param model
      * @return java.lang.String
@@ -31,15 +29,11 @@ public class CommonController {
      * @since 2021/2/6
      */
     @GetMapping("/commonTree")
-    public String commonTree(@RequestParam("formName") String formName,
-                               @RequestParam("formCode") String formCode,
-                               @RequestParam("treeUrl") String treeUrl, Model model) {
-        if (StrUtil.isAllBlank(formName, formCode, treeUrl)) {
+    public String commonTree(@RequestParam("treeUrl") String treeUrl, Model model) {
+        if (StrUtil.isBlank(treeUrl)) {
 //            throw new RequestEmptyException("请求数据不完整！");
         }
         try {
-            model.addAttribute("formName", URLDecoder.decode(formName, "UTF-8"));
-            model.addAttribute("formCode", URLDecoder.decode(formCode, "UTF-8"));
             model.addAttribute("treeUrl", URLDecoder.decode(treeUrl, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
 //            throw new RequestEmptyException("请求数据不完整！");

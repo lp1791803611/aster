@@ -58,4 +58,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<ZTreeNode> menuTreeList() {
         return sysMenuMapper.menuTreeList();
     }
+
+    @Override
+    public String getMenuNameByCode(String code) {
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        SysMenu sysMenu = sysMenuMapper.selectOne(queryWrapper);
+        return sysMenu == null ? "" : sysMenu.getMenuName();
+    }
+
 }

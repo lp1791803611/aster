@@ -21,7 +21,14 @@ layui.define(['jquery'], function (exports) {
                     dblClickExpand : true,
                     selectedMulti : false
                 },
-                data : {simpleData : {enable : true}},
+                data : {
+                    simpleData : {
+                        enable : true,
+                        idKey: "id",
+                        pIdKey: "pid",
+                        rootPId: "0"
+                    }
+                },
                 callback : {
                     onClick : this.onClick,
                     onDblClick:this.ondblclick

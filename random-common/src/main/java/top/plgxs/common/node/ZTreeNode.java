@@ -48,7 +48,7 @@ public class ZTreeNode {
     public static ZTreeNode createParent() {
         ZTreeNode zTreeNode = new ZTreeNode();
         zTreeNode.setChecked(true);
-        zTreeNode.setId("-1");
+        zTreeNode.setId("0");
         zTreeNode.setName("顶级");
         zTreeNode.setOpen(true);
         zTreeNode.setPId("0");

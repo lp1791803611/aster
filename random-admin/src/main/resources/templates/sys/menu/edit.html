@@ -11,91 +11,86 @@
 <body>
 <div class="layui-form layuimini-form" th:object="${sysMenu}">
     <input name="id"  type="hidden"  th:field="*{id}" />
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单编码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="code" lay-verify="required" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" th:field="*{code}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuName" lay-verify="required" lay-reqtext="菜单名称不能为空" placeholder="请输入菜单名称" th:field="*{menuName}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+         <label class="layui-form-label required">菜单编码</label>
+         <div class="layui-input-block">
+             <input type="text" name="code" readonly="readonly" lay-verify="required" th:field="*{code}" class="layui-input">
+         </div>
+     </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">父菜单编码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="parentCode" lay-verify="required" lay-reqtext="父菜单编码不能为空" placeholder="请输入父菜单编码" th:field="*{parentCode}" class="layui-input">
-                     </div>
-                 </div>
+     <div class="layui-form-item">
+         <label class="layui-form-label required">上级菜单</label>
+         <div class="layui-input-block">
+             <input type="hidden" id="parentCode" name="parentCode" th:field="*{parentCode}" >
+             <input type="text" id="parentName" name="parentName" lay-verify="required" lay-reqtext="上级菜单不能为空" th:value="${parentName}" class="layui-input">
+         </div>
+     </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单名称</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuName" lay-verify="required" lay-reqtext="菜单名称不能为空" placeholder="请输入菜单名称" th:field="*{menuName}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单类型</label>
+        <div class="layui-input-block" id="menuType">
+            <input type="radio" name="menuType" lay-verify="required" lay-reqtext="菜单类型不能为空" disabled="disabled">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单url</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" th:field="*{menuUrl}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单url</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" th:field="*{menuUrl}" class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">权限控制</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuAuth" lay-verify="required" lay-reqtext="权限控制不能为空" placeholder="请输入权限控制" th:field="*{menuAuth}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单排序</label>
+        <div class="layui-input-block">
+            <input type="text" name="sort" lay-verify="required|number" lay-reqtext="菜单排序不能为空" placeholder="请输入菜单排序" th:field="*{sort}" class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">链接打开方式</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuTarget" lay-verify="required" lay-reqtext="链接打开方式不能为空" placeholder="请输入链接打开方式" th:field="*{menuTarget}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限控制</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuAuth" placeholder="请输入权限控制" th:field="*{menuAuth}" class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单图标</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuIcon" lay-verify="required" lay-reqtext="菜单图标不能为空" placeholder="请输入菜单图标" th:field="*{menuIcon}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接打开方式</label>
+        <div class="layui-input-block">
+            <select name="menuTarget" lay-filter="menuTarget" th:field="*{menuTarget}" th:switch="*{menuTarget}">
+                <option value="_self" th:case="'_self'" th:selected="selected">页签</option>
+                <option value="_blank" th:case="'_blank'" th:selected="selected">新窗口</option>
+            </select>
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单类型</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="menuType" lay-verify="required" lay-reqtext="菜单类型不能为空" placeholder="请输入菜单类型" th:field="*{menuType}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单图标</label>
+        <div class="layui-input-block">
+            <input type="text" name="menuIcon" id="menuIcon" lay-filter="iconPicker" th:field="*{menuIcon}" class="layui-input"/>
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">祖级列表</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="ancestors" lay-verify="required" lay-reqtext="祖级列表不能为空" placeholder="请输入祖级列表" th:field="*{ancestors}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">启用状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                   th:checked="${sysMenu.status == '1' ? false : true}">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">菜单排序</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="sort" lay-verify="required" lay-reqtext="菜单排序不能为空" placeholder="请输入菜单排序" th:field="*{sort}" class="layui-input">
-                     </div>
-                 </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">启用状态</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
-                               th:checked="${sysMenu.status == '1' ? false : true}">
-                    </div>
-                </div>
-
-                 <div class="layui-form-item layui-form-text">
-                     <label class="layui-form-label">备注信息</label>
-                     <div class="layui-input-block">
-                         <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
-                     </div>
-                 </div>
-
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -106,11 +101,86 @@
 </div>
 <th:block th:include="common/include :: footer" />
 
-<script>
-    layui.use(['form'], function () {
-        var form = layui.form,
+<script type="text/javascript" th:inline="javascript">
+    // 用于从弹出层获取父菜单信息
+    var MenuInfoDlg = {
+        data: {
+            parentCode:"",
+            parentName:""
+        }
+    };
+
+    layui.use(['iconPicker', 'form', 'layer'], function () {
+        var iconPicker = layui.iconPicker,
+            form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        // 点击父级菜单
+        $('#parentName').click(function () {
+            var treeUrl = encodeURIComponent("sysMenu/selectMenuTreeList");
+
+            layer.open({
+                type: 2,
+                title: '父级菜单',
+                area: ['300px', '400px'],
+                content: ctx + 'common/commonTree?treeUrl=' + treeUrl,
+                end: function () {
+                    $("#parentCode").val(MenuInfoDlg.data.parentCode);
+                    $("#parentName").val(MenuInfoDlg.data.parentName);
+                }
+            });
+        });
+
+
+        // 初始化图标选择
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#menuIcon',
+            type: 'fontClass',
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: true,
+            // 每页显示数量，默认12
+            limit: 12,
+            // 点击回调
+            click: function (data) {
+                // console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                // console.log(d);
+            }
+        });
+        var icon = [[${sysMenu.menuIcon}]];
+        console.log(icon);
+        iconPicker.checkIcon('iconPicker', icon);
+
+        // 初始化菜单类型
+        $.ajax({
+            url: ctx + 'sysDict/listDictsByCode',
+            type: 'POST',
+            async: false,
+            dataType: "json",
+            data: {code : "MENU_TYPE"},
+            success: function (res) {
+                if(res.data.length > 0){
+                    $("#menuType").html('');
+                    for(var i=0; i<res.data.length; i++){
+                        var name = res.data[i].dictLabel;
+                        var value = res.data[i].dictValue;
+                        var type = [[${sysMenu.menuType}]];
+                        if(value == type){
+                            $("#menuType").append('<input type="radio" name="menuType" value="' + value + '" title="' + name + '" checked>');
+                        }else{
+                            $("#menuType").append('<input type="radio" name="menuType" value="' + value + '" title="' + name + '">');
+                        }
+                    }
+                    form.render();
+                }
+            }
+        });
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {

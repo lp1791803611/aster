@@ -19,14 +19,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单编码</label>
         <div class="layui-input-block">
-            <input type="text" name="code" lay-verify="required" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" value="" class="layui-input">
+            <input type="text" name="code" lay-verify="unique_code" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">上级菜单</label>
         <div class="layui-input-block">
             <input type="hidden" id="parentCode" name="parentCode">
-            <input type="text" id="parentName" name="parentName" lay-verify="required" lay-reqtext="父菜单不能为空" placeholder="请输入父菜单" value="" class="layui-input">
+            <input type="text" id="parentName" name="parentName" lay-verify="required" lay-reqtext="上级菜单不能为空" placeholder="请选择上级菜单" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -39,6 +39,12 @@
         <label class="layui-form-label required">菜单url</label>
         <div class="layui-input-block">
             <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">菜单排序</label>
+        <div class="layui-input-block">
+            <input type="text" name="sort" lay-verify="required|number" placeholder="请输入菜单排序" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -60,12 +66,6 @@
         <label class="layui-form-label">菜单图标</label>
         <div class="layui-input-block">
             <input type="text" name="menuIcon" id="menuIcon" lay-filter="iconPicker" class="layui-input"/>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单排序</label>
-        <div class="layui-input-block">
-            <input type="text" name="sort" lay-verify="required|number" placeholder="请输入菜单排序" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -90,24 +90,42 @@
         }
     };
 
-    layui.use(['iconPicker', 'form', 'layer', 'miniTab'], function () {
+    layui.use(['iconPicker', 'form', 'layer'], function () {
         var iconPicker = layui.iconPicker,
             form = layui.form,
             layer = layui.layer,
-            miniTab = layui.miniTab,
             $ = layui.$;
+
+
+        //自定义验证规则
+        form.verify({
+            unique_code: function (value) {
+                var checkResult = "";
+                $.ajax({
+                    type: 'GET',
+                    url: ctx + 'sysMenu/verifyCode',
+                    data: {code: value},
+                    async: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.success){
+                            checkResult = res.msg;
+                        }
+                    }
+                });
+                return checkResult;
+            }
+        });
 
         // 点击父级菜单
         $('#parentName').click(function () {
-            var formName = encodeURIComponent("parent.MenuInfoDlg.data.parentName");
-            var formCode = encodeURIComponent("parent.MenuInfoDlg.data.parentCode");
-            var treeUrl = encodeURIComponent("menu/selectMenuTreeList");
+            var treeUrl = encodeURIComponent("sysMenu/selectMenuTreeList");
 
             layer.open({
                 type: 2,
                 title: '父级菜单',
-                area: ['400px', '600px'],
-                content: ctx + 'common/commonTree?formName='  + formName + "&formCode=" + formCode + "&treeUrl=" + treeUrl,
+                area: ['300px', '400px'],
+                content: ctx + 'common/commonTree?treeUrl=' + treeUrl,
                 end: function () {
                     $("#parentCode").val(MenuInfoDlg.data.parentCode);
                     $("#parentName").val(MenuInfoDlg.data.parentName);
@@ -128,11 +146,11 @@
             limit: 12,
             // 点击回调
             click: function (data) {
-                console.log(data);
+                // console.log(data);
             },
             // 渲染成功后的回调
             success: function (d) {
-                console.log(d);
+                // console.log(d);
             }
         });
         iconPicker.checkIcon('iconPicker', 'layui-icon-star-fill');
@@ -159,8 +177,7 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            console.log(data.field);
-            /*$.ajax({
+            $.ajax({
                 url: ctx + 'sysMenu/insert',
                 type: 'POST',
                 async: false,
@@ -187,7 +204,7 @@
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }
-            });*/
+            });
 
             return false;
         });
