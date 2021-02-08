@@ -20,7 +20,7 @@
     <div class="layui-form-item">
          <label class="layui-form-label required">菜单编码</label>
          <div class="layui-input-block">
-             <input type="text" name="code" readonly="readonly" lay-verify="required" th:field="*{code}" class="layui-input">
+             <input type="text" name="code" lay-verify="unique_code" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" th:field="*{code}" class="layui-input">
          </div>
      </div>
 
@@ -115,6 +115,29 @@
             form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        //自定义验证规则
+        form.verify({
+            unique_code: function (value) {
+                var checkResult = "";
+                var oldCode = [[${sysMenu.code}]];
+                if (value != oldCode) {
+                    $.ajax({
+                        type: 'GET',
+                        url: ctx + 'sysMenu/verifyCode',
+                        data: {code: value},
+                        async: false,
+                        dataType: 'json',
+                        success: function (res) {
+                            if(res.success){
+                                checkResult = res.msg;
+                            }
+                        }
+                    });
+                }
+                return checkResult;
+            }
+        });
 
         // 点击父级菜单
         $('#parentName').click(function () {

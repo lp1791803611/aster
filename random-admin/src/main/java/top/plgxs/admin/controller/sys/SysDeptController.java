@@ -13,6 +13,7 @@ import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysDept;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-08
  * @version 1.0
  */
 @Controller
@@ -33,7 +34,7 @@ public class SysDeptController {
     /**
      * 部门页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @GetMapping("/list")
     public String list(){
@@ -47,7 +48,7 @@ public class SysDeptController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @GetMapping("/pageList")
     @ResponseBody
@@ -64,7 +65,7 @@ public class SysDeptController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @GetMapping("/add")
     public String add(){
@@ -76,11 +77,12 @@ public class SysDeptController {
      * @param sysDept
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysDept sysDept){
+        sysDept.setGmtCreate(LocalDateTime.now());
         boolean result = sysDeptService.save(sysDept);
         if(result){
             return ResultInfo.success();
@@ -92,7 +94,7 @@ public class SysDeptController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -106,7 +108,7 @@ public class SysDeptController {
      * @param sysDept
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @PostMapping("/update")
     @ResponseBody
@@ -127,7 +129,7 @@ public class SysDeptController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -147,7 +149,7 @@ public class SysDeptController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-30
+     * @since 2021-02-08
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -157,6 +159,27 @@ public class SysDeptController {
             return ResultInfo.success("删除成功",null);
         }else{
             return ResultInfo.failed("删除失败");
+        }
+    }
+
+    /**
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
+     * @author Stranger。
+     * @since 2021-02-08
+     */
+    @PostMapping("/switchStatus")
+    @ResponseBody
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        SysDept sysDept = new SysDept();
+        sysDept.setId(id);
+        sysDept.setStatus(status);
+        boolean result = sysDeptService.updateById(sysDept);
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
         }
     }
 }

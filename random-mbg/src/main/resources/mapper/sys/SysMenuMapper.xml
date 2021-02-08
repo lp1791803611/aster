@@ -90,4 +90,13 @@
         FROM t_sys_menu t
         ORDER BY t.sort, t.gmt_create ASC
     </select>
+
+    <select id="getChildMenusByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM t_sys_menu
+        <where>
+            ancestors LIKE CONCAT('%[',#{code},'],%')
+        </where>
+    </select>
 </mapper>

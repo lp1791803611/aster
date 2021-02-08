@@ -1,5 +1,6 @@
 package top.plgxs.mbg.mapper.sys;
 
+import org.springframework.data.repository.query.Param;
 import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -35,4 +36,12 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @since 2021/2/6
      */
     List<ZTreeNode> menuTreeList();
+
+    /**
+     * 根据编码查询子孙菜单集合
+     * @param code 编码
+     * @author Stranger。
+     * @since 2021/2/8 0008
+     */
+    List<SysMenu> getChildMenusByCode(@Param("code") String code);
 }

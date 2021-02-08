@@ -49,4 +49,28 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/2/7 0007
      */
     String getMenuNameByCode(String code);
+
+    /**
+     * 新增一条菜单
+     * @param sysMenu
+     * @author Stranger。
+     * @since 2021/2/8 0008
+     */
+    int insertMenu(SysMenu sysMenu);
+
+    /**
+     * 更新一条菜单
+     * @param sysMenu
+     * @author Stranger。
+     * @since 2021/2/8 0008
+     */
+    int updateMenu(SysMenu sysMenu);
+
+    /**
+     * 逻辑删除一条菜单，包含子菜单
+     * @param code 菜单编码
+     * @author Stranger。
+     * @since 2021/2/8 0008
+     */
+    void deleteMenuContainChildren(String code);
 }

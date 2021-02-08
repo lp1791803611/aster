@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-08
  * @version 1.0
  */
 public interface SysDeptService extends IService<SysDept> {
@@ -19,7 +19,7 @@ public interface SysDeptService extends IService<SysDept> {
      * 数据查询列表
      * @return
      * @author Stranger。
-     * @date 2021-01-30
+     * @date 2021-02-08
      */
     List<SysDept> getSysDeptList();
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-30
+ * @since 2021-02-08
  * @version 1.0
  */
 @Repository("sysDeptMapper")
@@ -23,7 +23,7 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
      * @param sysDept
      * @return
      * @author Stranger。
-     * @date 2021-01-30
+     * @date 2021-02-08
      */
     List<SysDept> selectSysDeptList(SysDept sysDept);
 }

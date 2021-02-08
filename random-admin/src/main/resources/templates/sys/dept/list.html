@@ -44,6 +44,10 @@
 </div>
 <th:block th:include="common/include :: footer" />
 
+            <script type="text/html" id="statusTpl">
+                    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" {{d.status=='1'?'':'checked'}} />
+            </script>
+
 <script>
         layui.use(['form', 'table'], function () {
                 var $ = layui.jquery,
@@ -63,18 +67,14 @@
                                 return res.data;
                         },
                         cols: [ [
-                                {type: "checkbox", width: 50},
-                                {field: 'id', width: 80, title: 'ID', sort: true},
-                                {field: 'parentId', width: 80, title: '父部门ID', sort: true},
-                                {field: 'ancestors', width: 80, title: '祖级列表', sort: true},
-                                {field: 'deptName', width: 80, title: '部门名称', sort: true},
-                                {field: 'sort', width: 80, title: '排序', sort: true},
-                                {field: 'gmtCreate', width: 80, title: '创建时间', sort: true},
-                                {field: 'gmtModified', width: 80, title: '更新时间', sort: true},
-                                {field: 'status', width: 80, title: '启用状态', sort: true},
-                                {field: 'isDeleted', width: 80, title: '删除状态', sort: true},
-                                {field: 'remark', width: 80, title: '备注信息', sort: true},
-                                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                                {type: "checkbox"},
+                                {field: 'parentId', title: '父部门ID', sort: true},
+                                {field: 'ancestors', title: '祖级列表', sort: true},
+                                {field: 'deptName', title: '部门名称', sort: true},
+                                {field: 'sort', title: '排序', sort: true},
+                                {field: 'gmtModified', title: '更新时间', sort: true},
+                                {field: 'status', title: '启用状态', templet: '#statusTpl'},
+                                {title: '操作', toolbar: '#currentTableBar', align: "center"}
                         ] ],
                         limits: [10, 15, 20, 25, 50, 100],
                         limit: 15,
@@ -140,7 +140,7 @@
                                                         dataType: "json",
                                                         success: function (res) {
                                                                 layer.msg(res.msg);
-                                                                obj.del();
+                                                                table.reload('currentTableId');
                                                         },
                                                         error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                                 layer.close(index);
@@ -160,7 +160,7 @@
 
                 //监听表格复选框选择
                 table.on('checkbox(currentTableFilter)', function (obj) {
-                        console.log(obj)
+                        // console.log(obj)
                 });
 
                 table.on('tool(currentTableFilter)', function (obj) {
@@ -196,7 +196,7 @@
                                                 error:function (XMLHttpRequest, textStatus, errorThrown) {
                                                         layer.close(index);
                                                         if(XMLHttpRequest.status==404){
-                                                                window.location.href="404";
+                                                                window.location.href = ctx + "404";
                                                         }else{
                                                                 layer.msg("服务器好像出了点问题！请稍后试试");
                                                         }
@@ -206,5 +206,28 @@
                         }
                 });
 
+                form.on('switch(status)', function (obj) {
+                        var checked = this.checked ? "0" : "1";
+                        $.ajax({
+                                url: ctx + 'sysDept/switchStatus',
+                                type: 'POST',
+                                async: false,
+                                data: {
+                                        "id" : obj.value,
+                                        "status" : checked
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                        layer.msg(res.msg);
+                                },
+                                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                                        if(XMLHttpRequest.status==404){
+                                                window.location.href = ctx + "404";
+                                        }else{
+                                                layer.msg("服务器好像出了点问题！请稍后试试");
+                                        }
+                                }
+                        });
+                });
         });
 </script>

@@ -82,9 +82,8 @@ public class SysMenuController {
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysMenu sysMenu){
-        sysMenu.setGmtCreate(LocalDateTime.now());
-        boolean result = sysMenuService.save(sysMenu);
-        if(result){
+        int result = sysMenuService.insertMenu(sysMenu);
+        if(result > 0){
             return ResultInfo.success();
         }else{
             return ResultInfo.failed();
@@ -117,11 +116,12 @@ public class SysMenuController {
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody SysMenu sysMenu){
-        if(sysMenu == null || StringUtils.isBlank(sysMenu.getId())){
+        if(sysMenu == null || StringUtils.isBlank(sysMenu.getId())
+                || StringUtils.isBlank(sysMenu.getParentCode())) {
             return ResultInfo.validateFailed();
         }
-        boolean result = sysMenuService.updateById(sysMenu);
-        if(result){
+        int result = sysMenuService.updateMenu(sysMenu);
+        if(result > 0){
             return ResultInfo.success();
         }else{
             return ResultInfo.failed();
@@ -141,12 +141,10 @@ public class SysMenuController {
         if(StringUtils.isBlank(code)){
             return ResultInfo.validateFailed();
         }
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("code", code);
-        boolean result = sysMenuService.remove(queryWrapper);
-        if(result){
+        try {
+            sysMenuService.deleteMenuContainChildren(code);
             return ResultInfo.success();
-        }else{
+        } catch (Exception e) {
             return ResultInfo.failed();
         }
     }
