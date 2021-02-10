@@ -1,15 +1,15 @@
 package top.plgxs.admin.service.impl.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sun.xml.bind.v2.TODO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import top.plgxs.admin.service.sys.SysMenuService;
+import top.plgxs.common.constants.Constants;
 import top.plgxs.common.domain.TreeTable;
 import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import top.plgxs.mbg.mapper.sys.SysMenuMapper;
-import top.plgxs.admin.service.sys.SysMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -23,8 +23,8 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-02-02
  * @version 1.0
+ * @since 2021-02-02
  */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
@@ -40,8 +40,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<TreeTable> treeTableList(QueryWrapper<SysMenu> queryWrapper) {
         List<TreeTable> treeTables = new ArrayList<>();
         List<SysMenu> menus = sysMenuMapper.selectList(queryWrapper);
-        if(menus != null && menus.size() > 0){
-            for(int i = 0, len = menus.size(); i < len; i++) {
+        if (menus != null && menus.size() > 0) {
+            for (int i = 0, len = menus.size(); i < len; i++) {
                 TreeTable table = new TreeTable();
                 table.setCode(menus.get(i).getCode());
                 table.setParentCode(menus.get(i).getParentCode());
@@ -78,7 +78,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             // TODO
         }
         // 判断父级编码是否为空
-        if(StringUtils.isBlank(sysMenu.getParentCode())){
+        if (StringUtils.isBlank(sysMenu.getParentCode())) {
             // TODO
         }
         // 组装属性，设置祖级列表
@@ -91,15 +91,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     /**
      * 组装祖级列表
+     *
      * @param parentCode 父菜单编码
      * @author Stranger。
      * @since 2021/2/8 0008
      */
-    private String getAncestorsByParentCode(String parentCode){
+    private String getAncestorsByParentCode(String parentCode) {
         String ancestors;
         // 组装属性，设置祖级列表
-        if (StringUtils.isBlank(parentCode) || "0".equals(parentCode)) {
-            ancestors = "[0],";
+        if (StringUtils.isBlank(parentCode) || Constants.TOP_MENU_CODE.equals(parentCode)) {
+            ancestors = "["+ Constants.TOP_MENU_CODE +"],";
         } else {
             QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("code", parentCode);
@@ -117,8 +118,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             // TODO
         }
         // 判断父级编码是否为空,为空则设置父为顶级
-        if(StringUtils.isBlank(sysMenu.getParentCode())){
-            sysMenu.setParentCode("0");
+        if (StringUtils.isBlank(sysMenu.getParentCode())) {
+            sysMenu.setParentCode(Constants.TOP_MENU_CODE);
         }
         // 组装属性，设置祖级列表
         String ancestors = getAncestorsByParentCode(sysMenu.getParentCode());
@@ -148,7 +149,46 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public void deleteMenu(String id){
+    @Override
+    public void batchDelete(List<String> codes) {
+        for (String code : codes) {
+            this.deleteMenuContainChildren(code);
+        }
+    }
+
+    @Transactional(rollbackOn = Exception.class)
+    @Override
+    public void switchStatus(String code, String status) {
+        // 切换当前菜单状态
+        this.updateStatus(code, status);
+        // 切换子菜单状态
+        /*List<SysMenu> menus = sysMenuMapper.getChildMenusByCode(code);
+        if (menus != null && menus.size() > 0) {
+            for (SysMenu menu : menus) {
+                this.updateStatus(menu.getCode(), status);
+            }
+        }*/
+    }
+
+    /**
+     * 根据code更新菜单状态
+     * @param code
+     * @param status
+     * @return int
+     * @author Stranger。
+     * @since 2021/2/9
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public int updateStatus(String code, String status) {
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        SysMenu menu = new SysMenu();
+        menu.setStatus(status);
+        return sysMenuMapper.update(menu, queryWrapper);
+    }
+
+    @Transactional(rollbackOn = Exception.class)
+    public void deleteMenu(String id) {
         // 删除菜单
         sysMenuMapper.deleteById(id);
 
@@ -158,6 +198,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     /**
      * 更新子菜单的父菜单和祖级列表
+     *
      * @param sysMenu 新的menu
      * @author Stranger。
      * @since 2021/2/8 0008
@@ -166,7 +207,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public void updateChildMenuLevels(SysMenu sysMenu) {
         SysMenu oldMenu = sysMenuMapper.selectById(sysMenu.getId());
         List<SysMenu> menus = sysMenuMapper.getChildMenusByCode(oldMenu.getParentCode());
-        if(menus != null && menus.size() > 0){
+        if (menus != null && menus.size() > 0) {
             for (SysMenu menu : menus) {
                 // 更新parent_code
                 if (oldMenu.getCode().equals(menu.getParentCode())) {

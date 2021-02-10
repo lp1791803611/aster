@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('编辑部门')" />
+    <th:block th:include="common/include :: header('编辑部门')"/>
     <style>
         body {
             background-color: #ffffff;
@@ -10,50 +10,46 @@
 </head>
 <body>
 <div class="layui-form layuimini-form" th:object="${sysDept}">
-    <input name="id"  type="hidden"  th:field="*{id}" />
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">父部门ID</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="parentId" lay-verify="required" lay-reqtext="父部门ID不能为空" placeholder="请输入父部门ID" th:field="*{parentId}" class="layui-input">
-                     </div>
-                 </div>
+    <input name="id" type="hidden" th:field="*{id}"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">父部门名称</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="parentId" th:field="*{parentId}">
+            <input type="text" name="parentName" readonly="readonly" lay-verify="required" th:value="${parentName}"
+                   class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">祖级列表</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="ancestors" lay-verify="required" lay-reqtext="祖级列表不能为空" placeholder="请输入祖级列表" th:field="*{ancestors}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">部门名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="deptName" lay-verify="required" lay-reqtext="部门名称不能为空" placeholder="请输入部门名称"
+                   th:field="*{deptName}" class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">部门名称</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="deptName" lay-verify="required" lay-reqtext="部门名称不能为空" placeholder="请输入部门名称" th:field="*{deptName}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">排序</label>
+        <div class="layui-input-block">
+            <input type="text" name="sort" lay-verify="required" lay-reqtext="排序不能为空" placeholder="请输入排序"
+                   th:field="*{sort}" class="layui-input">
+        </div>
+    </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">排序</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="sort" lay-verify="required" lay-reqtext="排序不能为空" placeholder="请输入排序" th:field="*{sort}" class="layui-input">
-                     </div>
-                 </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">启用状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                   th:checked="${sysDept.status == '1' ? false : true}">
+        </div>
+    </div>
 
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">启用状态</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
-                               th:checked="${sysDept.status == '1' ? false : true}">
-                    </div>
-                </div>
-
-                 <div class="layui-form-item layui-form-text">
-                     <label class="layui-form-label">备注信息</label>
-                     <div class="layui-input-block">
-                         <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
-                     </div>
-                 </div>
-
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -62,7 +58,7 @@
     </div>
 </div>
 </div>
-<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: footer"/>
 
 <script>
     layui.use(['form'], function () {
@@ -92,11 +88,11 @@
                         parent.layer.close(iframeIndex);
                     });
                 },
-                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     layer.close(index);
-                    if(XMLHttpRequest.status==404){
-                        window.location.href="404";
-                    }else{
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }

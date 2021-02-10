@@ -1,18 +1,19 @@
 package top.plgxs.admin.controller.sys;
 
-import javax.annotation.Resource;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.common.api.ResultInfo;
 import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysUser;
-import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-10
  * @version 1.0
  */
 @Controller
@@ -33,7 +34,7 @@ public class SysUserController {
     /**
      * 用户页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @GetMapping("/list")
     public String list(){
@@ -47,7 +48,7 @@ public class SysUserController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @GetMapping("/pageList")
     @ResponseBody
@@ -55,7 +56,7 @@ public class SysUserController {
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_modified");
+        queryWrapper.orderByDesc("gmt_create");
         Page<SysUser> page = new Page<>(pageNo, pageSize);
         IPage<SysUser> pageList = sysUserService.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<SysUser>(pageList.getRecords(),pageList.getTotal()));
@@ -64,7 +65,7 @@ public class SysUserController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @GetMapping("/add")
     public String add(){
@@ -76,11 +77,12 @@ public class SysUserController {
      * @param sysUser
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysUser sysUser){
+        sysUser.setGmtCreate(LocalDateTime.now());
         boolean result = sysUserService.save(sysUser);
         if(result){
             return ResultInfo.success();
@@ -92,7 +94,7 @@ public class SysUserController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -106,7 +108,7 @@ public class SysUserController {
      * @param sysUser
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @PostMapping("/update")
     @ResponseBody
@@ -127,7 +129,7 @@ public class SysUserController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -147,7 +149,7 @@ public class SysUserController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-10
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -157,6 +159,27 @@ public class SysUserController {
             return ResultInfo.success("删除成功",null);
         }else{
             return ResultInfo.failed("删除失败");
+        }
+    }
+
+    /**
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
+     * @author Stranger。
+     * @since 2021-02-10
+     */
+    @PostMapping("/switchStatus")
+    @ResponseBody
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        SysUser sysUser = new SysUser();
+        sysUser.setId(id);
+        sysUser.setStatus(status);
+        boolean result = sysUserService.updateById(sysUser);
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
         }
     }
 }

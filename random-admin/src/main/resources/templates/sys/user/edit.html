@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('编辑用户')" />
+    <th:block th:include="common/include :: header('编辑用户')"/>
     <style>
         body {
             background-color: #ffffff;
@@ -10,104 +10,131 @@
 </head>
 <body>
 <div class="layui-form layuimini-form" th:object="${sysUser}">
-    <input name="id"  type="hidden"  th:field="*{id}" />
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">用户名</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" th:field="*{username}" class="layui-input">
-                     </div>
-                 </div>
+    <input name="id" type="hidden" th:field="*{id}"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">用户名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="username" lay-verify="required"
+                               lay-reqtext="用户名不能为空" placeholder="请输入用户名"
+                               th:field="*{username}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">密码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="password" lay-verify="required" lay-reqtext="密码不能为空" placeholder="请输入密码" th:field="*{password}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">密码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="password" lay-verify="required"
+                               lay-reqtext="密码不能为空" placeholder="请输入密码"
+                               th:field="*{password}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">手机号</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="mobile" lay-verify="required" lay-reqtext="手机号不能为空" placeholder="请输入手机号" th:field="*{mobile}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">手机号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mobile" lay-verify="required"
+                               lay-reqtext="手机号不能为空" placeholder="请输入手机号"
+                               th:field="*{mobile}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">邮箱</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="email" lay-verify="required" lay-reqtext="邮箱不能为空" placeholder="请输入邮箱" th:field="*{email}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" lay-verify="required"
+                               lay-reqtext="邮箱不能为空" placeholder="请输入邮箱"
+                               th:field="*{email}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">昵称</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="nickname" lay-verify="required" lay-reqtext="昵称不能为空" placeholder="请输入昵称" th:field="*{nickname}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="nickname" lay-verify="required"
+                               lay-reqtext="昵称不能为空" placeholder="请输入昵称"
+                               th:field="*{nickname}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">性别</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="gender" lay-verify="required" lay-reqtext="性别不能为空" placeholder="请输入性别" th:field="*{gender}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">性别</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="gender" lay-verify="required"
+                               lay-reqtext="性别不能为空" placeholder="请输入性别"
+                               th:field="*{gender}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">真实姓名</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="realname" lay-verify="required" lay-reqtext="真实姓名不能为空" placeholder="请输入真实姓名" th:field="*{realname}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">真实姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="realname" lay-verify="required"
+                               lay-reqtext="真实姓名不能为空" placeholder="请输入真实姓名"
+                               th:field="*{realname}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">身份证号</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="idNumber" lay-verify="required" lay-reqtext="身份证号不能为空" placeholder="请输入身份证号" th:field="*{idNumber}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">身份证号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="idNumber" lay-verify="required"
+                               lay-reqtext="身份证号不能为空" placeholder="请输入身份证号"
+                               th:field="*{idNumber}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">头像</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="headUrl" lay-verify="required" lay-reqtext="头像不能为空" placeholder="请输入头像" th:field="*{headUrl}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">头像</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="headUrl" lay-verify="required"
+                               lay-reqtext="头像不能为空" placeholder="请输入头像"
+                               th:field="*{headUrl}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">登录次数</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="loginNumber" lay-verify="required" lay-reqtext="登录次数不能为空" placeholder="请输入登录次数" th:field="*{loginNumber}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">登录次数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="loginNumber" lay-verify="required"
+                               lay-reqtext="登录次数不能为空" placeholder="请输入登录次数"
+                               th:field="*{loginNumber}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">最后登录时间</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="lastLoginTime" lay-verify="required" lay-reqtext="最后登录时间不能为空" placeholder="请输入最后登录时间" th:field="*{lastLoginTime}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">最后登录时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lastLoginTime" lay-verify="required"
+                               lay-reqtext="最后登录时间不能为空" placeholder="请输入最后登录时间"
+                               th:field="*{lastLoginTime}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">手机验证码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="mobileVerificationCode" lay-verify="required" lay-reqtext="手机验证码不能为空" placeholder="请输入手机验证码" th:field="*{mobileVerificationCode}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">手机验证码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mobileVerificationCode" lay-verify="required"
+                               lay-reqtext="手机验证码不能为空" placeholder="请输入手机验证码"
+                               th:field="*{mobileVerificationCode}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">邮箱验证码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="emailVerificationCode" lay-verify="required" lay-reqtext="邮箱验证码不能为空" placeholder="请输入邮箱验证码" th:field="*{emailVerificationCode}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">邮箱验证码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="emailVerificationCode" lay-verify="required"
+                               lay-reqtext="邮箱验证码不能为空" placeholder="请输入邮箱验证码"
+                               th:field="*{emailVerificationCode}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">启用状态</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="status" lay-verify="required" lay-reqtext="启用状态不能为空" placeholder="请输入启用状态" th:field="*{status}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                               th:checked="${sysUser.status == '1' ? false : true}">
+                    </div>
+                </div>
 
 
     <div class="layui-form-item">
@@ -117,7 +144,7 @@
     </div>
 </div>
 </div>
-<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: footer"/>
 
 <script>
     layui.use(['form'], function () {
@@ -127,29 +154,31 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
             $.ajax({
                 url: ctx + 'sysUser/update',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',
                 dataType: "json",
-                data:JSON.stringify(data.field),
+                data: JSON.stringify(data.field),
                 success: function (res) {
                     var index = layer.alert(res.msg, {
                         title: '提示信息'
                     }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
                         // 关闭弹出层
                         layer.close(index);
-
                         var iframeIndex = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(iframeIndex);
                     });
                 },
-                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     layer.close(index);
-                    if(XMLHttpRequest.status==404){
-                        window.location.href="404";
-                    }else{
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }

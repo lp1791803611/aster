@@ -74,7 +74,7 @@ public class ${table.controllerName} {
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_modified");
+        queryWrapper.orderByDesc("gmt_create");
         Page<${entity}> page = new Page<>(pageNo, pageSize);
         IPage<${entity}> pageList = ${table.serviceName ? uncap_first}.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<${entity}>(pageList.getRecords(),pageList.getTotal()));

@@ -196,6 +196,7 @@
                                 dataType: "json",
                                 success: function (res) {
                                         layer.msg(res.msg);
+                                        // window.location.reload();
                                 },
                                 error:function (XMLHttpRequest, textStatus, errorThrown) {
                                         if(XMLHttpRequest.status==404){

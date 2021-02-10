@@ -73,4 +73,23 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/2/8 0008
      */
     void deleteMenuContainChildren(String code);
+
+    /**
+     * 批量删除
+     * @param codes
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/9
+     */
+    void batchDelete(List<String> codes);
+
+    /**
+     * 切换启用状态
+     * @param code 菜单编码
+     * @param status 状态
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/9
+     */
+    void switchStatus(String code, String status);
 }

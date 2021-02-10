@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('编辑${table.comment!}')" />
+    <th:block th:include="common/include :: header('编辑${table.comment!}')"/>
     <style>
         body {
             background-color: #ffffff;
@@ -10,18 +10,19 @@
 </head>
 <body>
 <div class="layui-form layuimini-form" th:object="${r'$'}{${entity?uncap_first}}">
-    <input name="id"  type="hidden"  th:field="*{id}" />
+    <input name="id" type="hidden" th:field="*{id}"/>
     <#list table.fields as field>
         <#if field.propertyName != 'id' && field.propertyName != 'gmtCreate'
-            && field.propertyName != 'gmtModified' && field.propertyName != 'isDeleted'>
-             <#if field.propertyName == 'remark'>
-                 <div class="layui-form-item layui-form-text">
-                     <label class="layui-form-label">备注信息</label>
-                     <div class="layui-input-block">
-                         <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
-                     </div>
-                 </div>
-             <#elseif field.propertyName == 'status'>
+        && field.propertyName != 'gmtModified' && field.propertyName != 'isDeleted'>
+            <#if field.propertyName == 'remark'>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"
+                                  th:field="*{remark}"></textarea>
+                    </div>
+                </div>
+            <#elseif field.propertyName == 'status'>
                 <div class="layui-form-item">
                     <label class="layui-form-label required">启用状态</label>
                     <div class="layui-input-block">
@@ -29,14 +30,16 @@
                                th:checked="${r'$'}{${entity?uncap_first}.status == '1' ? false : true}">
                     </div>
                 </div>
-             <#else>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">${field.comment}</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="${field.propertyName}" lay-verify="required" lay-reqtext="${field.comment}不能为空" placeholder="请输入${field.comment}" th:field="*{${field.propertyName}}" class="layui-input">
-                     </div>
-                 </div>
-             </#if>
+            <#else>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">${field.comment}</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="${field.propertyName}" lay-verify="required"
+                               lay-reqtext="${field.comment}不能为空" placeholder="请输入${field.comment}"
+                               th:field="*{${field.propertyName}}" class="layui-input">
+                    </div>
+                </div>
+            </#if>
 
         </#if>
     </#list>
@@ -48,7 +51,7 @@
     </div>
 </div>
 </div>
-<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: footer"/>
 
 <script>
     layui.use(['form'], function () {
@@ -59,9 +62,9 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             <#list table.fields as field>
-                <#if field.propertyName == 'status'>
+            <#if field.propertyName == 'status'>
             data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
-                </#if>
+            </#if>
             </#list>
             $.ajax({
                 url: ctx + '${table.entityPath}/update',
@@ -82,11 +85,11 @@
                         parent.layer.close(iframeIndex);
                     });
                 },
-                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     layer.close(index);
-                    if(XMLHttpRequest.status==404){
-                        window.location.href="404";
-                    }else{
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }

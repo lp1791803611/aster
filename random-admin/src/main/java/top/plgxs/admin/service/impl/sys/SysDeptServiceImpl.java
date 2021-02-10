@@ -1,5 +1,6 @@
 package top.plgxs.admin.service.impl.sys;
 
+import top.plgxs.common.node.LayuiTreeNode;
 import top.plgxs.mbg.entity.sys.SysDept;
 import top.plgxs.mbg.mapper.sys.SysDeptMapper;
 import top.plgxs.admin.service.sys.SysDeptService;
@@ -26,5 +27,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     public List<SysDept> getSysDeptList() {
         return sysDeptMapper.selectSysDeptList(null);
+    }
+
+    @Override
+    public List<LayuiTreeNode> layuiTree() {
+        return sysDeptMapper.layuiTree();
     }
 }

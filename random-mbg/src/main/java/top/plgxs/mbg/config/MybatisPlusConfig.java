@@ -53,7 +53,7 @@ public class MybatisPlusConfig {
 //            "t_sys_user", "t_sys_role", "t_sys_menu",
 //            "t_sys_dict","t_sys_dict_type",
 //            "t_sys_position","t_sys_dept"
-            "t_sys_dept"
+            "t_sys_user"
     };
     // 生成序列号
     public static final boolean STRATEGY_VERSION_UID = true;

@@ -56,4 +56,13 @@
                 and t.remark = #{remark}
             </if>
     </select>
+
+    <select id="layuiTree" resultType="top.plgxs.common.node.LayuiTreeNode">
+        select id as `id`, parent_id as `pid`, dept_name as `title`,
+            (CASE
+                WHEN (parent_id = '0' OR parent_id IS NULL) THEN 'true'
+                ELSE 'false'
+            END ) as `spread`
+        from t_sys_dept
+    </select>
 </mapper>
