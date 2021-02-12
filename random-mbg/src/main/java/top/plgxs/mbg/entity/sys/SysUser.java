@@ -1,16 +1,17 @@
 package top.plgxs.mbg.entity.sys;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -18,7 +19,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2021-02-10
+ * @since 2021-02-12
  * @version 1.0
  */
 @Data
@@ -32,6 +33,10 @@ public class SysUser extends Model<SysUser> {
     @ApiModelProperty(value = "ID")
     @TableId("id")
     private String id;
+
+    @ApiModelProperty(value = "部门id")
+    @TableField("dept_id")
+    private String deptId;
 
     @ApiModelProperty(value = "用户名")
     @TableField("username")

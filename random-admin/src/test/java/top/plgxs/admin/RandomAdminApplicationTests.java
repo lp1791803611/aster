@@ -12,15 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.plgxs.admin.service.sys.SysUserService;
-import top.plgxs.mbg.config.MybatisPlusConfig;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.mapper.sys.SysUserMapper;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -137,14 +134,14 @@ class RandomAdminApplicationTests {
 
 	@Test
 	public void morePage(){
-		QueryWrapper<Map<String,Object>> queryWrapper = new QueryWrapper<>();
+		/*QueryWrapper<Map<String,Object>> queryWrapper = new QueryWrapper<>();
 		queryWrapper.likeRight("username","陈");
 		Page<Map<String,Object>> page = new Page<>(1,5);
-		IPage<Map<String,Object>> iPage = sysUserMapper.selectUserPage(page,queryWrapper);
+		IPage<Map<String,Object>> iPage = sysUserMapper.selectUserPage2(page,queryWrapper);
 		System.out.println("总页数"+iPage.getPages());
 		System.out.println("总记录数"+iPage.getTotal());
 		List<Map<String,Object>> list = iPage.getRecords();
-		list.forEach(System.out::println);
+		list.forEach(System.out::println);*/
 	}
 
 	@Test

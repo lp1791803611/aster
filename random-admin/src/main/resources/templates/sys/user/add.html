@@ -11,6 +11,14 @@
 <body>
 <div class="layui-form layuimini-form">
                 <div class="layui-form-item">
+                    <label class="layui-form-label required">部门id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="deptId" lay-verify="required"
+                               lay-reqtext="部门id不能为空" placeholder="请输入部门id" value=""
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label required">用户名</label>
                     <div class="layui-input-block">
                         <input type="text" name="username" lay-verify="required"

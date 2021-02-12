@@ -2,15 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="common/include :: header('部门列表')"/>
+    <th:block th:include="common/include :: layout-latest-css"/>
+
 </head>
-<body>
-<div class="layuimini-container layui-row">
-    <div class="layui-col-md3">
-        <div class="layuimini-main">
-            <div id="deptTree"></div>
+<body id="myContainer" style="height: 100%">
+    <div class="ui-layout-west layuimini-container">
+        <div class="box box-main">
+            <div class="ui-layout-content">
+                <div id="deptTree"></div>
+            </div>
         </div>
     </div>
-    <div class="layui-col-md9">
+    <div class="ui-layout-center layuimini-container">
         <div class="layuimini-main">
             <fieldset class="table-search-fieldset">
                 <legend>搜索信息</legend>
@@ -49,8 +52,8 @@
             </script>
         </div>
     </div>
-</div>
 <th:block th:include="common/include :: footer"/>
+<th:block th:include="common/include :: layout-latest-js"/>
 
 <script type="text/html" id="statusTpl">
     <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
@@ -58,6 +61,13 @@
 </script>
 
 <script>
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('#myContainer').layout({initClosed: panehHidden, west__size: 260});
+    });
     layui.use(['form', 'table', 'tree'], function () {
         var $ = layui.jquery,
             form = layui.form,

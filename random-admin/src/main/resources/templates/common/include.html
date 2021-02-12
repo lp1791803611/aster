@@ -18,7 +18,7 @@
 <!-- 通用JS -->
 <div th:fragment="footer">
     <script th:inline="javascript"> var ctx = [[@{/}]];</script>
-    <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" src="../static/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+    <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js" charset="utf-8"></script>
     <script th:src="@{/lib/layui-v2.5.5/layui.js}" src="../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script th:src="@{/js/lay-config.js?v=2.0.0}" src="../static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 </div>
@@ -30,6 +30,16 @@
 <div th:fragment="ztree-js">
     <script th:src="@{/lib/ztree/jquery.ztree.all.min.js}"></script>
 </div>
+
+<!-- ui布局插件 -->
+<div th:fragment="layout-latest-css">
+    <link th:href="@{/lib/jquery-layout/jquery.layout-latest.css}" rel="stylesheet"/>
+    <link th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.css}" href="../static/lib/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+</div>
+<div th:fragment="layout-latest-js">
+    <script th:src="@{/lib/jquery-layout/jquery.layout-latest.js}"></script>
+</div>
+
 </body>
 </html>
 

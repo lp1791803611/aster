@@ -2,11 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="common/include :: header('用户列表')"/>
-</head>
-<body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
+    <th:block th:include="common/include :: layout-latest-css"/>
 
+</head>
+<body id="myContainer" style="height: 100%">
+<div class="ui-layout-west layuimini-container">
+    <div class="box box-main">
+        <div class="ui-layout-content">
+            <div id="deptTree"></div>
+        </div>
+    </div>
+</div>
+<div class="ui-layout-center layuimini-container">
+    <div class="layuimini-main">
         <fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
@@ -15,7 +23,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" name="name" placeholder="用户名/昵称/手机/邮箱" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -31,7 +39,8 @@
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除
+                </button>
             </div>
         </script>
 
@@ -41,21 +50,35 @@
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
-
     </div>
 </div>
 <th:block th:include="common/include :: footer"/>
+<th:block th:include="common/include :: layout-latest-js"/>
 
-        <script type="text/html" id="statusTpl">
-            <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
-                   {{d.status=='1'?'':'checked'}}/>
-        </script>
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.status=='1'?'':'checked'}}/>
+</script>
 
 <script>
-    layui.use(['form', 'table'], function () {
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('#myContainer').layout({initClosed: panehHidden, west__size: 260});
+    });
+    layui.use(['form', 'table', 'tree'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            table = layui.table;
+            table = layui.table,
+            tree = layui.tree;
+
+        var Dept = {
+            condition: {
+                id: ""
+            }
+        };
 
         table.render({
             elem: '#currentTableId',
@@ -73,19 +96,10 @@
                 [
                     {type: "checkbox"},
                     {field: 'username', title: '用户名', sort: true},
-                    {field: 'password', title: '密码', sort: true},
-                    {field: 'mobile', title: '手机号', sort: true},
-                    {field: 'email', title: '邮箱', sort: true},
                     {field: 'nickname', title: '昵称', sort: true},
-                    {field: 'gender', title: '性别', sort: true},
-                    {field: 'realname', title: '真实姓名', sort: true},
-                    {field: 'idNumber', title: '身份证号', sort: true},
-                    {field: 'headUrl', title: '头像', sort: true},
-                    {field: 'loginNumber', title: '登录次数', sort: true},
-                    {field: 'lastLoginTime', title: '最后登录时间', sort: true},
-                    {field: 'mobileVerificationCode', title: '手机验证码', sort: true},
-                    {field: 'emailVerificationCode', title: '邮箱验证码', sort: true},
-                    {field: 'gmtModified', title: '更新时间', sort: true},
+                    {field: 'deptName', title: '部门', sort: true},
+                    {field: 'mobile', title: '手机', sort: true},
+                    {field: 'email', title: '邮箱', sort: true},
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
                     {title: '操作', toolbar: '#currentTableBar', align: "center"}
                 ]
@@ -96,23 +110,49 @@
             skin: 'line'
         });
 
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
-            /*layer.alert(result, {
-                    title: '最终的搜索信息'
-            });*/
+        // 渲染树形
+        function renderTree() {
+            $.ajax({
+                type: 'GET',
+                url: ctx + 'sysDept/layuiTree',
+                async: false,
+                dataType: "json",
+                success: function (res) {
+                    tree.render({
+                        elem: '#deptTree',
+                        data: res.data,
+                        onlyIconControl: true,
+                        click: function (obj) {
+                            Dept.condition.id = obj.data.id;
+                            search();
+                        }
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg("服务器好像出了点问题！请稍后试试");
+                }
+            });
+        }
 
-            //执行搜索重载
-            table.reload('currentTableId', {
+        renderTree();
+
+        // 搜索
+        function search() {
+            table.reload("currentTableId", {
                 page: {
                     curr: 1
+                },
+                where: {
+                    name: $("#name").val(),
+                    deptId: Dept.condition.id
                 }
-                , where: {
-                    searchParams: result
-                }
-            }, 'data');
+            });
+        }
 
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            search();
             return false;
         });
 
@@ -154,7 +194,7 @@
                             dataType: "json",
                             success: function (res) {
                                 layer.msg(res.msg);
-                                table.reload('currentTableId');
+                                search();
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 layer.close(index);
