@@ -15,7 +15,9 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -168,6 +170,33 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 this.updateStatus(menu.getCode(), status);
             }
         }*/
+    }
+
+    @Override
+    public List<ZTreeNode> getMenuTreeByRoleId(String roleId) {
+        List<SysMenu> sysMenus = this.getMenuByRoleId(roleId);
+        Map<String, SysMenu> map = new HashMap<>();
+        if (sysMenus != null && sysMenus.size() > 0) {
+            for (SysMenu menu : sysMenus) {
+                map.put(menu.getCode(), menu);
+            }
+        }
+        List<ZTreeNode> zTreeNodes = sysMenuMapper.menuTreeList();
+        if (zTreeNodes != null && zTreeNodes.size() > 0) {
+            for (int i = 0, len = zTreeNodes.size(); i < len; i++) {
+                ZTreeNode node = zTreeNodes.get(i);
+                if (map.containsKey(node.getId())) {
+                    node.setChecked(true);
+                }
+            }
+        }
+        zTreeNodes.add(ZTreeNode.createParent("0", "菜单信息", false, true));
+        return zTreeNodes;
+    }
+
+    @Override
+    public List<SysMenu> getMenuByRoleId(String roleId) {
+        return sysMenuMapper.getMenuByRoleId(roleId);
     }
 
     /**

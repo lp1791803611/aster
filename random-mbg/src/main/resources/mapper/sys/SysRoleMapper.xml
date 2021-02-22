@@ -60,6 +60,6 @@
            ( case when t.status = '1' then true else false end ) as `chkDisabled`
         FROM t_sys_role t
         where t.is_deleted = '0'
-        ORDER BY t.priority ASC
+        ORDER BY t.sort ASC
     </select>
 </mapper>

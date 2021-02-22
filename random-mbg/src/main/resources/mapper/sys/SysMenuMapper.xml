@@ -86,7 +86,8 @@
            t.code AS id,
            t.parent_code AS pId,
            t.menu_name AS name,
-           (CASE WHEN (t.parent_code = '0') THEN 'true' ELSE 'false' END) AS "open"
+           (CASE WHEN (t.parent_code = '0') THEN 'true' ELSE 'false' END) AS "open",
+           ( case when t.status = '1' then true else false end ) as `chkDisabled`
         FROM t_sys_menu t
         where t.is_deleted = '0'
         ORDER BY t.sort, t.gmt_create ASC
@@ -99,6 +100,17 @@
         <where>
             is_deleted = '0'
             and ancestors LIKE CONCAT('%[',#{code},'],%')
+        </where>
+    </select>
+
+    <select id="getMenuByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_menu
+        left join t_sys_role_menu on id = menu_id
+        <where>
+            is_deleted = '0'
+            and role_id = #{roleId}
         </where>
     </select>
 </mapper>

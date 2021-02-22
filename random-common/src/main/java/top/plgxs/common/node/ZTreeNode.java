@@ -46,7 +46,6 @@ public class ZTreeNode {
     private Boolean chkDisabled;
     /**
      * 创建ztree的父级节点
-     * @param chkDisabled 是否禁用
      * @return top.plgxs.common.node.ZTreeNode
      * @author Stranger。
      * @since 2021/2/6

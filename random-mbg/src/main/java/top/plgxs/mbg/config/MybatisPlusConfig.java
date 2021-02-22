@@ -24,12 +24,12 @@ public class MybatisPlusConfig {
 //            "t_sys_user", "t_sys_role", "t_sys_menu",
 //            "t_sys_dict","t_sys_dict_type",
 //            "t_sys_position","t_sys_dept"
-            "t_sys_role"
+            "t_sys_role_menu"
     };
     // 是否生成前端html模板
-    public static final Boolean CUSTOM_HTML_TEMPLATE = true;
+    public static final Boolean CUSTOM_HTML_TEMPLATE = false;
     // 是否生成controller
-    public static final Boolean CUSTOM_GENERATOR_CONTROLLER = true;
+    public static final Boolean CUSTOM_GENERATOR_CONTROLLER = false;
     // 是否生成service&impl
     public static final Boolean CUSTOM_GENERATOR_SERVICE = true;
 

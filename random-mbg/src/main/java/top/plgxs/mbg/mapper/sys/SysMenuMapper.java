@@ -44,4 +44,14 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @since 2021/2/8 0008
      */
     List<SysMenu> getChildMenusByCode(@Param("code") String code);
+
+    /**
+     * 查询角色所属的菜单
+     * @param roleId 角色id
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysMenu>
+     * @author Stranger。
+     * @since 2021/2/22
+     */
+    List<SysMenu> getMenuByRoleId(@Param("roleId") String roleId);
+
 }

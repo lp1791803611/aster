@@ -208,7 +208,13 @@
                     });
                 });
             } else if (obj.event === 'assignMenu') {
-
+                layer.open({
+                    type: 2,
+                    title: '分配权限',
+                    area: ['300px', '400px'],
+                    content: ctx + 'sysRole/assignMenu?roleId=' + data.id,
+                    end: function () {}
+                });
             }
         });
 

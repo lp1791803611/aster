@@ -251,4 +251,20 @@ public class SysMenuController {
         }
         return "sys/menu/ztree";
     }
+
+    /**
+     * 获取菜单树（多选）
+     *
+     * @param roleId 角色id
+     * @return top.plgxs.common.api.ResultInfo<java.util.List < top.plgxs.common.node.ZTreeNode>>
+     * @author Stranger
+     * 。
+     * @since 2021/2/13
+     */
+    @PostMapping("/getMenuTreeByRoleId")
+    @ResponseBody
+    public ResultInfo<List<ZTreeNode>> getMenuTreeByRoleId(@RequestParam("roleId") String roleId) {
+        List<ZTreeNode> list = sysMenuService.getMenuTreeByRoleId(roleId);
+        return ResultInfo.success(list);
+    }
 }

@@ -1,15 +1,19 @@
 package top.plgxs.admin.controller.sys;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import top.plgxs.admin.service.sys.SysRoleMenuService;
 import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.common.api.ResultInfo;
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysRole;
 
@@ -31,6 +35,8 @@ import java.util.List;
 public class SysRoleController {
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * 角色页面
@@ -210,6 +216,62 @@ public class SysRoleController {
         List<SysRole> roles = sysRoleService.list(queryWrapper);
         if (roles != null && roles.size() > 0) {
             return ResultInfo.success("角色编码已存在，请重新填写！", null);
+        }
+        return ResultInfo.failed();
+    }
+
+    /**
+     * 查询role组装成ztree格式
+     *
+     * @param userId 用户id
+     * @return top.plgxs.common.api.ResultInfo<java.util.List < top.plgxs.common.node.ZTreeNode>>
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    @PostMapping("/roleTreeList")
+    @ResponseBody
+    public ResultInfo<List<ZTreeNode>> roleTreeList(@RequestParam("userId") String userId) {
+        List<ZTreeNode> list = sysRoleService.roleTreeList(userId);
+        return ResultInfo.success(list);
+    }
+
+    /**
+     * 跳转分配权限界面
+     *
+     * @param roleId 角色id
+     * @param model
+     * @return java.lang.String
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    @GetMapping("/assignMenu")
+    public String assignRole(@RequestParam("roleId") String roleId, ModelMap model) {
+        model.addAttribute("roleId", roleId);
+        return "sys/role/assignMenu";
+    }
+
+    /**
+     * 保存角色菜单关系
+     *
+     * @param jsonObject
+     * @return top.plgxs.common.api.ResultInfo<java.lang.String>
+     * @author Stranger。
+     * @since 2021/2/19
+     */
+    @PostMapping("/saveRoleMenu")
+    @ResponseBody
+    public ResultInfo<String> saveRoleMenu(@RequestBody JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return ResultInfo.validateFailed();
+        }
+        String roleId = jsonObject.getString("roleId");
+        String menuCodes = jsonObject.getString("menuCode");
+        if (StrUtil.isBlank(roleId) || StrUtil.isBlank(menuCodes)) {
+            return ResultInfo.validateFailed();
+        }
+        boolean result = sysRoleMenuService.saveRoleMenu(roleId, menuCodes);
+        if (result) {
+            return ResultInfo.success();
         }
         return ResultInfo.failed();
     }

@@ -92,4 +92,22 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/2/9
      */
     void switchStatus(String code, String status);
+
+    /**
+     * 根据角色id组装菜单树
+     * @param roleId
+     * @return java.util.List<top.plgxs.common.node.ZTreeNode>
+     * @author Stranger。
+     * @since 2021/2/22
+     */
+    List<ZTreeNode> getMenuTreeByRoleId(String roleId);
+
+    /**
+     * 当前角色所属的菜单
+     * @param roleId
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysMenu>
+     * @author Stranger。
+     * @since 2021/2/22
+     */
+    List<SysMenu> getMenuByRoleId(String roleId);
 }
