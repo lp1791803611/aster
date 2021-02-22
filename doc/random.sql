@@ -158,8 +158,8 @@ DROP TABLE IF EXISTS `t_sys_role`;
 CREATE TABLE `t_sys_role` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
   `role_name` varchar(100) DEFAULT NULL COMMENT '角色名称',
-  `role_code` varchar(100) DEFAULT NULL COMMENT '角色代码',
-  `priority` int(11) DEFAULT NULL COMMENT '优先级',
+  `role_code` varchar(100) DEFAULT NULL COMMENT '角色编码',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
   `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` varchar(1) DEFAULT '0' COMMENT '启用状态',

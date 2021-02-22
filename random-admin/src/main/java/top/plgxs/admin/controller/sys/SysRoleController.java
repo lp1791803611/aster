@@ -1,19 +1,20 @@
 package top.plgxs.admin.controller.sys;
 
+import javax.annotation.Resource;
+
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysRole;
+import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-02-13
+ * @since 2021-02-22
  * @version 1.0
  */
 @Controller
@@ -35,7 +36,7 @@ public class SysRoleController {
     /**
      * 角色页面
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @GetMapping("/list")
     public String list(){
@@ -44,19 +45,21 @@ public class SysRoleController {
 
     /**
      * 分页查询列表
-     * @param searchParams 查询条件
+     * @param name 查询条件
      * @param pageNo 第几页
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "searchParams", required = false) String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
-        //TODO 查询条件
+        if (StrUtil.isNotBlank(name)) {
+            queryWrapper.like("role_name", name).or().like("role_code", name);
+        }
         queryWrapper.orderByDesc("gmt_create");
         Page<SysRole> page = new Page<>(pageNo, pageSize);
         IPage<SysRole> pageList = sysRoleService.page(page, queryWrapper);
@@ -66,7 +69,7 @@ public class SysRoleController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @GetMapping("/add")
     public String add(){
@@ -78,7 +81,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @PostMapping("/insert")
     @ResponseBody
@@ -95,7 +98,7 @@ public class SysRoleController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -109,7 +112,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @PostMapping("/update")
     @ResponseBody
@@ -130,7 +133,7 @@ public class SysRoleController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -150,7 +153,7 @@ public class SysRoleController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -168,7 +171,7 @@ public class SysRoleController {
      * @param id 主键
      * @param status 状态
      * @author Stranger。
-     * @since 2021-02-13
+     * @since 2021-02-22
      */
     @PostMapping("/switchStatus")
     @ResponseBody
@@ -185,16 +188,20 @@ public class SysRoleController {
     }
 
     /**
-     * 查询role组装成ztree格式
-     * @param userId 用户id
-     * @return top.plgxs.common.api.ResultInfo<java.util.List<top.plgxs.common.node.ZTreeNode>>
+     * 校验角色编码是否已存在
+     * @param code 角色编码
      * @author Stranger。
-     * @since 2021/2/13
+     * @since 2021/2/22 0022
      */
-    @PostMapping("/roleTreeList")
+    @GetMapping("/verifyCode")
     @ResponseBody
-    public ResultInfo<List<ZTreeNode>> roleTreeList(@RequestParam("userId") String userId){
-        List<ZTreeNode> list = sysRoleService.roleTreeList(userId);
-        return ResultInfo.success(list);
+    public ResultInfo<String> verifyCode(@RequestParam("code") String code) {
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role_code", code);
+        List<SysRole> roles = sysRoleService.list(queryWrapper);
+        if (roles != null && roles.size() > 0) {
+            return ResultInfo.success("角色编码已存在，请重新填写！", null);
+        }
+        return ResultInfo.failed();
     }
 }

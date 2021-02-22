@@ -15,7 +15,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" name="name" autocomplete="off" placeholder="角色名称/角色编码" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -40,6 +40,7 @@
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-xs" lay-event="assignMenu">分配权限</a>
         </script>
 
     </div>
@@ -73,11 +74,11 @@
                 [
                     {type: "checkbox"},
                     {field: 'roleName', title: '角色名称', sort: true},
-                    {field: 'roleCode', title: '角色代码', sort: true},
-                    {field: 'priority', title: '优先级', sort: true},
-                    {field: 'gmtModified', title: '更新时间', sort: true},
+                    {field: 'roleCode', title: '角色编码', sort: true},
+                    {field: 'sort', title: '排序', sort: true},
+                    {field: 'gmtCreate', title: '创建时间', sort: true},
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
-                    {title: '操作', toolbar: '#currentTableBar', align: "center"}
+                    {title: '操作', minWidth: '200', toolbar: '#currentTableBar', align: "center"}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -86,19 +87,22 @@
             skin: 'line'
         });
 
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
-            //执行搜索重载
-            table.reload('currentTableId', {
+        // 搜索
+        function search() {
+            table.reload("currentTableId", {
                 page: {
                     curr: 1
+                },
+                where: {
+                    name: $("#name").val()
                 }
-                , where: {
-                    searchParams: result
-                }
-            }, 'data');
+            });
+        }
 
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            search();
             return false;
         });
 
@@ -140,7 +144,7 @@
                             dataType: "json",
                             success: function (res) {
                                 layer.msg(res.msg);
-                                table.reload('currentTableId');
+                                search();
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 layer.close(index);
@@ -203,6 +207,8 @@
                         }
                     });
                 });
+            } else if (obj.event === 'assignMenu') {
+
             }
         });
 

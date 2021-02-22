@@ -19,18 +19,18 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label required">角色代码</label>
+                    <label class="layui-form-label required">角色编码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="roleCode" lay-verify="required"
-                               lay-reqtext="角色代码不能为空" placeholder="请输入角色代码" value=""
+                        <input type="text" name="roleCode" lay-verify="required|unique_code"
+                               lay-reqtext="角色编码不能为空" placeholder="请输入角色编码" value=""
                                class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label required">优先级</label>
+                    <label class="layui-form-label required">排序</label>
                     <div class="layui-input-block">
-                        <input type="text" name="priority" lay-verify="required"
-                               lay-reqtext="优先级不能为空" placeholder="请输入优先级" value=""
+                        <input type="text" name="sort" lay-verify="required|number"
+                               lay-reqtext="排序不能为空" placeholder="请输入排序" value=""
                                class="layui-input">
                     </div>
                 </div>
@@ -53,6 +53,26 @@
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        //自定义验证规则
+        form.verify({
+            unique_code: function (value) {
+                var checkResult = "";
+                $.ajax({
+                    type: 'GET',
+                    url: ctx + 'sysRole/verifyCode',
+                    data: {code: value},
+                    async: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.success){
+                            checkResult = res.msg;
+                        }
+                    }
+                });
+                return checkResult;
+            }
+        });
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {

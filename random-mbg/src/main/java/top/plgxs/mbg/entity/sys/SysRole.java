@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2021-02-13
+ * @since 2021-02-22
  * @version 1.0
  */
 @Data
@@ -37,13 +37,13 @@ public class SysRole extends Model<SysRole> {
     @TableField("role_name")
     private String roleName;
 
-    @ApiModelProperty(value = "角色代码")
+    @ApiModelProperty(value = "角色编码")
     @TableField("role_code")
     private String roleCode;
 
-    @ApiModelProperty(value = "优先级")
-    @TableField("priority")
-    private Integer priority;
+    @ApiModelProperty(value = "排序")
+    @TableField("sort")
+    private Integer sort;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("gmt_create")
