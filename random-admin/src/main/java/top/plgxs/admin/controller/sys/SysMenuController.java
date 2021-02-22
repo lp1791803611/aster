@@ -14,6 +14,8 @@ import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysMenu;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -205,9 +207,9 @@ public class SysMenuController {
     @PostMapping("/selectMenuTreeList")
     @ResponseBody
     public ResultInfo<List<ZTreeNode>> selectMenuTreeList() {
-        List<ZTreeNode> roleTreeList = sysMenuService.menuTreeList();
-        roleTreeList.add(ZTreeNode.createParent());
-        return ResultInfo.success(roleTreeList);
+        List<ZTreeNode> list = sysMenuService.menuTreeList();
+        list.add(ZTreeNode.createParent());
+        return ResultInfo.success(list);
     }
 
     /**
@@ -227,5 +229,26 @@ public class SysMenuController {
             return ResultInfo.success("该编码已存在，请重新填写", null);
         }
         return ResultInfo.failed();
+    }
+
+    /**
+     * 菜单树-单选
+     * @param treeUrl ztrr请求json的url
+     * @param model
+     * @return java.lang.String
+     * @author Stranger。
+     * @since 2021/2/6
+     */
+    @GetMapping("/menuTree")
+    public String commonTree(@RequestParam("treeUrl") String treeUrl, Model model) {
+        if (StrUtil.isBlank(treeUrl)) {
+//            throw new RequestEmptyException("请求数据不完整！");
+        }
+        try {
+            model.addAttribute("treeUrl", URLDecoder.decode(treeUrl, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+//            throw new RequestEmptyException("请求数据不完整！");
+        }
+        return "sys/menu/ztree";
     }
 }

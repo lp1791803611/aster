@@ -10,118 +10,116 @@
 </head>
 <body>
 <div class="layui-form layuimini-form">
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">部门id</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="deptId" lay-verify="required"
-                               lay-reqtext="部门id不能为空" placeholder="请输入部门id" value=""
-                               class="layui-input">
-                    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">基本信息</div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required|unique_username"
+                           lay-reqtext="用户名不能为空" placeholder="请输入用户名" value=""
+                           class="layui-input">
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">用户名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="username" lay-verify="required"
-                               lay-reqtext="用户名不能为空" placeholder="请输入用户名" value=""
-                               class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">昵称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="nickname" lay-verify="required"
+                           lay-reqtext="昵称不能为空" placeholder="请输入昵称" value=""
+                           class="layui-input">
                 </div>
-                <div class="layui-form-item">
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md5">
                     <label class="layui-form-label required">密码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="password" lay-verify="required"
+                        <input type="password" id="password" name="password" lay-verify="required|psw"
                                lay-reqtext="密码不能为空" placeholder="请输入密码" value=""
-                               class="layui-input">
+                               class="layui-input" style="float:left; width: 98%;">
+                        <span title="鼠标按下显示密码" style="float:left;"
+                              onmousedown="$('#password').attr('type','text')"
+                              onmouseup="$('#password').attr('type','password')">
+                        <i class="layui-icon layui-icon-password" style="position: absolute; top: 8px; font-size: 24px;"></i>
+                    </span>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">手机号</label>
+                <div class="layui-inline layui-col-md5">
+                    <label class="layui-form-label required">重复密码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="mobile" lay-verify="required"
-                               lay-reqtext="手机号不能为空" placeholder="请输入手机号" value=""
-                               class="layui-input">
+                        <input type="password" id="repsw" name="repsw" lay-verify="required|repsw"
+                               lay-reqtext="密码不能为空" placeholder="请输入密码" value=""
+                               class="layui-input" style="float:left; width: 98%;">
+                        <span title="鼠标按下显示密码" style="float:left;"
+                              onmousedown="$('#repsw').attr('type','text')"
+                              onmouseup="$('#repsw').attr('type','password')">
+                        <i class="layui-icon layui-icon-password" style="position: absolute; top: 8px; font-size: 24px;"></i>
+                    </span>
                     </div>
                 </div>
-                <div class="layui-form-item">
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md5">
+                    <label class="layui-form-label required">手机</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mobile" lay-verify="required|number"
+                               lay-reqtext="手机号不能为空" placeholder="请输入手机号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline layui-col-md5">
                     <label class="layui-form-label required">邮箱</label>
                     <div class="layui-input-block">
                         <input type="text" name="email" lay-verify="required"
-                               lay-reqtext="邮箱不能为空" placeholder="请输入邮箱" value=""
-                               class="layui-input">
+                               lay-reqtext="邮箱不能为空" placeholder="请输入邮箱" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">昵称</label>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="gender" value="M" title="男" checked/>
+                    <input type="radio" name="gender" value="F" title="女"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-block">
+                    <input type="text" name="headUrl" placeholder="请输入头像" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-row">
+                <div class="layui-inline layui-col-md5">
+                    <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="nickname" lay-verify="required"
-                               lay-reqtext="昵称不能为空" placeholder="请输入昵称" value=""
-                               class="layui-input">
+                        <input type="text" name="realname" placeholder="请输入姓名" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">性别</label>
+                <div class="layui-inline layui-col-md5">
+                    <label class="layui-form-label">身份证号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="gender" lay-verify="required"
-                               lay-reqtext="性别不能为空" placeholder="请输入性别" value=""
-                               class="layui-input">
+                        <input type="text" name="idNumber" placeholder="请输入身份证号" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">真实姓名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="realname" lay-verify="required"
-                               lay-reqtext="真实姓名不能为空" placeholder="请输入真实姓名" value=""
-                               class="layui-input">
-                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-header">职务信息</div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门</label>
+                <div class="layui-input-block">
+                    <div id="deptSelect" class="xm-select-demo"></div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">身份证号</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="idNumber" lay-verify="required"
-                               lay-reqtext="身份证号不能为空" placeholder="请输入身份证号" value=""
-                               class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-block">
+                    <div id="positionSelect" class="xm-select-demo"></div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">头像</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="headUrl" lay-verify="required"
-                               lay-reqtext="头像不能为空" placeholder="请输入头像" value=""
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">登录次数</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="loginNumber" lay-verify="required"
-                               lay-reqtext="登录次数不能为空" placeholder="请输入登录次数" value=""
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">最后登录时间</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="lastLoginTime" lay-verify="required"
-                               lay-reqtext="最后登录时间不能为空" placeholder="请输入最后登录时间" value=""
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">手机验证码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="mobileVerificationCode" lay-verify="required"
-                               lay-reqtext="手机验证码不能为空" placeholder="请输入手机验证码" value=""
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">邮箱验证码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="emailVerificationCode" lay-verify="required"
-                               lay-reqtext="邮箱验证码不能为空" placeholder="请输入邮箱验证码" value=""
-                               class="layui-input">
-                    </div>
-                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -129,12 +127,102 @@
     </div>
 </div>
 <th:block th:include="common/include :: footer"/>
-
+<th:block th:include="common/include :: xm-select"/>
 <script>
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        // 添加表单验证方法
+        form.verify({
+            psw: [/^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'],
+            repsw: function (value) {
+                if (value !== $('input[name=password]').val()) {
+                    return '两次密码输入不一致';
+                }
+            },
+            unique_username: function (value) {
+                var checkResult = "";
+                $.ajax({
+                    type: 'GET',
+                    url: ctx + 'sysUser/verifyUserName',
+                    data: {username: value},
+                    async: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.success){
+                            checkResult = res.msg;
+                        }
+                    }
+                });
+                return checkResult;
+            }
+        });
+
+        // 初始化dept下拉框
+        var deptSelect = xmSelect.render({
+            el: '#deptSelect',
+            name: 'deptId', // 表单提交时的name
+            autoRow: true, // 是否开启自动换行(选项过多时)
+            filterable: true, // 是否开启搜索
+            radio: true, // 是否单选
+            clickClose: true, // 选中后是否关闭下拉框
+            tree: {
+                show: true, // 是否展示为树形结构
+                strict: false, // 是否遵循严格父子结构,即选中父节点是否要选中所有子节点
+                showFolderIcon: true, // 是否显示节点前的三角图标
+                showLine: true,  // 是否显示虚线
+                indent: 20, // 间距
+                expandedKeys: true, // 默认展开的节点数组, 为true时展开所有节点
+            },
+            height: 'auto',
+            prop: {
+                name: 'title',
+                value: 'id',
+                selected: 'checked',
+            },
+            data: function () {
+                var result;
+                $.ajax({
+                    url: ctx + 'sysDept/xmselectTree',
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    success: function (res) {
+                        result = res.data;
+                    }
+                });
+                return result;
+            }
+        });
+
+        // 初始化position下拉框
+        var positionSelect = xmSelect.render({
+            el: '#positionSelect',
+            name: 'positionId', // 表单提交时的name
+            autoRow: true, // 是否开启自动换行(选项过多时)
+            filterable: true, // 是否开启搜索
+            height: 'auto',
+            prop: {
+                name: 'title',
+                value: 'id',
+                selected: 'checked',
+            },
+            data: function () {
+                var result;
+                $.ajax({
+                    url: ctx + 'sysPosition/selectAll',
+                    type: 'GET',
+                    async: false,
+                    dataType: "json",
+                    success: function (res) {
+                        result = res.data;
+                    }
+                });
+                return result;
+            }
+        });
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
@@ -166,7 +254,6 @@
                     }
                 }
             });
-
             return false;
         });
 

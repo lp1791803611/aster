@@ -41,7 +41,7 @@
 </div>
 <th:block th:include="common/include :: footer"/>
 
-<script>
+<script th:inline="javascript">
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,

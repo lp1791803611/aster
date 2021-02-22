@@ -147,7 +147,7 @@
                 type: 2,
                 title: '父级菜单',
                 area: ['300px', '400px'],
-                content: ctx + 'common/commonTree?treeUrl=' + treeUrl,
+                content: ctx + 'sysMenu/menuTree?treeUrl=' + treeUrl,
                 end: function () {
                     $("#parentCode").val(MenuInfoDlg.data.parentCode);
                     $("#parentName").val(MenuInfoDlg.data.parentName);
@@ -177,7 +177,6 @@
             }
         });
         var icon = [[${sysMenu.menuIcon}]];
-        console.log(icon);
         iconPicker.checkIcon('iconPicker', icon);
 
         // 初始化菜单类型

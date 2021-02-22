@@ -52,4 +52,14 @@
                 and t.remark = #{remark}
             </if>
     </select>
+
+    <select id="roleTreeList" resultType="top.plgxs.common.node.ZTreeNode">
+        SELECT
+           t.id AS `id`,
+           t.role_name AS `name`,
+           ( case when t.status = '1' then true else false end ) as `chkDisabled`
+        FROM t_sys_role t
+        where t.is_deleted = '0'
+        ORDER BY t.priority ASC
+    </select>
 </mapper>

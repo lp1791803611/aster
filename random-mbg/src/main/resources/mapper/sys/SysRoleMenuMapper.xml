@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysRoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysRoleMenu">
+        <id column="role_id" property="roleId" />
+        <result column="menu_id" property="menuId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        role_id, menu_id
+    </sql>
+
+    <select id="selectSysRoleMenuList" parameterType="top.plgxs.mbg.entity.sys.SysRoleMenu" resultType="top.plgxs.mbg.entity.sys.SysRoleMenu">
+        select <include refid="Base_Column_List"/>
+        from t_sys_role_menu t
+        where 1 = 1
+            <if test="roleId != null and roleId != ''">
+                and t.role_id = #{roleId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                and t.menu_id = #{menuId}
+            </if>
+    </select>
+</mapper>

@@ -8,8 +8,8 @@ package top.plgxs.common.enums;
  * @since 2021/2/9 21:06
  */
 public enum StatusEnum {
-    ENABLE("1", "启用"),
-    DISABLE("0", "冻结");
+    ENABLE("0", "启用"),
+    DISABLE("1", "冻结");
 
     private String code;
     private String message;

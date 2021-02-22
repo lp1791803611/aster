@@ -87,13 +87,30 @@ public class SysDeptController {
     @ResponseBody
     public ResultInfo<List<LayuiTreeNode>> layuiTree() {
         List<LayuiTreeNode> nodes = sysDeptService.layuiTree();
-        nodes.add(LayuiTreeUtils.createRoot());
+        nodes.add(LayuiTreeUtils.createRoot(true, false));
+        List<LayuiTreeNode> list = LayuiTreeUtils.doTreeBuildByRecursion(nodes, Constants.TOP_DEPT_PARENT_ID);
+        return ResultInfo.success(list);
+    }
+
+    /**
+     * 获取部门的tree列表，用于xmselect
+     *
+     * @return top.plgxs.common.api.ResultInfo<java.util.List < top.plgxs.common.node.LayuiTreeNode>>
+     * @author Stranger。
+     * @since 2021/2/10
+     */
+    @GetMapping("/xmselectTree")
+    @ResponseBody
+    public ResultInfo<List<LayuiTreeNode>> xmselectTree() {
+        List<LayuiTreeNode> nodes = sysDeptService.layuiTree();
+        nodes.add(LayuiTreeUtils.createRoot(false, true));
         List<LayuiTreeNode> list = LayuiTreeUtils.doTreeBuildByRecursion(nodes, Constants.TOP_DEPT_PARENT_ID);
         return ResultInfo.success(list);
     }
 
     /**
      * 添加页面
+     *
      * @param pid 父部门id
      * @author Stranger。
      * @since 2021-02-08
@@ -142,7 +159,7 @@ public class SysDeptController {
     public String edit(Model model, @PathVariable("id") String id) {
         SysDept sysDept = sysDeptService.getById(id);
         String parentName = "顶级";
-        if(!Constants.TOP_DEPT_ID.equals(sysDept.getParentId())){
+        if (!Constants.TOP_DEPT_ID.equals(sysDept.getParentId())) {
             SysDept parentDept = sysDeptService.getById(sysDept.getParentId());
             parentName = parentDept.getDeptName();
         }

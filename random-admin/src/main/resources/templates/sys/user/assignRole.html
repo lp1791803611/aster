@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('分配角色')" />
+    <th:block th:include="common/include :: ztree-css" />
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row" style="margin-top:15px;background: #f2f7f8;padding: 20px;">
+        <div id="zTree" class="ztree"></div>
+    </div>
+    <div class="layui-row" style="background: #CFD4D5;padding: 10px;">
+        <div style="text-align: center;">
+            <button class="layui-btn layui-btn-sm" id="saveButton">保存</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" type="button" id="closeDialog">取消</button>
+        </div>
+    </div>
+</div>
+<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: ztree-js" />
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['ztree'], function () {
+        var $ZTree = layui.ztree;
+
+        var ZTreeDlg = {
+            index: parent.layer.getFrameIndex(window.name)
+        };
+
+        var userId = [[${userId}]];
+        var treeUrl = ctx + "sysRole/roleTreeList?userId=" + userId;
+
+        var setting = {
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                }
+            },
+            data: {
+                simpleData : {
+                    enable : true,
+                    idKey: "id",
+                    pIdKey: "pid",
+                    rootPId: "0"
+                }
+            }
+        };
+
+        var ztree = new $ZTree("zTree", treeUrl);
+        ztree.setSettings(setting);
+        ztree.init();
+
+        $("#saveButton").bind("click", function () {
+            var data = zTreeCheckedNodes("zTree");
+            var userId = [[${userId}]];
+            $.ajax({
+                type: 'POST',
+                url: ctx + 'sysUser/saveUserRole',
+                dataType: 'json',
+                async: false,
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    roleId: data,
+                    userId: userId
+                }),
+                success: function (res) {
+                    parent.layer.msg(res.msg);
+                }
+            });
+            parent.layer.close(ZTreeDlg.index);
+
+        });
+
+        $("#closeDialog").bind("click", function () {
+            parent.layer.close(ZTreeDlg.index);
+        });
+    });
+</script>
+</body>
+</html>

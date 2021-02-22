@@ -18,6 +18,22 @@ public class MybatisPlusConfig {
     public static final String DB_USERNAME = "random";
     public static final String DB_PASSWORD = "random";
 
+    /* 常用配置 */
+    // 需要生成的的表名，多个表名传数组。如果想生成整个库的，这里设为null即可
+    public static final String[] STRATEGY_TABLE_NAMES = new String[] {
+//            "t_sys_user", "t_sys_role", "t_sys_menu",
+//            "t_sys_dict","t_sys_dict_type",
+//            "t_sys_position","t_sys_dept"
+            "t_sys_role"
+    };
+    // 是否生成前端html模板
+    public static final Boolean CUSTOM_HTML_TEMPLATE = true;
+    // 是否生成controller
+    public static final Boolean CUSTOM_GENERATOR_CONTROLLER = true;
+    // 是否生成service&impl
+    public static final Boolean CUSTOM_GENERATOR_SERVICE = true;
+
+
     /**
      * 全局配置
      */
@@ -48,13 +64,7 @@ public class MybatisPlusConfig {
     public static final boolean STRATEGY_FIELD_ANNOTATION = true;
     // 使用lombok
     public static final boolean STRATEGY_LOMBOK = true;
-    // 需要生成的的表名，多个表名传数组。如果想生成整个库的，这里设为null即可
-    public static final String[] STRATEGY_TABLE_NAMES = new String[] {
-//            "t_sys_user", "t_sys_role", "t_sys_menu",
-//            "t_sys_dict","t_sys_dict_type",
-//            "t_sys_position","t_sys_dept"
-            "t_sys_user"
-    };
+
     // 生成序列号
     public static final boolean STRATEGY_VERSION_UID = true;
     // 逻辑删除属性名称
@@ -92,7 +102,6 @@ public class MybatisPlusConfig {
     public static final String CUSTOM_SERVICE_IMPL_PACKAGE = "top.plgxs.admin.service.impl."+PACKAGE_COMMON_NAME;
 
     // 配置list,add,edit自定义模板
-    public static final Boolean CUSTOM_HTML_TEMPLATE = true;
     public static final String CUSTOM_LIST_TEMPLATE = "/templates/list.html";
     public static final String CUSTOM_ADD_TEMPLATE = "/templates/add.html";
     public static final String CUSTOM_EDIT_TEMPLATE = "/templates/edit.html";

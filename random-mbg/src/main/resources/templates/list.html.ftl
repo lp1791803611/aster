@@ -55,7 +55,7 @@
     </#if>
 </#list>
 
-<script>
+<script th:inline="javascript">
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,

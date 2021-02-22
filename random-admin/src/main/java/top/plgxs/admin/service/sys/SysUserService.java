@@ -36,4 +36,51 @@ public interface SysUserService extends IService<SysUser> {
      * @since 2021/2/12
      */
     IPage<UserDto> selectUserPage(Page<UserDto> page, QueryWrapper<UserDto> queryWrapper);
+
+    /**
+     * 插入
+     * @param user
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    void insertUser(UserDto user);
+
+    /**
+     * 根据用户id查询职位
+     * @param userId 用户id
+     * @return java.util.List<java.lang.String>
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    List<String> selectPositionsByUserId(String userId);
+
+    /**
+     * 更新
+     * @param userDto
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    void updateUser(UserDto userDto);
+
+    /**
+     * 删除
+     * @param userId 用户id
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    void deleteUser(String userId);
+
+    /**
+     * 批量删除
+     * @param userIds 用户ids
+     * @return void
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    void deleteBatchUser(List<String> userIds);
+
+
 }

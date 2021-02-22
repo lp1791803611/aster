@@ -75,11 +75,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public int insertMenu(SysMenu sysMenu) {
         // 判断编码是否已存在
         if (StringUtils.isNotBlank(this.getMenuNameByCode(sysMenu.getCode()))) {
-            // TODO
+            // TODO 统一异常
         }
         // 判断父级编码是否为空
         if (StringUtils.isBlank(sysMenu.getParentCode())) {
-            // TODO
+            // TODO 统一异常
         }
         // 组装属性，设置祖级列表
         String ancestors = getAncestorsByParentCode(sysMenu.getParentCode());
@@ -115,7 +115,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public int updateMenu(SysMenu sysMenu) {
         // 判断编码是否已存在
         if (StringUtils.isNotBlank(this.getMenuNameByCode(sysMenu.getCode()))) {
-            // TODO
+            // TODO 统一异常
         }
         // 判断父级编码是否为空,为空则设置父为顶级
         if (StringUtils.isBlank(sysMenu.getParentCode())) {

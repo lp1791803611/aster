@@ -23,7 +23,8 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="name" name="name" placeholder="用户名/昵称/手机/邮箱" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" name="name" placeholder="用户名/昵称/手机/邮箱" autocomplete="off"
+                                       class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -49,6 +50,8 @@
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-xs" lay-event="assignRole">分配角色</a>
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="reset">重置密码</a>
         </script>
     </div>
 </div>
@@ -68,11 +71,12 @@
         }
         $('#myContainer').layout({initClosed: panehHidden, west__size: 260});
     });
-    layui.use(['form', 'table', 'tree'], function () {
+    layui.use(['form', 'table', 'tree', 'layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table,
-            tree = layui.tree;
+            tree = layui.tree,
+            layer = layui.layer;
 
         var Dept = {
             condition: {
@@ -101,7 +105,7 @@
                     {field: 'mobile', title: '手机', sort: true},
                     {field: 'email', title: '邮箱', sort: true},
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
-                    {title: '操作', toolbar: '#currentTableBar', align: "center"}
+                    {title: '操作', toolbar: '#currentTableBar', align: "center", minWidth: 300}
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -220,7 +224,6 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'edit') {
-
                 var index = layer.open({
                     title: '编辑',
                     type: 2,
@@ -246,6 +249,35 @@
                         success: function (res) {
                             layer.msg(res.msg);
                             obj.del();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.close(index);
+                            if (XMLHttpRequest.status == 404) {
+                                window.location.href = ctx + "404";
+                            } else {
+                                layer.msg("服务器好像出了点问题！请稍后试试");
+                            }
+                        }
+                    });
+                });
+            } else if (obj.event === 'assignRole') {
+                layer.open({
+                    type: 2,
+                    title: '分配角色',
+                    area: ['300px', '400px'],
+                    content: ctx + 'sysUser/assignRole?userId=' + data.id,
+                    end: function () {}
+                });
+            } else if (obj.event === 'reset') {
+                layer.confirm('是否重置密码为123456', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        url: ctx + 'sysUser/reset/' + data.id,
+                        type: 'GET',
+                        async: false,
+                        dataType: "json",
+                        success: function (res) {
+                            layer.msg(res.msg);
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             layer.close(index);

@@ -1,18 +1,20 @@
 package top.plgxs.admin.controller.sys;
 
-import javax.annotation.Resource;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.common.api.ResultInfo;
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysRole;
-import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-13
  * @version 1.0
  */
 @Controller
@@ -33,7 +35,7 @@ public class SysRoleController {
     /**
      * 角色页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @GetMapping("/list")
     public String list(){
@@ -47,7 +49,7 @@ public class SysRoleController {
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @GetMapping("/pageList")
     @ResponseBody
@@ -55,7 +57,7 @@ public class SysRoleController {
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_modified");
+        queryWrapper.orderByDesc("gmt_create");
         Page<SysRole> page = new Page<>(pageNo, pageSize);
         IPage<SysRole> pageList = sysRoleService.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<SysRole>(pageList.getRecords(),pageList.getTotal()));
@@ -64,7 +66,7 @@ public class SysRoleController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @GetMapping("/add")
     public String add(){
@@ -76,11 +78,12 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysRole sysRole){
+        sysRole.setGmtCreate(LocalDateTime.now());
         boolean result = sysRoleService.save(sysRole);
         if(result){
             return ResultInfo.success();
@@ -92,7 +95,7 @@ public class SysRoleController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -106,7 +109,7 @@ public class SysRoleController {
      * @param sysRole
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @PostMapping("/update")
     @ResponseBody
@@ -127,7 +130,7 @@ public class SysRoleController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -147,7 +150,7 @@ public class SysRoleController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-13
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -158,5 +161,40 @@ public class SysRoleController {
         }else{
             return ResultInfo.failed("删除失败");
         }
+    }
+
+    /**
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
+     * @author Stranger。
+     * @since 2021-02-13
+     */
+    @PostMapping("/switchStatus")
+    @ResponseBody
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        SysRole sysRole = new SysRole();
+        sysRole.setId(id);
+        sysRole.setStatus(status);
+        boolean result = sysRoleService.updateById(sysRole);
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
+        }
+    }
+
+    /**
+     * 查询role组装成ztree格式
+     * @param userId 用户id
+     * @return top.plgxs.common.api.ResultInfo<java.util.List<top.plgxs.common.node.ZTreeNode>>
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    @PostMapping("/roleTreeList")
+    @ResponseBody
+    public ResultInfo<List<ZTreeNode>> roleTreeList(@RequestParam("userId") String userId){
+        List<ZTreeNode> list = sysRoleService.roleTreeList(userId);
+        return ResultInfo.success(list);
     }
 }

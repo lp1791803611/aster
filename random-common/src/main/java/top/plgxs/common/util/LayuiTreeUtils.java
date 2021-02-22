@@ -21,13 +21,14 @@ public class LayuiTreeUtils {
      * @author Stranger。
      * @since 2021/2/9
      */
-    public static LayuiTreeNode createRoot() {
+    public static LayuiTreeNode createRoot(boolean checked,boolean disabled) {
         LayuiTreeNode treeNode = new LayuiTreeNode();
-        treeNode.setChecked(true);
+        treeNode.setChecked(checked);
         treeNode.setId(Constants.TOP_DEPT_ID);
         treeNode.setTitle("顶级");
         treeNode.setSpread(true);
-        treeNode.setPid("-1");
+        treeNode.setDisabled(disabled);
+        treeNode.setPid(Constants.TOP_DEPT_PARENT_ID);
         return treeNode;
     }
 

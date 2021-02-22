@@ -41,7 +41,12 @@ public class ZTreeNode {
     private String iconSkin;
 
     /**
+     * 禁用节点
+     */
+    private Boolean chkDisabled;
+    /**
      * 创建ztree的父级节点
+     * @param chkDisabled 是否禁用
      * @return top.plgxs.common.node.ZTreeNode
      * @author Stranger。
      * @since 2021/2/6
@@ -53,6 +58,18 @@ public class ZTreeNode {
         zTreeNode.setName("顶级");
         zTreeNode.setOpen(true);
         zTreeNode.setPId("0");
+        zTreeNode.setChkDisabled(false);
+        return zTreeNode;
+    }
+
+    public static ZTreeNode createParent(String id, String name, Boolean checked, Boolean chkDisabled) {
+        ZTreeNode zTreeNode = new ZTreeNode();
+        zTreeNode.setChecked(checked);
+        zTreeNode.setId(id);
+        zTreeNode.setName(name);
+        zTreeNode.setOpen(true);
+        zTreeNode.setPId(id);
+        zTreeNode.setChkDisabled(chkDisabled);
         return zTreeNode;
     }
 }

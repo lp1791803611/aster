@@ -19,7 +19,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">菜单编码</label>
         <div class="layui-input-block">
-            <input type="text" name="code" lay-verify="unique_code" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" value="" class="layui-input">
+            <input type="text" name="code" lay-verify="required|unique_code" lay-reqtext="菜单编码不能为空" placeholder="请输入菜单编码" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -125,7 +125,7 @@
                 type: 2,
                 title: '父级菜单',
                 area: ['300px', '400px'],
-                content: ctx + 'common/commonTree?treeUrl=' + treeUrl,
+                content: ctx + 'sysMenu/menuTree?treeUrl=' + treeUrl,
                 end: function () {
                     $("#parentCode").val(MenuInfoDlg.data.parentCode);
                     $("#parentName").val(MenuInfoDlg.data.parentName);

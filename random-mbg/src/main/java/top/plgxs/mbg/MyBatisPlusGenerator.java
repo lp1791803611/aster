@@ -1,9 +1,7 @@
 package top.plgxs.mbg;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -82,7 +80,6 @@ public class MyBatisPlusGenerator {
                 .setLogicDeleteFieldName(MybatisPlusConfig.STRATEGY_LOGIC_DELETE_FIELD_NAME)
                 // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
                 .setControllerMappingHyphenStyle(MybatisPlusConfig.STRATEGY_CONTROLLER_MAPPING_HYPHEN_STYLE);
-
         // 自定义实体父类
         // strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         // 自定义实体，公共字段
@@ -117,9 +114,13 @@ public class MyBatisPlusGenerator {
         globalConfig.setEntityName(MybatisPlusConfig.GLOBAL_ENTITY_NAME);
         globalConfig.setMapperName(MybatisPlusConfig.GLOBAL_MAPPER_NAME);
         globalConfig.setXmlName(MybatisPlusConfig.GLOBAL_XML_NAME);
-        globalConfig.setServiceName(MybatisPlusConfig.GLOBAL_SERVICE_NAME);
-        globalConfig.setServiceImplName(MybatisPlusConfig.GLOBAL_SERVICEIMPL_NAME);
-        globalConfig.setControllerName(MybatisPlusConfig.GLOBAL_CONTROLLER_NAME);
+        if(MybatisPlusConfig.CUSTOM_GENERATOR_CONTROLLER){
+            globalConfig.setControllerName(MybatisPlusConfig.GLOBAL_CONTROLLER_NAME);
+        }
+        if (MybatisPlusConfig.CUSTOM_GENERATOR_SERVICE) {
+            globalConfig.setServiceName(MybatisPlusConfig.GLOBAL_SERVICE_NAME);
+            globalConfig.setServiceImplName(MybatisPlusConfig.GLOBAL_SERVICEIMPL_NAME);
+        }
         return globalConfig;
     }
 
@@ -138,9 +139,13 @@ public class MyBatisPlusGenerator {
         pathMap.put(ConstVal.MAPPER_PATH, MybatisPlusConfig.PACKAGE_MAPPER);
         pathMap.put(ConstVal.XML_PATH, MybatisPlusConfig.PACKAGE_MAPPER_XML);
         //controller service impl放在其他模块
-        pathMap.put(ConstVal.CONTROLLER_PATH, MybatisPlusConfig.PACKAGE_CONTROLLER);
-        pathMap.put(ConstVal.SERVICE_PATH, MybatisPlusConfig.PACKAGE_SERVICE);
-        pathMap.put(ConstVal.SERVICE_IMPL_PATH, MybatisPlusConfig.PACKAGE_SERVICE_IMPL);
+        if(MybatisPlusConfig.CUSTOM_GENERATOR_CONTROLLER){
+            pathMap.put(ConstVal.CONTROLLER_PATH, MybatisPlusConfig.PACKAGE_CONTROLLER);
+        }
+        if (MybatisPlusConfig.CUSTOM_GENERATOR_SERVICE) {
+            pathMap.put(ConstVal.SERVICE_PATH, MybatisPlusConfig.PACKAGE_SERVICE);
+            pathMap.put(ConstVal.SERVICE_IMPL_PATH, MybatisPlusConfig.PACKAGE_SERVICE_IMPL);
+        }
         pc.setPathInfo(pathMap);
         return pc;
     }
@@ -157,14 +162,18 @@ public class MyBatisPlusGenerator {
                 map.put("customEntityPackage", MybatisPlusConfig.CUSTOM_ENTITY_PACKAGE);
                 // mapper的package
                 map.put("customMapperPackage", MybatisPlusConfig.CUSTOM_MAPPER_PACKAGE);
-                // controller的package
-                map.put("customControllerPackage", MybatisPlusConfig.CUSTOM_CONTROLLER_PACKAGE);
-                // service的package
-                map.put("customServicePackage", MybatisPlusConfig.CUSTOM_SERVICE_PACKAGE);
-                // serviceimpl的package
-                map.put("customServiceImplPackage", MybatisPlusConfig.CUSTOM_SERVICE_IMPL_PACKAGE);
                 // 表名前缀sys
                 map.put("customTableName",MybatisPlusConfig.PACKAGE_COMMON_NAME);
+                if(MybatisPlusConfig.CUSTOM_GENERATOR_CONTROLLER){
+                    // controller的package
+                    map.put("customControllerPackage", MybatisPlusConfig.CUSTOM_CONTROLLER_PACKAGE);
+                }
+                if (MybatisPlusConfig.CUSTOM_GENERATOR_SERVICE) {
+                    // service的package
+                    map.put("customServicePackage", MybatisPlusConfig.CUSTOM_SERVICE_PACKAGE);
+                    // serviceimpl的package
+                    map.put("customServiceImplPackage", MybatisPlusConfig.CUSTOM_SERVICE_IMPL_PACKAGE);
+                }
                 this.setMap(map);
             }
         };
@@ -211,13 +220,16 @@ public class MyBatisPlusGenerator {
     private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
                                GlobalConfig config, PackageConfig packageConfig, InjectionConfig injectionConfig) {
         TemplateConfig tc = new TemplateConfig();
-        tc.setController(MybatisPlusConfig.TEMPLATE_CONTROLLER);
-        tc.setService(MybatisPlusConfig.TEMPLATE_SERVICE);
-        tc.setServiceImpl(MybatisPlusConfig.TEMPLATE_SERVICE_IMPL);
         tc.setEntity(MybatisPlusConfig.TEMPLATE_ENTITY);
         tc.setMapper(MybatisPlusConfig.TEMPLATE_MAPPER);
         tc.setXml(MybatisPlusConfig.TEMPLATE_MAPPER_XML);
-
+        if(MybatisPlusConfig.CUSTOM_GENERATOR_CONTROLLER){
+            tc.setController(MybatisPlusConfig.TEMPLATE_CONTROLLER);
+        }
+        if (MybatisPlusConfig.CUSTOM_GENERATOR_SERVICE) {
+            tc.setService(MybatisPlusConfig.TEMPLATE_SERVICE);
+            tc.setServiceImpl(MybatisPlusConfig.TEMPLATE_SERVICE_IMPL);
+        }
         new AutoGenerator()
                 .setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)

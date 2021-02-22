@@ -88,6 +88,7 @@
            t.menu_name AS name,
            (CASE WHEN (t.parent_code = '0') THEN 'true' ELSE 'false' END) AS "open"
         FROM t_sys_menu t
+        where t.is_deleted = '0'
         ORDER BY t.sort, t.gmt_create ASC
     </select>
 
@@ -96,7 +97,8 @@
             <include refid="Base_Column_List" />
         FROM t_sys_menu
         <where>
-            ancestors LIKE CONCAT('%[',#{code},'],%')
+            is_deleted = '0'
+            and ancestors LIKE CONCAT('%[',#{code},'],%')
         </where>
     </select>
 </mapper>

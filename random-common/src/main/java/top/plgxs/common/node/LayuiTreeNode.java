@@ -45,5 +45,14 @@ public class LayuiTreeNode {
 
     private List<LayuiTreeNode> children = new ArrayList<>();
 
+    public LayuiTreeNode () {
+        super();
+    }
 
+    public LayuiTreeNode (String id, String title, boolean checked, boolean disabled ) {
+        this.id = id;
+        this.title = title;
+        this.checked = checked;
+        this.disabled = disabled;
+    }
 }

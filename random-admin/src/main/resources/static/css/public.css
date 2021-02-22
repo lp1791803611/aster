@@ -68,3 +68,23 @@ body {
     -moz-border-radius: 2em;
     border-radius: 2em
 }
+
+/**增加layui-card布局中表单红点样式 */
+.layuimini-form > .layui-card > .layui-card-body > .layui-form-item > .required:after, .layui-inline > .required:after {
+    content: '*';
+    color: red;
+    position: absolute;
+    margin-left: 4px;
+    font-weight: bold;
+    line-height: 1.8em;
+    top: 6px;
+    right: 5px;
+}
+
+.layuimini-form > .layui-card > .layui-card-body > .layui-form-item > .layui-form-label, .layui-inline > .layui-form-label {
+    width: 120px !important;
+}
+
+.layuimini-form > .layui-card > .layui-card-body > .layui-form-item > .layui-input-block, .layui-inline > .layui-input-block {
+    margin-left: 150px !important;
+}

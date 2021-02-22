@@ -21,4 +21,14 @@ public class Constants {
      * 顶级部门父编号
      */
     public static final String TOP_DEPT_PARENT_ID = "-1";
+
+    /**
+     * 密码私钥
+     */
+    public static final String PASSWORD_SALT = "stranger";
+
+    /**
+     * 初始密码
+     */
+    public static final String PASSWORD_INITIAL = "123456";
 }

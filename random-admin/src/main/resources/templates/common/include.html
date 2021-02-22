@@ -21,6 +21,7 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js" charset="utf-8"></script>
     <script th:src="@{/lib/layui-v2.5.5/layui.js}" src="../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script th:src="@{/js/lay-config.js?v=2.0.0}" src="../static/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script th:src="@{/js/common.js}" src="../static/js/common.js" charset="utf-8"></script>
 </div>
 
 <!-- ztree树插件 -->
@@ -38,6 +39,11 @@
 </div>
 <div th:fragment="layout-latest-js">
     <script th:src="@{/lib/jquery-layout/jquery.layout-latest.js}"></script>
+</div>
+
+<!-- xmselect -->
+<div th:fragment="xm-select">
+    <script th:src="@{/lib/xmselect/xm-select.js}"></script>
 </div>
 
 </body>
