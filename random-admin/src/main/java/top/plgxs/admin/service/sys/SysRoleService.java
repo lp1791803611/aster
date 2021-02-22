@@ -1,5 +1,6 @@
 package top.plgxs.admin.service.sys;
 
+import top.plgxs.common.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,4 +23,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @date 2021-01-29
      */
     List<SysRole> getSysRoleList();
+
+    /**
+     * 查询组装成ztree格式
+     * @param userId
+     * @return java.util.List<top.plgxs.common.node.ZTreeNode>
+     * @author Stranger。
+     * @since 2021/2/13
+     */
+    List<ZTreeNode> roleTreeList(String userId);
 }
