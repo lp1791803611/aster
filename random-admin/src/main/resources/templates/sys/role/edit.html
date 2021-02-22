@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('编辑角色')" />
+    <th:block th:include="common/include :: header('编辑角色')"/>
     <style>
         body {
             background-color: #ffffff;
@@ -10,41 +10,49 @@
 </head>
 <body>
 <div class="layui-form layuimini-form" th:object="${sysRole}">
-    <input name="id"  type="hidden"  th:field="*{id}" />
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">角色名称</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="roleName" lay-verify="required" lay-reqtext="角色名称不能为空" placeholder="请输入角色名称" th:field="*{roleName}" class="layui-input">
-                     </div>
-                 </div>
+    <input name="id" type="hidden" th:field="*{id}"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">角色名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="roleName" lay-verify="required"
+                               lay-reqtext="角色名称不能为空" placeholder="请输入角色名称"
+                               th:field="*{roleName}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">角色代码</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="roleCode" lay-verify="required" lay-reqtext="角色代码不能为空" placeholder="请输入角色代码" th:field="*{roleCode}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">角色编码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="roleCode" lay-verify="required|unique_code"
+                               lay-reqtext="角色编码不能为空" placeholder="请输入角色编码"
+                               th:field="*{roleCode}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">优先级</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="priority" lay-verify="required" lay-reqtext="优先级不能为空" placeholder="请输入优先级" th:field="*{priority}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" lay-verify="required|number"
+                               lay-reqtext="排序不能为空" placeholder="请输入排序"
+                               th:field="*{sort}" class="layui-input">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item">
-                     <label class="layui-form-label required">启用状态</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="status" lay-verify="required" lay-reqtext="启用状态不能为空" placeholder="请输入启用状态" th:field="*{status}" class="layui-input">
-                     </div>
-                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                               th:checked="${sysRole.status == '1' ? false : true}">
+                    </div>
+                </div>
 
-                 <div class="layui-form-item layui-form-text">
-                     <label class="layui-form-label">备注信息</label>
-                     <div class="layui-input-block">
-                         <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:field="*{remark}"></textarea>
-                     </div>
-                 </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"
+                                  th:field="*{remark}"></textarea>
+                    </div>
+                </div>
 
 
     <div class="layui-form-item">
@@ -54,39 +62,64 @@
     </div>
 </div>
 </div>
-<th:block th:include="common/include :: footer" />
+<th:block th:include="common/include :: footer"/>
 
-<script>
+<script th:inline="javascript">
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
 
+        //自定义验证规则
+        form.verify({
+            unique_code: function (value) {
+                var checkResult = "";
+                var oldCode = [[${sysRole.roleCode}]];
+                if (value != oldCode) {
+                    $.ajax({
+                        type: 'GET',
+                        url: ctx + 'sysMenu/verifyCode',
+                        data: {code: value},
+                        async: false,
+                        dataType: 'json',
+                        success: function (res) {
+                            if(res.success){
+                                checkResult = res.msg;
+                            }
+                        }
+                    });
+                }
+                return checkResult;
+            }
+        });
+
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
             $.ajax({
                 url: ctx + 'sysRole/update',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',
                 dataType: "json",
-                data:JSON.stringify(data.field),
+                data: JSON.stringify(data.field),
                 success: function (res) {
                     var index = layer.alert(res.msg, {
                         title: '提示信息'
                     }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
                         // 关闭弹出层
                         layer.close(index);
-
                         var iframeIndex = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(iframeIndex);
                     });
                 },
-                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     layer.close(index);
-                    if(XMLHttpRequest.status==404){
-                        window.location.href="404";
-                    }else{
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
                         layer.msg("服务器好像出了点问题！请稍后试试");
                     }
                 }
