@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('新增字典数据')"/>
+    <th:block th:include="common/include :: header('编辑字典类型')"/>
     <style>
         body {
             background-color: #ffffff;
@@ -9,50 +9,49 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form" th:object="${sysDictType}">
+    <input name="id" type="hidden" th:field="*{id}"/>
                 <div class="layui-form-item">
-                    <label class="layui-form-label required">字典标签</label>
+                    <label class="layui-form-label required">字典类型名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="dictLabel" lay-verify="required"
-                               lay-reqtext="字典标签不能为空" placeholder="请输入字典标签" value=""
-                               class="layui-input">
+                        <input type="text" name="dictTypeName" lay-verify="required"
+                               lay-reqtext="字典类型名称不能为空" placeholder="请输入字典类型名称"
+                               th:field="*{dictTypeName}" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">字典键值</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="dictValue" lay-verify="required"
-                               lay-reqtext="字典键值不能为空" placeholder="请输入字典键值" value=""
-                               class="layui-input">
-                    </div>
-                </div>
+
                 <div class="layui-form-item">
                     <label class="layui-form-label required">字典类型编码</label>
                     <div class="layui-input-block">
                         <input type="text" name="dictTypeCode" lay-verify="required"
-                               lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码" value=""
-                               class="layui-input">
+                               lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码"
+                               th:field="*{dictTypeCode}" class="layui-input">
                     </div>
                 </div>
+
                 <div class="layui-form-item">
-                    <label class="layui-form-label required">字典排序</label>
+                    <label class="layui-form-label required">启用状态</label>
                     <div class="layui-input-block">
-                        <input type="text" name="sort" lay-verify="required"
-                               lay-reqtext="字典排序不能为空" placeholder="请输入字典排序" value=""
-                               class="layui-input">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                               th:checked="${sysDictType.status == '1' ? false : true}">
                     </div>
                 </div>
+
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">备注信息</label>
                     <div class="layui-input-block">
-                        <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                        <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"
+                                  th:field="*{remark}"></textarea>
                     </div>
                 </div>
+
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
         </div>
     </div>
+</div>
 </div>
 <th:block th:include="common/include :: footer"/>
 
@@ -64,8 +63,9 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
             $.ajax({
-                url: ctx + 'sysDict/insert',
+                url: ctx + 'sysDictType/update',
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',
@@ -98,3 +98,5 @@
 
     });
 </script>
+</body>
+</html>

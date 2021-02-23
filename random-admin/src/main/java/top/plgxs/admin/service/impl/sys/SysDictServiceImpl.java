@@ -1,6 +1,5 @@
 package top.plgxs.admin.service.impl.sys;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import top.plgxs.mbg.entity.sys.SysDict;
 import top.plgxs.mbg.mapper.sys.SysDictMapper;
 import top.plgxs.admin.service.sys.SysDictService;
@@ -12,11 +11,11 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 字典数据 服务实现类
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-23
  * @version 1.0
  */
 @Service
@@ -27,14 +26,5 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public List<SysDict> getSysDictList() {
         return sysDictMapper.selectSysDictList(null);
-    }
-
-    @Override
-    public List<SysDict> listDictsByCode(String code) {
-        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("dict_type_code", code);
-        queryWrapper.orderByAsc("sort");
-        List<SysDict> dicts = sysDictMapper.selectList(queryWrapper);
-        return dicts;
     }
 }

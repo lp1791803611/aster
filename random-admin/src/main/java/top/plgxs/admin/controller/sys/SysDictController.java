@@ -13,15 +13,16 @@ import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysDict;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * <p>
- * 字典 前端控制器
+ * 字典数据 前端控制器
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-23
  * @version 1.0
  */
 @Controller
@@ -31,9 +32,9 @@ public class SysDictController {
     private SysDictService sysDictService;
 
     /**
-     * 页面
+     * 字典数据页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @GetMapping("/list")
     public String list(){
@@ -42,20 +43,20 @@ public class SysDictController {
 
     /**
      * 分页查询列表
-     * @param searchParams 查询条件
+     * @param name 查询条件
      * @param pageNo 第几页
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "searchParams", required = false) String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_modified");
+        queryWrapper.orderByDesc("gmt_create");
         Page<SysDict> page = new Page<>(pageNo, pageSize);
         IPage<SysDict> pageList = sysDictService.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<SysDict>(pageList.getRecords(),pageList.getTotal()));
@@ -64,7 +65,7 @@ public class SysDictController {
     /**
      * 添加页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @GetMapping("/add")
     public String add(){
@@ -76,11 +77,12 @@ public class SysDictController {
      * @param sysDict
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysDict sysDict){
+        sysDict.setGmtCreate(LocalDateTime.now());
         boolean result = sysDictService.save(sysDict);
         if(result){
             return ResultInfo.success();
@@ -92,7 +94,7 @@ public class SysDictController {
     /**
      * 编辑页面
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") String id){
@@ -106,7 +108,7 @@ public class SysDictController {
      * @param sysDict
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @PostMapping("/update")
     @ResponseBody
@@ -127,7 +129,7 @@ public class SysDictController {
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
@@ -147,7 +149,7 @@ public class SysDictController {
      * 批量删除
      * @param ids id数组
      * @author Stranger。
-     * @since 2021-01-29
+     * @since 2021-02-23
      */
     @PostMapping("/batchDelete")
     @ResponseBody
@@ -161,15 +163,23 @@ public class SysDictController {
     }
 
     /**
-     * 根据字典类型编码查询字典数据
-     * @param code 字典类型编码
+     * 切换状态
+     * @param id 主键
+     * @param status 状态
      * @author Stranger。
-     * @since 2021/2/5 0005
+     * @since 2021-02-23
      */
-    @PostMapping("/listDictsByCode")
+    @PostMapping("/switchStatus")
     @ResponseBody
-    public ResultInfo<List<SysDict>> listDictsByCode(@RequestParam(name = "code") String code){
-        List<SysDict> dicts = sysDictService.listDictsByCode(code);
-        return ResultInfo.success(dicts);
+    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+        SysDict sysDict = new SysDict();
+        sysDict.setId(id);
+        sysDict.setStatus(status);
+        boolean result = sysDictService.updateById(sysDict);
+        if(result){
+            return ResultInfo.success("切换成功",null);
+        }else{
+            return ResultInfo.failed("切换失败");
+        }
     }
 }

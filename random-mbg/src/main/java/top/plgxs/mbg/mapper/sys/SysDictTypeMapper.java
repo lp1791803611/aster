@@ -8,11 +8,11 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * 字典类型 Mapper 接口
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-23
  * @version 1.0
  */
 @Repository("sysDictTypeMapper")
@@ -23,7 +23,7 @@ public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
      * @param sysDictType
      * @return
      * @author Stranger。
-     * @date 2021-01-29
+     * @date 2021-02-23
      */
     List<SysDictType> selectSysDictTypeList(SysDictType sysDictType);
 }

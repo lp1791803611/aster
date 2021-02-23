@@ -18,13 +18,13 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-23
  * @version 1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_sys_dict")
-@ApiModel(value="SysDict对象", description="")
+@ApiModel(value="SysDict对象", description="字典数据")
 public class SysDict extends Model<SysDict> {
 
     private static final long serialVersionUID = 1L;

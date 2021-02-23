@@ -15,7 +15,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" name="name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -77,7 +77,7 @@
                 [
                     {type: "checkbox"},
                     <#list table.fields as field>
-                    <#if field.propertyName != 'id' && field.propertyName != 'gmtCreate'
+                    <#if field.propertyName != 'id' && field.propertyName != 'gmt_modified'
                           && field.propertyName != 'isDeleted' && field.propertyName != 'remark'>
                     <#if field.propertyName == 'status'>
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
@@ -95,19 +95,24 @@
             skin: 'line'
         });
 
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
+        // 搜索
+        function search() {
+            // var result = JSON.stringify(data.field);
             //执行搜索重载
             table.reload('currentTableId', {
                 page: {
                     curr: 1
                 }
                 , where: {
-                    searchParams: result
+                    name: $("#name").val()
                 }
             }, 'data');
+        }
 
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            search();
             return false;
         });
 
@@ -149,7 +154,7 @@
                             dataType: "json",
                             success: function (res) {
                                 layer.msg(res.msg);
-                                table.reload('currentTableId');
+                                search();
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 layer.close(index);

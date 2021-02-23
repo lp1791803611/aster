@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: header('字典数据列表')"/>
+    <th:block th:include="common/include :: header('字典类型列表')"/>
 </head>
 <body>
 <div class="layuimini-container">
@@ -15,7 +15,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" name="name" autocomplete="off" placeholder="名称/编码" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -59,7 +59,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: ctx + 'sysDict/pageList',
+            url: ctx + 'sysDictType/pageList',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -72,10 +72,8 @@
             cols: [
                 [
                     {type: "checkbox"},
-                    {field: 'dictLabel', title: '字典标签', sort: true},
-                    {field: 'dictValue', title: '字典键值', sort: true},
+                    {field: 'dictTypeName', title: '字典类型名称', sort: true},
                     {field: 'dictTypeCode', title: '字典类型编码', sort: true},
-                    {field: 'sort', title: '字典排序', sort: true},
                     {field: 'gmtCreate', title: '创建时间', sort: true},
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
                     {title: '操作', toolbar: '#currentTableBar', align: "center"}
@@ -118,7 +116,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: ctx + 'sysDict/add',
+                    content: ctx + 'sysDictType/add',
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -136,7 +134,7 @@
                         }
 
                         $.ajax({
-                            url: ctx + 'sysDict/batchDelete',
+                            url: ctx + 'sysDictType/batchDelete',
                             type: 'POST',
                             async: false,
                             data: JSON.stringify(ids),
@@ -144,7 +142,7 @@
                             dataType: "json",
                             success: function (res) {
                                 layer.msg(res.msg);
-                                search();
+                                table.reload('currentTableId');
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 layer.close(index);
@@ -178,7 +176,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: ctx + 'sysDict/edit/' + data.id,
+                    content: ctx + 'sysDictType/edit/' + data.id,
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -188,7 +186,7 @@
                 layer.confirm('真的删除行么', function (index) {
                     layer.close(index);
                     $.ajax({
-                        url: ctx + 'sysDict/delete/' + data.id,
+                        url: ctx + 'sysDictType/delete/' + data.id,
                         type: 'GET',
                         async: false,
                         contentType: 'application/json; charset=UTF-8',
@@ -213,7 +211,7 @@
         form.on('switch(status)', function (obj) {
             var checked = this.checked ? "0" : "1";
             $.ajax({
-                url: ctx + 'sysDict/switchStatus',
+                url: ctx + 'sysDictType/switchStatus',
                 type: 'POST',
                 async: false,
                 data: {

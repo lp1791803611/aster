@@ -11,11 +11,11 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 字典类型 服务实现类
  * </p>
  *
  * @author Stranger。
- * @since 2021-01-29
+ * @since 2021-02-23
  * @version 1.0
  */
 @Service

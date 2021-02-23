@@ -61,7 +61,7 @@ public class ${table.controllerName} {
 
     /**
      * 分页查询列表
-     * @param searchParams 查询条件
+     * @param name 查询条件
      * @param pageNo 第几页
      * @param pageSize 每页几条
      * @return
@@ -70,7 +70,7 @@ public class ${table.controllerName} {
      */
     @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "searchParams", required = false) String searchParams, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
