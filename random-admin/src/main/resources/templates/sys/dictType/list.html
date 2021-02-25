@@ -72,8 +72,13 @@
             cols: [
                 [
                     {type: "checkbox"},
-                    {field: 'dictTypeName', title: '字典类型名称', sort: true},
-                    {field: 'dictTypeCode', title: '字典类型编码', sort: true},
+                    {field: 'dictTypeName', sort: true, title: '字典类型名称'},
+                    {
+                        field: 'dictTypeCode', title: '字典类型编码', sort: true,  templet: function (d) {
+                            var url = ctx + '/sysDict/list?dictTypeCode=' + d.dictTypeCode;
+                            return '<a style="color: #01AAED;" href="' + url + '">' + d.dictTypeCode + '</a>';
+                        }
+                    },
                     {field: 'gmtCreate', title: '创建时间', sort: true},
                     {field: 'status', title: '启用状态', templet: '#statusTpl'},
                     {title: '操作', toolbar: '#currentTableBar', align: "center"}

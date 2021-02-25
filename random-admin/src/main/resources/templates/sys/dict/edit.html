@@ -10,7 +10,8 @@
 </head>
 <body>
 <div class="layui-form layuimini-form" th:object="${sysDict}">
-    <input name="id" type="hidden" th:field="*{id}"/>
+    <input type="hidden" name="id" th:field="*{id}"/>
+    <input type="hidden" name="dictTypeCode" th:field="*{dictTypeCode}" />
                 <div class="layui-form-item">
                     <label class="layui-form-label required">字典标签</label>
                     <div class="layui-input-block">
@@ -26,15 +27,6 @@
                         <input type="text" name="dictValue" lay-verify="required"
                                lay-reqtext="字典键值不能为空" placeholder="请输入字典键值"
                                th:field="*{dictValue}" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">字典类型编码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="dictTypeCode" lay-verify="required"
-                               lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码"
-                               th:field="*{dictTypeCode}" class="layui-input">
                     </div>
                 </div>
 

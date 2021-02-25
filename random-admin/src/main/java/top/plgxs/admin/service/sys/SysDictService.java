@@ -22,4 +22,12 @@ public interface SysDictService extends IService<SysDict> {
      * @date 2021-02-23
      */
     List<SysDict> getSysDictList();
+
+    /**
+     * 根据字典类型编码查询字典数据
+     * @param code 字典类型编码
+     * @author Stranger。
+     * @since 2021/2/25 0025
+     */
+    List<SysDict> listDictsByCode(String code);
 }

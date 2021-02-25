@@ -23,7 +23,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label required">字典类型编码</label>
                     <div class="layui-input-block">
-                        <input type="text" name="dictTypeCode" lay-verify="required"
+                        <input type="text" name="dictTypeCode" lay-verify="required|unique_code"
                                lay-reqtext="字典类型编码不能为空" placeholder="请输入字典类型编码"
                                th:field="*{dictTypeCode}" class="layui-input">
                     </div>
@@ -60,6 +60,29 @@
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$;
+
+        //自定义验证规则
+        form.verify({
+            unique_code: function (value) {
+                var checkResult = "";
+                var oldCode = [[${sysDictType.dictTypeCode}]];
+                if (value != oldCode) {
+                    $.ajax({
+                        type: 'GET',
+                        url: ctx + 'sysDictType/verifyCode',
+                        data: {code: value},
+                        async: false,
+                        dataType: 'json',
+                        success: function (res) {
+                            if(res.success){
+                                checkResult = res.msg;
+                            }
+                        }
+                    });
+                }
+                return checkResult;
+            }
+        });
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {

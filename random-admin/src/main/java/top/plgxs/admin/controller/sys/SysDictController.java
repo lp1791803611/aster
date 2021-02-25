@@ -1,6 +1,8 @@
 package top.plgxs.admin.controller.sys;
 
 import javax.annotation.Resource;
+
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,8 +24,8 @@ import java.util.List;
  * </p>
  *
  * @author Stranger。
- * @since 2021-02-23
  * @version 1.0
+ * @since 2021-02-23
  */
 @Controller
 @RequestMapping("/sysDict")
@@ -33,18 +35,21 @@ public class SysDictController {
 
     /**
      * 字典数据页面
+     *
      * @author Stranger。
      * @since 2021-02-23
      */
     @GetMapping("/list")
-    public String list(){
+    public String list(@RequestParam("dictTypeCode") String dictTypeCode, Model model) {
+        model.addAttribute("dictTypeCode", dictTypeCode);
         return "sys/dict/list";
     }
 
     /**
      * 分页查询列表
-     * @param name 查询条件
-     * @param pageNo 第几页
+     *
+     * @param name     查询条件
+     * @param pageNo   第几页
      * @param pageSize 每页几条
      * @return
      * @author Stranger。
@@ -52,28 +57,35 @@ public class SysDictController {
      */
     @GetMapping("/pageList")
     @ResponseBody
-    public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
-                                                    @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
+    public ResultInfo<PageDataInfo> queryPageList(@RequestParam("dictTypeCode") String dictTypeCode,
+                                                  @RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+                                                  @RequestParam(name = "limit", defaultValue = "10") Integer pageSize) {
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
-        //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_create");
+        queryWrapper.eq("dict_type_code", dictTypeCode);
+        if (StrUtil.isNotBlank(name)) {
+            queryWrapper.and(qw -> qw.like("dict_label", name));
+        }
+        queryWrapper.orderByAsc("sort");
         Page<SysDict> page = new Page<>(pageNo, pageSize);
         IPage<SysDict> pageList = sysDictService.page(page, queryWrapper);
-        return ResultInfo.success(new PageDataInfo<SysDict>(pageList.getRecords(),pageList.getTotal()));
+        return ResultInfo.success(new PageDataInfo<SysDict>(pageList.getRecords(), pageList.getTotal()));
     }
 
     /**
      * 添加页面
+     *
      * @author Stranger。
      * @since 2021-02-23
      */
     @GetMapping("/add")
-    public String add(){
+    public String add(@RequestParam("dictTypeCode") String dictTypeCode, Model model) {
+        model.addAttribute("dictTypeCode", dictTypeCode);
         return "sys/dict/add";
     }
 
     /**
      * 插入一条数据
+     *
      * @param sysDict
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
@@ -81,30 +93,32 @@ public class SysDictController {
      */
     @PostMapping("/insert")
     @ResponseBody
-    public ResultInfo<Object> insert(@RequestBody SysDict sysDict){
+    public ResultInfo<Object> insert(@RequestBody SysDict sysDict) {
         sysDict.setGmtCreate(LocalDateTime.now());
         boolean result = sysDictService.save(sysDict);
-        if(result){
+        if (result) {
             return ResultInfo.success();
-        }else{
+        } else {
             return ResultInfo.failed();
         }
     }
 
     /**
      * 编辑页面
+     *
      * @author Stranger。
      * @since 2021-02-23
      */
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable("id") String id){
+    public String edit(Model model, @PathVariable("id") String id) {
         SysDict sysDict = sysDictService.getById(id);
-        model.addAttribute("sysDict",sysDict);
+        model.addAttribute("sysDict", sysDict);
         return "sys/dict/edit";
     }
 
     /**
      * 更新一条数据
+     *
      * @param sysDict
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
@@ -112,20 +126,21 @@ public class SysDictController {
      */
     @PostMapping("/update")
     @ResponseBody
-    public ResultInfo<Object> update(@RequestBody SysDict sysDict){
-        if(sysDict == null || StringUtils.isBlank(sysDict.getId())){
+    public ResultInfo<Object> update(@RequestBody SysDict sysDict) {
+        if (sysDict == null || StringUtils.isBlank(sysDict.getId())) {
             return ResultInfo.validateFailed();
         }
         boolean result = sysDictService.updateById(sysDict);
-        if(result){
+        if (result) {
             return ResultInfo.success();
-        }else{
+        } else {
             return ResultInfo.failed();
         }
     }
 
     /**
      * 逻辑删除一条数据
+     *
      * @param id 主键
      * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
      * @author Stranger。
@@ -133,53 +148,68 @@ public class SysDictController {
      */
     @GetMapping("/delete/{id}")
     @ResponseBody
-    public ResultInfo<Object> delete(@PathVariable("id") String id){
-        if(StringUtils.isBlank(id)){
+    public ResultInfo<Object> delete(@PathVariable("id") String id) {
+        if (StringUtils.isBlank(id)) {
             return ResultInfo.validateFailed();
         }
         boolean result = sysDictService.removeById(id);
-        if(result){
+        if (result) {
             return ResultInfo.success();
-        }else{
+        } else {
             return ResultInfo.failed();
         }
     }
 
     /**
      * 批量删除
+     *
      * @param ids id数组
      * @author Stranger。
      * @since 2021-02-23
      */
     @PostMapping("/batchDelete")
     @ResponseBody
-    public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
+    public ResultInfo<Object> batchDelete(@RequestBody List<String> ids) {
         boolean result = sysDictService.removeByIds(ids);
-        if(result){
-            return ResultInfo.success("删除成功",null);
-        }else{
+        if (result) {
+            return ResultInfo.success("删除成功", null);
+        } else {
             return ResultInfo.failed("删除失败");
         }
     }
 
     /**
      * 切换状态
-     * @param id 主键
+     *
+     * @param id     主键
      * @param status 状态
      * @author Stranger。
      * @since 2021-02-23
      */
     @PostMapping("/switchStatus")
     @ResponseBody
-    public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){
+    public ResultInfo<String> switchStatus(@RequestParam(name = "id") String id, @RequestParam(name = "status") String status) {
         SysDict sysDict = new SysDict();
         sysDict.setId(id);
         sysDict.setStatus(status);
         boolean result = sysDictService.updateById(sysDict);
-        if(result){
-            return ResultInfo.success("切换成功",null);
-        }else{
+        if (result) {
+            return ResultInfo.success("切换成功", null);
+        } else {
             return ResultInfo.failed("切换失败");
         }
+    }
+
+    /**
+     * 根据字典类型编码查询字典数据
+     * @param code 字典类型编码
+     * @author Stranger。
+     * @since 2021/2/5 0005
+     */
+    @PostMapping("/listDictsByCode")
+    @ResponseBody
+    public ResultInfo<List<SysDict>> listDictsByCode(@RequestParam(name = "code") String code){
+        List<SysDict> dicts = sysDictService.listDictsByCode(code);
+        return ResultInfo.success(dicts);
     }
 }

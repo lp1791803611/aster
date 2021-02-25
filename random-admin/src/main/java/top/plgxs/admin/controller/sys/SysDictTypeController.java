@@ -1,6 +1,8 @@
 package top.plgxs.admin.controller.sys;
 
 import javax.annotation.Resource;
+
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -55,7 +57,9 @@ public class SysDictTypeController {
     public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
                                                     @RequestParam(name = "limit", defaultValue = "10") Integer pageSize){
         QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
-        //TODO 查询条件
+        if (StrUtil.isNotBlank(name)) {
+            queryWrapper.like("dict_type_name", name).or().like("dict_type_code",name);
+        }
         queryWrapper.orderByDesc("gmt_create");
         Page<SysDictType> page = new Page<>(pageNo, pageSize);
         IPage<SysDictType> pageList = sysDictTypeService.page(page, queryWrapper);
@@ -181,5 +185,23 @@ public class SysDictTypeController {
         }else{
             return ResultInfo.failed("切换失败");
         }
+    }
+
+    /**
+     * 验证字典类型编码是否唯一
+     * @param code 编码
+     * @author Stranger。
+     * @since 2021/2/25 0025
+     */
+    @GetMapping("/verifyCode")
+    @PostMapping
+    public ResultInfo<String> verifyCode(@RequestParam("code") String code) {
+        QueryWrapper<SysDictType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_type_code", code);
+        List<SysDictType> list = sysDictTypeService.list(queryWrapper);
+        if (list != null && list.size() > 0) {
+            return ResultInfo.success();
+        }
+        return ResultInfo.failed();
     }
 }

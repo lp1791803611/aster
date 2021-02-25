@@ -235,7 +235,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Transactional(rollbackOn = Exception.class)
     public void updateChildMenuLevels(SysMenu sysMenu) {
         SysMenu oldMenu = sysMenuMapper.selectById(sysMenu.getId());
-        List<SysMenu> menus = sysMenuMapper.getChildMenusByCode(oldMenu.getParentCode());
+        List<SysMenu> menus = sysMenuMapper.getChildMenusByCode(oldMenu.getCode());
         if (menus != null && menus.size() > 0) {
             for (SysMenu menu : menus) {
                 // 更新parent_code

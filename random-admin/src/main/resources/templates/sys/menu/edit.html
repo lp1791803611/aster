@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="common/include :: header('编辑菜单')" />
+    <th:block th:include="common/include :: font-css" />
     <style>
         body {
             background-color: #ffffff;
@@ -73,7 +74,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">菜单图标</label>
         <div class="layui-input-block">
-            <input type="text" name="menuIcon" id="menuIcon" lay-filter="iconPicker" th:field="*{menuIcon}" class="layui-input"/>
+            <input type="text" name="menuIcon" id="menuIcon" lay-filter="iconPicker" th:field="*{menuIcon}" style="display: none;"/>
         </div>
     </div>
 
@@ -110,8 +111,8 @@
         }
     };
 
-    layui.use(['iconPicker', 'form', 'layer'], function () {
-        var iconPicker = layui.iconPicker,
+    layui.use(['iconPickerFa', 'form', 'layer'], function () {
+        var iconPicker = layui.iconPickerFa,
             form = layui.form,
             layer = layui.layer,
             $ = layui.$;
@@ -160,7 +161,8 @@
         iconPicker.render({
             // 选择器，推荐使用input
             elem: '#menuIcon',
-            type: 'fontClass',
+            // fa 图标接口
+            url: ctx + "lib/font-awesome-4.7.0/less/variables.less",
             // 是否开启搜索：true/false，默认true
             search: true,
             // 是否开启分页：true/false，默认true
@@ -177,6 +179,7 @@
             }
         });
         var icon = [[${sysMenu.menuIcon}]];
+        console.log(icon);
         iconPicker.checkIcon('iconPicker', icon);
 
         // 初始化菜单类型

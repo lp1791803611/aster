@@ -55,7 +55,7 @@
         },
         {
           "title": "表格示例",
-          "href": "sysRole/list",
+          "href": "sysMenu/list",
           "icon": "fa fa-file-text",
           "target": "_self"
         },
