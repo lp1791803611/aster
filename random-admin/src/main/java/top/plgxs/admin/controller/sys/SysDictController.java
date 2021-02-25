@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysDictService;
 import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.page.PageDataInfo;
+import top.plgxs.common.api.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysDict;
 import org.springframework.stereotype.Controller;
 

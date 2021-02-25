@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysDeptService;
 import top.plgxs.common.api.ResultInfo;
 import top.plgxs.common.constants.Constants;
-import top.plgxs.common.node.LayuiTreeNode;
-import top.plgxs.common.page.PageDataInfo;
+import top.plgxs.common.api.node.LayuiTreeNode;
+import top.plgxs.common.api.page.PageDataInfo;
 import top.plgxs.common.util.LayuiTreeUtils;
 import top.plgxs.mbg.entity.sys.SysDept;
 

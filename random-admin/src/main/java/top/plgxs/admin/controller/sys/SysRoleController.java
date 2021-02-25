@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysRoleMenuService;
 import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.node.ZTreeNode;
-import top.plgxs.common.page.PageDataInfo;
+import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.api.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysRole;
 
 import javax.annotation.Resource;

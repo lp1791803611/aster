@@ -81,7 +81,7 @@
             </if>
     </select>
 
-    <select id="menuTreeList" resultType="top.plgxs.common.node.ZTreeNode">
+    <select id="menuTreeList" resultType="top.plgxs.common.api.node.ZTreeNode">
         SELECT
            t.code AS id,
            t.parent_code AS pId,

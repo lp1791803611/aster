@@ -174,6 +174,7 @@ public class MyBatisPlusGenerator {
                     // serviceimpl的package
                     map.put("customServiceImplPackage", MybatisPlusConfig.CUSTOM_SERVICE_IMPL_PACKAGE);
                 }
+                map.put("swagger", MybatisPlusConfig.SWAGGER2);
                 this.setMap(map);
             }
         };

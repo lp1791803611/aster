@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysPositionService;
 import top.plgxs.admin.utils.Convert;
 import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.node.LayuiTreeNode;
-import top.plgxs.common.page.PageDataInfo;
+import top.plgxs.common.api.node.LayuiTreeNode;
+import top.plgxs.common.api.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysPosition;
 
 import javax.annotation.Resource;

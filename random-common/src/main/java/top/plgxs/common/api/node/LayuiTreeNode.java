@@ -1,4 +1,4 @@
-package top.plgxs.common.node;
+package top.plgxs.common.api.node;
 
 import lombok.Data;
 

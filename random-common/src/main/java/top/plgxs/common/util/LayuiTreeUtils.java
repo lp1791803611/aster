@@ -1,7 +1,7 @@
 package top.plgxs.common.util;
 
 import top.plgxs.common.constants.Constants;
-import top.plgxs.common.node.LayuiTreeNode;
+import top.plgxs.common.api.node.LayuiTreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -24,7 +24,7 @@ public class LoginController {
         return "index";
     }
 
-    @RequestMapping("/index_bak")
+    @RequestMapping("/test")
     public String index_bak(Model model){
         model.addAttribute("key","Hello World!");
         model.addAttribute("content","my name is <b>maliming</b>");
@@ -45,6 +45,6 @@ public class LoginController {
 
         String[] arrays = new String[]{"a","b","c"};
         model.addAttribute("arrays",arrays);
-        return "index_bak";
+        return "test";
     }
 }

@@ -57,7 +57,7 @@
             </if>
     </select>
 
-    <select id="layuiTree" resultType="top.plgxs.common.node.LayuiTreeNode">
+    <select id="layuiTree" resultType="top.plgxs.common.api.node.LayuiTreeNode">
         select id as `id`, parent_id as `pid`, dept_name as `title`,
             (CASE
                 when status = '1' then true

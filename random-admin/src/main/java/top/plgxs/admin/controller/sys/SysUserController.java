@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +14,9 @@ import top.plgxs.admin.service.sys.SysUserRoleService;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.admin.utils.Convert;
 import top.plgxs.common.api.ResultInfo;
+import top.plgxs.common.api.page.PageDataInfo;
 import top.plgxs.common.constants.Constants;
 import top.plgxs.common.enums.DeleteEnum;
-import top.plgxs.common.page.PageDataInfo;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserRole;
@@ -31,6 +33,7 @@ import java.util.List;
  * @version 1.0
  * @since 2021-02-12
  */
+@Api(tags = "用户管理")
 @Controller
 @RequestMapping("/sysUser")
 public class SysUserController {
@@ -61,6 +64,7 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @ApiOperation(value = "分页查询用户列表", notes = "条件查询")
     @GetMapping("/pageList")
     @ResponseBody
     public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name,

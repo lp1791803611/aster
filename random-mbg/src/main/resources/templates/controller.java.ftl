@@ -32,6 +32,9 @@ import java.util.List;
  * @since ${date}
  * @version 1.0
  */
+<#if cfg.swagger>
+@Api(tags = "${table.comment!}管理")
+</#if>
 <#if restControllerStyle>
 @RestController
 <#else>
@@ -68,6 +71,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "分页查询${table.comment!}列表", notes = "条件查询")
+    </#if>
     @GetMapping("/pageList")
     @ResponseBody
     public ResultInfo<PageDataInfo> queryPageList(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
@@ -97,6 +103,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "插入${table.comment!}", notes = "插入单条数据")
+    </#if>
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody ${entity} ${entity?uncap_first}){
@@ -128,6 +137,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "更新${table.comment!}", notes = "更新单条数据")
+    </#if>
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody ${entity} ${entity?uncap_first}){
@@ -149,6 +161,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "删除${table.comment!}", notes = "删除单条数据")
+    </#if>
     @GetMapping("/delete/{id}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("id") String id){
@@ -169,6 +184,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "批量删除${table.comment!}", notes = "批量删除数据")
+    </#if>
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
@@ -187,6 +205,9 @@ public class ${table.controllerName} {
      * @author ${author}
      * @since ${date}
      */
+    <#if cfg.swagger>
+    @ApiOperation(value = "切换${table.comment!}状态", notes = "切换状态")
+    </#if>
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){

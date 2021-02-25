@@ -1,4 +1,4 @@
-package top.plgxs.common.domain;
+package top.plgxs.common.api;
 
 import lombok.Data;
 

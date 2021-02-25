@@ -1,7 +1,7 @@
 package top.plgxs.admin.utils;
 
 import top.plgxs.common.enums.StatusEnum;
-import top.plgxs.common.node.LayuiTreeNode;
+import top.plgxs.common.api.node.LayuiTreeNode;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysPosition;
 import top.plgxs.mbg.entity.sys.SysUser;

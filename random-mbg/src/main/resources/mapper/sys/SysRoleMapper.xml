@@ -53,7 +53,7 @@
             </if>
     </select>
 
-    <select id="roleTreeList" resultType="top.plgxs.common.node.ZTreeNode">
+    <select id="roleTreeList" resultType="top.plgxs.common.api.node.ZTreeNode">
         SELECT
            t.id AS `id`,
            t.role_name AS `name`,
