@@ -4,10 +4,12 @@
 random是一个可以产生各种随机数的小系统。
 后端基于SpringBoot + Mybatis-Plus + Spring Security + JWT + thymeleaf + layui进行开发。
 <br>
-#####已完成部分： 
-1. 已集成mybatis-plus
-2. 已集成thymeleaf+layuimini 已集成mybatis-plus-generatorm,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
-3. 已集成thymeleaf+layuimini,模板文件list、add、edit中也做了相应修改
+##### 已完成部分： 
+1. 集成mybatis-plus
+2. 集成thymeleaf+layuimini 已集成mybatis-plus-generatorm,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
+3. 集成thymeleaf+layuimini,模板文件list、add、edit中也做了相应修改
+4. 集成swagger2
+5. 完成用户管理/角色管理/菜单管理/部门管理/岗位管理/字典管理
 #### 软件架构
 SpringBoot + Mybatis-Plus + Spring Security + JWT
 
