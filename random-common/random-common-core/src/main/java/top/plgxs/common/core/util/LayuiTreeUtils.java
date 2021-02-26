@@ -1,7 +1,7 @@
-package top.plgxs.common.util;
+package top.plgxs.common.core.util;
 
-import top.plgxs.common.constants.Constants;
-import top.plgxs.common.api.node.LayuiTreeNode;
+import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.api.node.LayuiTreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class LayuiTreeUtils {
      * @author Stranger。
      * @since 2021/2/9
      */
-    public static LayuiTreeNode createRoot(boolean checked,boolean disabled) {
+    public static LayuiTreeNode createRoot(boolean checked, boolean disabled) {
         LayuiTreeNode treeNode = new LayuiTreeNode();
         treeNode.setChecked(checked);
         treeNode.setId(Constants.TOP_DEPT_ID);
@@ -73,7 +73,8 @@ public class LayuiTreeUtils {
 
     /**
      * 非递归构建树
-     * @param nodes 所有待组装的数据
+     *
+     * @param nodes        所有待组装的数据
      * @param rootParentId root节点的父id
      * @return java.util.List<top.plgxs.common.node.LayuiTreeNode>
      * @author Stranger。

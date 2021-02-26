@@ -1,4 +1,4 @@
-package top.plgxs.common.api.page;
+package top.plgxs.common.core.api.page;
 
 import lombok.Data;
 
@@ -18,18 +18,19 @@ public class PageDataInfo<T> {
     private String msg;
     private Long count;
 
-    public PageDataInfo(){
+    public PageDataInfo() {
         super();
     }
 
     /**
      * 分页
-     * @param data 列表数据
+     *
+     * @param data  列表数据
      * @param count 总记录数
      * @author Stranger。
      * @date 2021/1/28
      */
-    public PageDataInfo(List<T> data, Long count){
+    public PageDataInfo(List<T> data, Long count) {
         this.code = 0;
         this.data = data;
         this.msg = "";

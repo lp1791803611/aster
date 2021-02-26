@@ -1,4 +1,4 @@
-package top.plgxs.common.util;
+package top.plgxs.common.core.util;
 
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 
@@ -9,9 +9,10 @@ import java.util.*;
 
 /**
  * 功能：日期处理相关的操作
+ *
  * @author Strangers。
- * @since 23:17 2020/12/19
  * @version 1.0.0
+ * @since 23:17 2020/12/19
  */
 public class TimeUtil {
     public static final ThreadLocal<DateFormat> datetimeFormat = new ThreadLocal<DateFormat>() {
@@ -22,7 +23,7 @@ public class TimeUtil {
         }
     };
 
-    public static final ThreadLocal<DateFormat> dateFormat     = new ThreadLocal<DateFormat>() {
+    public static final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
         @Override
         protected DateFormat initialValue() {
             return new SimpleDateFormat(
@@ -32,6 +33,7 @@ public class TimeUtil {
 
     /**
      * 取得当天日期,格式 2009-02-11
+     *
      * @return
      */
     public static String getToday() {
@@ -41,6 +43,7 @@ public class TimeUtil {
 
     /**
      * 取得当天日期,格式 20090211
+     *
      * @return
      */
     public static String getTodayNumber() {
@@ -52,6 +55,7 @@ public class TimeUtil {
     /**
      * 给出日期转换成格式 2009-02-11,
      * 如果date为空那么返回null
+     *
      * @param date
      * @return
      */
@@ -64,6 +68,7 @@ public class TimeUtil {
 
     /**
      * 取得当天日期时间,格式 2009-02-11 23:9:21
+     *
      * @return
      */
     public static String getTodaytime() {
@@ -74,6 +79,7 @@ public class TimeUtil {
 
     /**
      * 取得当前时间,格式 23:12:20
+     *
      * @return
      */
     public static String getTime() {
@@ -84,6 +90,7 @@ public class TimeUtil {
 
     /**
      * 取得当前年份
+     *
      * @return
      */
     public static String getYear() {
@@ -92,6 +99,7 @@ public class TimeUtil {
 
     /**
      * 取得当前月份
+     *
      * @return
      */
     public static String getMonth() {
@@ -100,6 +108,7 @@ public class TimeUtil {
 
     /**
      * 获取当前属于上半年还是下半年
+     *
      * @return
      */
     public static String getBanNian() {
@@ -122,6 +131,7 @@ public class TimeUtil {
 
     /**
      * 获取当前属于那一季
+     *
      * @return
      */
     public static String getJiDu() {
@@ -150,6 +160,7 @@ public class TimeUtil {
 
     /**
      * 取得当前日
+     *
      * @return
      */
     public static String getDay() {
@@ -158,6 +169,7 @@ public class TimeUtil {
 
     /**
      * 取得当前小时
+     *
      * @return
      */
     public static int getHour() {
@@ -167,6 +179,7 @@ public class TimeUtil {
 
     /**
      * 取得当前分钟
+     *
      * @return
      */
     public static int getMinute() {
@@ -176,6 +189,7 @@ public class TimeUtil {
 
     /**
      * 取得当前秒
+     *
      * @return
      */
     public static int getSecond() {
@@ -185,6 +199,7 @@ public class TimeUtil {
 
     /**
      * 取得当前日期 格式为20090211
+     *
      * @return
      */
     public static String getNoFormatToday() {
@@ -195,6 +210,7 @@ public class TimeUtil {
 
     /**
      * 取得当前时间 格式为231611
+     *
      * @return
      */
     public static String getNoFormatTime() {
@@ -205,6 +221,7 @@ public class TimeUtil {
 
     /**
      * 返回N天前（后的）日期，正数是后的日期，负数是前的日期。例如：2009-02-11 12:12:12
+     *
      * @param number
      * @return
      */
@@ -237,6 +254,7 @@ public class TimeUtil {
 
     /**
      * 日期字符串的格式转换,例如"2009-02-11"转换为2009年2月11日
+     *
      * @param sDate
      * @return
      */
@@ -266,6 +284,7 @@ public class TimeUtil {
 
     /**
      * 取得某年某月的最后一天
+     *
      * @param year
      * @param month
      * @return
@@ -279,6 +298,7 @@ public class TimeUtil {
 
     /**
      * 取得某年某月的第一天
+     *
      * @param year
      * @param month
      * @return
@@ -291,6 +311,7 @@ public class TimeUtil {
 
     /**
      * 取得当天的中文日期，像2006年11月28日 星期二
+     *
      * @return
      */
     public static String getChineseToDay() {
@@ -301,6 +322,7 @@ public class TimeUtil {
 
     /**
      * 取得当天的中文日期，像2006年11月28日 星期二 下午05:06
+     *
      * @return
      */
     public static String getChineseToDayTime() {
@@ -311,6 +333,7 @@ public class TimeUtil {
 
     /**
      * 根据字符串，取得日期类
+     *
      * @param sDate
      * @return
      */
@@ -338,6 +361,7 @@ public class TimeUtil {
 
     /**
      * 根据日期类取得日期的字符串形式
+     *
      * @param sDate
      * @return
      */
@@ -351,6 +375,7 @@ public class TimeUtil {
     /**
      * 根据日期类取得日期的字符串形式
      * <p>yyyy-MM-dd</p>
+     *
      * @param sDate
      * @return
      */
@@ -364,6 +389,7 @@ public class TimeUtil {
     /**
      * 字符串转换成日期
      * <p>yyyy-MM-dd HH:mm:ss</p>
+     *
      * @param str
      * @return date
      */
@@ -380,6 +406,7 @@ public class TimeUtil {
     /**
      * 根据日期类取得日期的字符串形式
      * <p>yyyy-MM-dd HH:mm:ss</p>
+     *
      * @param sDate
      * @return
      */
@@ -393,6 +420,7 @@ public class TimeUtil {
     /**
      * 字符串转换成日期
      * <p>yyyy-MM-dd HH:mm:ss</p>
+     *
      * @param str
      * @return date
      */
@@ -406,7 +434,9 @@ public class TimeUtil {
         return date;
     }
 
-    /**根据日期类取年月的字符串形式
+    /**
+     * 根据日期类取年月的字符串形式
+     *
      * @param sDate
      * @return
      */
@@ -417,11 +447,13 @@ public class TimeUtil {
         return (new java.text.SimpleDateFormat("yyyy-MM")).format(sDate.getTime());
     }
 
-    /**比较两个日期类型的字符串，格式为（yyyy-mm-dd）
+    /**
+     * 比较两个日期类型的字符串，格式为（yyyy-mm-dd）
      * 如果cale1大于cale2，返回1
      * 如果cale1小于cale2，返回-1
      * 如果相等，返回0
      * 如果格式错误，返回-2
+     *
      * @param cale1
      * @param cale2
      * @return
@@ -435,7 +467,9 @@ public class TimeUtil {
         return calendar1.compareTo(calendar2);
     }
 
-    /**获取当前日期   格式 yyyy-MM-01 00:00:01
+    /**
+     * 获取当前日期   格式 yyyy-MM-01 00:00:01
+     *
      * @return
      */
     public static String getYearMonth() {
@@ -446,6 +480,7 @@ public class TimeUtil {
 
     /**
      * 获取当前时间字符串 格式:yyyy-MM-dd HH:mm:ss
+     *
      * @return
      */
     public static String getCurrentDateTimeString() {

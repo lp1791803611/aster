@@ -1,8 +1,8 @@
 package top.plgxs.admin.service.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import top.plgxs.common.api.TreeTable;
-import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.core.api.TreeTable;
+import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 

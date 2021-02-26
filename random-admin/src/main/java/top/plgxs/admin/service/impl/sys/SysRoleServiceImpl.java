@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysRoleService;
-import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysRole;
 import top.plgxs.mbg.entity.sys.SysUserRole;
 import top.plgxs.mbg.mapper.sys.SysRoleMapper;

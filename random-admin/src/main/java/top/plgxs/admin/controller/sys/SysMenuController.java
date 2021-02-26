@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysMenuService;
-import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.api.TreeTable;
-import top.plgxs.common.api.node.ZTreeNode;
-import top.plgxs.common.api.page.PageDataInfo;
+import top.plgxs.common.core.api.ResultInfo;
+import top.plgxs.common.core.api.TreeTable;
+import top.plgxs.common.core.api.node.ZTreeNode;
+import top.plgxs.common.core.api.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysMenu;
 
 import javax.annotation.Resource;

@@ -1,7 +1,7 @@
 package top.plgxs.mbg.mapper.sys;
 
 import org.springframework.data.repository.query.Param;
-import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;

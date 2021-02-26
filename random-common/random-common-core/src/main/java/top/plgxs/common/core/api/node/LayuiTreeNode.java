@@ -1,4 +1,4 @@
-package top.plgxs.common.api.node;
+package top.plgxs.common.core.api.node;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * <p>layui tree节点数据格式</p>
+ *
  * @author Stranger。
  * @version 1.0
  * @since 2021/2/9 23:41
@@ -45,11 +46,11 @@ public class LayuiTreeNode {
 
     private List<LayuiTreeNode> children = new ArrayList<>();
 
-    public LayuiTreeNode () {
+    public LayuiTreeNode() {
         super();
     }
 
-    public LayuiTreeNode (String id, String title, boolean checked, boolean disabled ) {
+    public LayuiTreeNode(String id, String title, boolean checked, boolean disabled) {
         this.id = id;
         this.title = title;
         this.checked = checked;

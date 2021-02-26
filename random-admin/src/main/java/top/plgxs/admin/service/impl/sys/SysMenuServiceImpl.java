@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysMenuService;
-import top.plgxs.common.constants.Constants;
-import top.plgxs.common.api.TreeTable;
-import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.api.TreeTable;
+import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import top.plgxs.mbg.mapper.sys.SysMenuMapper;
 

@@ -1,6 +1,6 @@
 package top.plgxs.admin.service.impl.sys;
 
-import top.plgxs.common.api.node.LayuiTreeNode;
+import top.plgxs.common.core.api.node.LayuiTreeNode;
 import top.plgxs.mbg.entity.sys.SysDept;
 import top.plgxs.mbg.mapper.sys.SysDeptMapper;
 import top.plgxs.admin.service.sys.SysDeptService;

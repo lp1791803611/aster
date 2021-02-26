@@ -1,6 +1,6 @@
 package top.plgxs.admin.service.sys;
 
-import top.plgxs.common.api.node.ZTreeNode;
+import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 

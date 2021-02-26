@@ -1,7 +1,8 @@
-package top.plgxs.common.enums;
+package top.plgxs.common.core.constants.enums;
 
 /**
  * 删除状态枚举类
+ *
  * @author Stranger。
  * @version 1.0
  * @since 2021/2/9 21:11

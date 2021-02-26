@@ -1,4 +1,4 @@
-package top.plgxs.common.api;
+package top.plgxs.common.core.api;
 
 import lombok.Data;
 
@@ -48,7 +48,7 @@ public class TreeTable {
      */
     private String type;
 
-    public TreeTable(){
+    public TreeTable() {
         super();
     }
 }

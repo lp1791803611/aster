@@ -1,4 +1,4 @@
-package top.plgxs.common.config;
+package top.plgxs.common.core.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
@@ -9,13 +9,14 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import top.plgxs.common.domain.SwaggerProperties;
+import top.plgxs.common.core.domain.SwaggerProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Swagger基础配置
+ *
  * @author Stranger。
  * @version 1.0
  * @since 2021/2/25 19:58

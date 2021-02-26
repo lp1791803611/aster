@@ -1,4 +1,4 @@
-package top.plgxs.common.enums;
+package top.plgxs.common.core.constants.enums;
 
 /**
  * 通用状态枚举类

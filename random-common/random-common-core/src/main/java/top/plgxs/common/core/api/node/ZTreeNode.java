@@ -1,9 +1,10 @@
-package top.plgxs.common.api.node;
+package top.plgxs.common.core.api.node;
 
 import lombok.Data;
 
 /**
  * ztree组件节点数据格式
+ *
  * @author Stranger。
  * @version 1.0
  * @since 2021/2/6 21:20
@@ -44,8 +45,10 @@ public class ZTreeNode {
      * 禁用节点
      */
     private Boolean chkDisabled;
+
     /**
      * 创建ztree的父级节点
+     *
      * @return top.plgxs.common.node.ZTreeNode
      * @author Stranger。
      * @since 2021/2/6

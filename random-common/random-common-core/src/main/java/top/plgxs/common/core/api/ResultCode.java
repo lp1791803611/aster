@@ -1,11 +1,11 @@
-package top.plgxs.common.api;
+package top.plgxs.common.core.api;
 
 /**
  * <p>常用API操作码</p>
  *
  * @author Stranger。
- * @since  2020/12/23 15:30
  * @version 1.0
+ * @since 2020/12/23 15:30
  */
 public enum ResultCode {
 
@@ -18,7 +18,7 @@ public enum ResultCode {
     private Integer code;
     private String message;
 
-    ResultCode(Integer code, String message){
+    ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

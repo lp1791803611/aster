@@ -1,4 +1,4 @@
-package top.plgxs.common.domain;
+package top.plgxs.common.core.domain;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Swagger自定义配置
+ *
  * @author Stranger。
  * @version 1.0
  * @since 2021/2/25 19:59

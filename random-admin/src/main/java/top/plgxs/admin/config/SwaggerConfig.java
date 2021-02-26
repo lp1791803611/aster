@@ -2,8 +2,8 @@ package top.plgxs.admin.config;
 
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import top.plgxs.common.config.BaseSwaggerConfig;
-import top.plgxs.common.domain.SwaggerProperties;
+import top.plgxs.common.core.config.BaseSwaggerConfig;
+import top.plgxs.common.core.domain.SwaggerProperties;
 
 /**
  * Swagger API文档相关配置

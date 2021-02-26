@@ -9,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysDeptService;
-import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.constants.Constants;
-import top.plgxs.common.api.node.LayuiTreeNode;
-import top.plgxs.common.api.page.PageDataInfo;
-import top.plgxs.common.util.LayuiTreeUtils;
+import top.plgxs.common.core.api.ResultInfo;
+import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.api.node.LayuiTreeNode;
+import top.plgxs.common.core.api.page.PageDataInfo;
+import top.plgxs.common.core.util.LayuiTreeUtils;
 import top.plgxs.mbg.entity.sys.SysDept;
 
 import javax.annotation.Resource;

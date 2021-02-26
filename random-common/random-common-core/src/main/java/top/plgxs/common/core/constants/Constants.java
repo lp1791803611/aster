@@ -1,4 +1,4 @@
-package top.plgxs.common.constants;
+package top.plgxs.common.core.constants;
 
 /**
  * 系统常量

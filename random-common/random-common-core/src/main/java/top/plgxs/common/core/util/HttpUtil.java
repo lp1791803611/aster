@@ -1,4 +1,4 @@
-package top.plgxs.common.util;
+package top.plgxs.common.core.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,18 +10,17 @@ import java.util.Map;
 
 /**
  * 向指定 URL 发送POST方法的请求
+ *
  * @author Strangers。
- * @since 23:14 2020/12/19
  * @version 1.0.0
+ * @since 23:14 2020/12/19
  */
 public class HttpUtil {
     /**
      * 向指定 URL 发送POST方法的请求
      *
-     * @param url
-     *            发送请求的 URL
-     * @param params
-     *            请求的参数集合
+     * @param url    发送请求的 URL
+     * @param params 请求的参数集合
      * @return 远程资源的响应结果
      */
     @SuppressWarnings("unused")

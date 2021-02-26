@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>top.plgxs</groupId>
-            <artifactId>random-common</artifactId>
+            <artifactId>random-common-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
