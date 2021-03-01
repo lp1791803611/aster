@@ -14,5 +14,6 @@
 
 	<modules>
 		<module>random-common-core</module>
+		<module>random-common-redis</module>
 	</modules>
 </project>

@@ -43,6 +43,7 @@
 		<junit.version>5.7.0</junit.version>
 		<lombok.version>1.16.20</lombok.version>
 		<commons-lang3.version>3.11</commons-lang3.version>
+		<commons-pool2.version>2.9.0</commons-pool2.version>
 	</properties>
 
 	<dependencyManagement>
@@ -178,7 +179,11 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
