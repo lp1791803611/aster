@@ -8,7 +8,7 @@ random项目是基于SpringBoot的快速开发框架。
 
 #### 已完成部分： 
 1. 集成mybatis-plus
-2. 集成mybatis-plus-generatorm,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
+2. 集成mybatis-plus-generator,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
 3. 集成thymeleaf+layui+layuimini
 4. 集成swagger2
 5. 完成用户管理/角色管理/菜单管理/部门管理/岗位管理/字典管理
