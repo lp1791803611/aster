@@ -3,7 +3,7 @@ package top.plgxs.common.redis.properties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import top.plgxs.common.redis.constant.RedisConstant;
 
 import java.util.List;
 
@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Component
 @ConfigurationProperties(prefix = "random.cache-manager")
 public class CacheManagerProperties {
     private List<CacheConfig> configs;
@@ -31,6 +30,6 @@ public class CacheManagerProperties {
         /**
          * 过期时间
          */
-        private long second = 3600L;
+        private long second = RedisConstant.CACHE_MANAGER_SECOND;
     }
 }

@@ -8,10 +8,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.mapper.sys.SysUserMapper;
 
@@ -27,6 +29,21 @@ class RandomAdminApplicationTests {
 	private SysUserService sysUserService;
 	@Resource
 	private SysUserMapper sysUserMapper;
+	@Resource
+	private RedisUtils redisUtils;
+
+	@Test
+	public void set() {
+		redisUtils.set("user", "Stranger");
+	}
+
+	@Test
+	public void get() {
+		String value = redisUtils.get("user").toString();
+		System.out.println(value);
+	}
+
+
 
 	// INSERT INTO t_sys_user ( id, username, mobile ) VALUES ( ?, ?, ? )
 	@Test

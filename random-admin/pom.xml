@@ -14,9 +14,16 @@
 	<name>random-admin</name>
 
 	<dependencies>
+		<!-- mbg -->
 		<dependency>
 			<groupId>top.plgxs</groupId>
 			<artifactId>random-mbg</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- redis -->
+		<dependency>
+			<groupId>top.plgxs</groupId>
+			<artifactId>random-common-redis</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

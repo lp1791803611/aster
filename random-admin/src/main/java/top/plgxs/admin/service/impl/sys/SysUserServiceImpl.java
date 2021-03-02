@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.admin.utils.Convert;
+import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserPosition;
