@@ -2,7 +2,7 @@
 
 #### 项目说明
 random项目是基于SpringBoot的快速开发框架。
-* 管理端采用SpringBoot2.x,MyBatis-plus,Spring Security&JWT,redis,layui等框架开发的一套RBAC权限管理系统。
+* 管理端采用SpringBoot2.x,MyBatis-plus,Spring Security&JWT,redis,layui等框架开发的一套RBAC权限管理系统，前后端不分离。
 * 支持使用代码生成器快速生成前后端代码，只需编写小部分代码，就能实现基础功能。
 * 
 
