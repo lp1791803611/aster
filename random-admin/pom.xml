@@ -20,10 +20,10 @@
 			<artifactId>random-mbg</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- redis -->
+		<!-- security&jwt&redis -->
 		<dependency>
 			<groupId>top.plgxs</groupId>
-			<artifactId>random-common-redis</artifactId>
+			<artifactId>random-common-security</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

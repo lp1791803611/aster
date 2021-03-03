@@ -84,6 +84,16 @@ random:
       - key: user
         second: 3600
 
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT加解密使用的密钥
+  secret: Stranger
+  # JWT令牌过期时间 此处单位/毫秒 (60*60*24*1)(1天)
+  expiration: 86400
+  # JWT令牌前缀
+  tokenHead: 'Bearer '
+
 # 日志
 logging:
   level:
