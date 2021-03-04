@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /random
+    context-path: /admin
     session:
       timeout: 30m
   port: 8080
@@ -86,13 +86,31 @@ random:
 
 jwt:
   # JWT存储的请求头
-  tokenHeader: Authorization
-  # JWT加解密使用的密钥
+  header: Authorization
+  # JWT加解密使用的密钥(Base64编码)
   secret: Stranger
-  # JWT令牌过期时间 此处单位/毫秒 (60*60*24*1)(1天)
+  # JWT令牌过期时间 此处单位/秒 (60*60*24*1)(1天)
   expiration: 86400
   # JWT令牌前缀
   tokenHead: 'Bearer '
+
+secure:
+  ignored:
+    # 安全路径白名单
+    urls:
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.jpg
+      - /**/*.ico
+      - /admin/login
+      - /admin/register
+      - /admin/info
+      - /admin/logout
 
 # 日志
 logging:

@@ -120,10 +120,24 @@ public class ResultInfo<T> implements Serializable {
      * @since 2020/12/23 16:10
      */
     public static <T> ResultInfo<T> failed(int code, String message) {
+        return failed(code, message, null);
+    }
+
+    /**
+     * 失败返回结果
+     *
+     * @param code    错误码
+     * @param message 错误信息
+     * @param data
+     * @author Stranger。
+     * @since 2020/12/23 16:10
+     */
+    public static <T> ResultInfo<T> failed(int code, String message, T data) {
         ResultInfo<T> r = new ResultInfo<>();
         r.setCode(code);
         r.setMsg(message);
         r.setSuccess(false);
+        r.setData(data);
         return r;
     }
 
@@ -159,6 +173,17 @@ public class ResultInfo<T> implements Serializable {
     }
 
     /**
+     * 未登录返回结果
+     *
+     * @param data
+     * @author Stranger。
+     * @since 2020/12/23 16:12
+     */
+    public static <T> ResultInfo<T> unauthorized(T data) {
+        return failed(ResultCode.UNAUTHORIZED.getCode(), ResultCode.UNAUTHORIZED.getMessage(), data);
+    }
+
+    /**
      * 未授权返回结果
      *
      * @author Stranger。
@@ -166,6 +191,16 @@ public class ResultInfo<T> implements Serializable {
      */
     public static <T> ResultInfo<T> forbidden() {
         return failed(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage());
+    }
+
+    /**
+     * 未授权返回结果
+     *
+     * @author Stranger。
+     * @since 2020/12/23 16:12
+     */
+    public static <T> ResultInfo<T> forbidden(T data) {
+        return failed(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), data);
     }
 
 }

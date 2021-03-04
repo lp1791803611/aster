@@ -18,7 +18,7 @@ public class JwtSecurityProperties {
     /**
      * JWT存储的请求头
      */
-    private String tokenHeader;
+    private String header;
     /**
      * JWT加解密使用的密钥
      */
