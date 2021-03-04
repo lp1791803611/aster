@@ -81,6 +81,4 @@ public interface SysUserService extends IService<SysUser> {
      * @since 2021/2/13
      */
     void deleteBatchUser(List<String> userIds);
-
-
 }

@@ -14,9 +14,16 @@
 	<name>random-admin</name>
 
 	<dependencies>
+		<!-- mbg -->
 		<dependency>
 			<groupId>top.plgxs</groupId>
 			<artifactId>random-mbg</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- security&jwt&redis -->
+		<dependency>
+			<groupId>top.plgxs</groupId>
+			<artifactId>random-common-security</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

@@ -15,5 +15,6 @@
 	<modules>
 		<module>random-common-core</module>
 		<module>random-common-redis</module>
+		<module>random-common-security</module>
 	</modules>
 </project>
