@@ -81,4 +81,15 @@ public interface SysUserService extends IService<SysUser> {
      * @since 2021/2/13
      */
     void deleteBatchUser(List<String> userIds);
+
+    /**
+     * 根据用户名查询用户信息
+     * @param username 用户名
+     * @return top.plgxs.mbg.entity.sys.SysUser
+     * @author Stranger。
+     * @since 2021/3/4
+     */
+    SysUser getUserByUsername(String username);
+
+
 }

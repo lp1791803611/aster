@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.AdminMapper">
+    <select id="getMenuListByUserId" resultType="top.plgxs.mbg.entity.sys.SysMenu">
+        SELECT
+            m.id, m.code, m.parent_code, m.menu_name, m.menu_url, m.menu_auth,
+            m.menu_target, m.menu_icon, m.menu_type, m.ancestors, m.sort, m.gmt_create,
+            m.status
+        FROM t_sys_user_role ur
+        LEFT JOIN t_sys_role_menu rm ON ur.role_id = rm.role_id
+        LEFT JOIN t_sys_menu m ON rm.menu_id = m.id
+        WHERE ur.user_id = #{userId}
+            and m.is_deleted = '0'
+        GROUP BY m.id
+    </select>
+</mapper>

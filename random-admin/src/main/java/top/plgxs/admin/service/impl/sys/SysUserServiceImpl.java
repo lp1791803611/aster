@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.admin.utils.Convert;
-import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserPosition;
@@ -104,7 +103,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
     }
 
-
+    @Override
+    public SysUser getUserByUsername(String username) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        List<SysUser> list = sysUserMapper.selectList(queryWrapper);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
 
     /**
      * 插入用户职位关系
