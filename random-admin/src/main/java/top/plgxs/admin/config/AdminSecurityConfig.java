@@ -24,6 +24,7 @@ public class AdminSecurityConfig extends SecurityConfig {
     private AdminService adminService;
 
     @Bean
+    @Override
     public UserDetailsService userDetailsService() {
         // 获取登录用户信息
         return username -> adminService.loadUserByUsername(username);
