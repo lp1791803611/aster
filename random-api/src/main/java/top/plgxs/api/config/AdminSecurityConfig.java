@@ -1,11 +1,10 @@
-package top.plgxs.admin.config;
+package top.plgxs.api.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import top.plgxs.admin.service.AdminService;
+import top.plgxs.api.service.AdminService;
 import top.plgxs.common.security.config.SecurityConfig;
 
 import javax.annotation.Resource;
@@ -23,10 +22,11 @@ public class AdminSecurityConfig extends SecurityConfig {
     @Resource
     private AdminService adminService;
 
-    @Bean
     @Override
     public UserDetailsService userDetailsService() {
         // 获取登录用户信息
         return username -> adminService.loadUserByUsername(username);
     }
+
+
 }

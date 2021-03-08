@@ -1,19 +1,16 @@
 package top.plgxs.common.security.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import top.plgxs.common.security.component.JwtAccessDeniedHandler;
 import top.plgxs.common.security.component.JwtAuthenticationEntryPoint;
 import top.plgxs.common.security.component.JwtAuthenticationTokenFilter;
+import top.plgxs.common.security.component.UserPasswordEncoder;
 import top.plgxs.common.security.properties.IgnoreUrlsProperties;
 
 import javax.annotation.Resource;
@@ -25,7 +22,6 @@ import javax.annotation.Resource;
  * @version 1.0
  * @since 2021/3/4 0004 15:43
  */
-@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -35,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Resource
     private IgnoreUrlsProperties ignoreUrlsProperties;
+    @Resource
+    private UserPasswordEncoder userPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -65,17 +63,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 // 自定义权限拦截器JWT过滤器
                 .and()
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                // 在前后端不分离，使用iframe时，需将默认的X-Frame-Options设置为SAMEORIGIN
+                .headers().frameOptions().sameOrigin();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(userPasswordEncoder.passwordEncoder());
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

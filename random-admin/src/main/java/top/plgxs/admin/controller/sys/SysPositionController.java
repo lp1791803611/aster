@@ -8,11 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysPositionService;
-import top.plgxs.admin.utils.Convert;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.node.LayuiTreeNode;
 import top.plgxs.common.core.api.page.PageDataInfo;
 import top.plgxs.mbg.entity.sys.SysPosition;
+import top.plgxs.mbg.utils.Convert;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;

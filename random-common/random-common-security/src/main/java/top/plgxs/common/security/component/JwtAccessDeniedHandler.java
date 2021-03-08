@@ -3,6 +3,7 @@ package top.plgxs.common.security.component;
 import cn.hutool.json.JSONUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 import top.plgxs.common.core.api.ResultInfo;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.io.IOException;
  * @version 1.0
  * @since 2021/3/4 0004 15:24
  */
+@Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {

@@ -1,4 +1,4 @@
-package top.plgxs.admin.bo;
+package top.plgxs.api.bo;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.security.core.GrantedAuthority;

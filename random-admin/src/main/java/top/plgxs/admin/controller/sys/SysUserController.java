@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysUserRoleService;
 import top.plgxs.admin.service.sys.SysUserService;
-import top.plgxs.admin.utils.Convert;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.page.PageDataInfo;
 import top.plgxs.common.core.constants.Constants;
@@ -20,6 +19,7 @@ import top.plgxs.common.core.constants.enums.DeleteEnum;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserRole;
+import top.plgxs.mbg.utils.Convert;
 
 import javax.annotation.Resource;
 import java.util.List;

@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysUserService;
-import top.plgxs.admin.utils.Convert;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserPosition;
 import top.plgxs.mbg.mapper.sys.SysUserMapper;
 import top.plgxs.mbg.mapper.sys.SysUserPositionMapper;
 import top.plgxs.mbg.mapper.sys.SysUserRoleMapper;
+import top.plgxs.mbg.utils.Convert;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;

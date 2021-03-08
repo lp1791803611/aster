@@ -1,7 +1,8 @@
-package top.plgxs.admin.service;
+package top.plgxs.api.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import top.plgxs.mbg.entity.sys.SysMenu;
+import top.plgxs.mbg.entity.sys.SysUser;
 
 import java.util.List;
 
@@ -29,4 +30,22 @@ public interface AdminService {
      * @since 2021/3/4
      */
     UserDetails loadUserByUsername(String username);
+
+    /**
+     * 用户登录
+     * @param username 用户名
+     * @param password 密码
+     * @author Stranger。
+     * @since 2021/3/8 0008
+     */
+    String login(String username, String password);
+
+    /**
+     * 用户注册
+     * @param username 用户名
+     * @param password 密码
+     * @author Stranger。
+     * @since 2021/3/8 0008
+     */
+    SysUser register(String username, String password);
 }

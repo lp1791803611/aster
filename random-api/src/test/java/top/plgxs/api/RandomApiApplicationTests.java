@@ -1,10 +1,10 @@
-package top.plgxs.wx;
+package top.plgxs.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RandomWxApplicationTests {
+class RandomApiApplicationTests {
 
 	@Test
 	void contextLoads() {
