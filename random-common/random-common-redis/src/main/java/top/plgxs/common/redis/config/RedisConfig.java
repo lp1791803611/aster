@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +18,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import top.plgxs.common.redis.constant.RedisConstant;
-import top.plgxs.common.redis.properties.CacheManagerProperties;
 
-import javax.annotation.Resource;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Redis基础配置
@@ -34,10 +29,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableCaching
-@EnableConfigurationProperties({CacheManagerProperties.class})
 public class RedisConfig {
-    @Resource
-    private CacheManagerProperties cacheManagerProperties;
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
@@ -69,7 +61,7 @@ public class RedisConfig {
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
-        return new RedisCacheManager(redisCacheWriter, this.defaultCacheConfiguration(RedisConstant.CACHE_MANAGER_SECOND),this.initialCacheConfigurations());
+        return new RedisCacheManager(redisCacheWriter, this.defaultCacheConfiguration(RedisConstant.DEFAULT_EXPIRE));
     }
 
     private RedisCacheConfiguration defaultCacheConfiguration(long seconds){
@@ -77,18 +69,6 @@ public class RedisConfig {
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer()))
                 .entryTtl(Duration.ofSeconds(seconds));
         return redisCacheConfiguration;
-    }
-
-    private Map<String,RedisCacheConfiguration> initialCacheConfigurations(){
-        //自定义的缓存过期时间配置
-        int configSize = cacheManagerProperties.getConfigs() == null ? 0 : cacheManagerProperties.getConfigs().size();
-        Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>(configSize);
-        if (configSize > 0) {
-            cacheManagerProperties.getConfigs().forEach(e->{
-                redisCacheConfigurationMap.put(e.getKey(), this.defaultCacheConfiguration(e.getSecond()));
-            });
-        }
-        return redisCacheConfigurationMap;
     }
 
     @Bean

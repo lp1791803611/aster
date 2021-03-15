@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.plgxs.api.service.AdminService;
 import top.plgxs.common.core.api.ResultInfo;
@@ -32,7 +33,7 @@ public class LoginController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public ResultInfo<Object> login(LoginUser loginUser) {
+    public ResultInfo<Object> login(@RequestBody LoginUser loginUser) {
         if (loginUser == null || StrUtil.isBlank(loginUser.getUsername())
                 || StrUtil.isBlank(loginUser.getPassword())) {
             return ResultInfo.validateFailed();
@@ -49,7 +50,7 @@ public class LoginController {
 
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "/register")
-    public ResultInfo<SysUser> register(LoginUser loginUser) {
+    public ResultInfo<SysUser> register(@RequestBody LoginUser loginUser) {
         if (loginUser == null || StrUtil.isBlank(loginUser.getUsername())
                 || StrUtil.isBlank(loginUser.getPassword())) {
             return ResultInfo.validateFailed();

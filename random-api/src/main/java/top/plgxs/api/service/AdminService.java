@@ -48,4 +48,13 @@ public interface AdminService {
      * @since 2021/3/8 0008
      */
     SysUser register(String username, String password);
+
+    /**
+     * 通过用户名查找用户信息
+     * @param username 用户名
+     * @return top.plgxs.mbg.entity.sys.SysUser
+     * @author Stranger。
+     * @since 2021/3/15
+     */
+    SysUser getUserByUsername(String username);
 }
