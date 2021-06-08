@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysUser">
+        <id column="id" property="id" />
+        <result column="dept_id" property="deptId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="nickname" property="nickname" />
+        <result column="gender" property="gender" />
+        <result column="realname" property="realname" />
+        <result column="id_number" property="idNumber" />
+        <result column="head_url" property="headUrl" />
+        <result column="login_number" property="loginNumber" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="mobile_verification_code" property="mobileVerificationCode" />
+        <result column="email_verification_code" property="emailVerificationCode" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dept_id, username, password, salt, mobile, email, nickname, gender, realname, id_number, head_url, login_number, last_login_time, mobile_verification_code, email_verification_code, gmt_create, gmt_modified, status, is_deleted
+    </sql>
+
+    <select id="selectSysUserList" parameterType="top.plgxs.mbg.entity.sys.SysUser" resultType="top.plgxs.mbg.entity.sys.SysUser">
+        select <include refid="Base_Column_List"/>
+        from t_sys_user t
+        where 1 = 1
+            <if test="id != null and id != ''">
+                and t.id = #{id}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and t.dept_id = #{deptId}
+            </if>
+            <if test="username != null and username != ''">
+                and t.username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and t.password = #{password}
+            </if>
+            <if test="salt != null and salt != ''">
+                and t.salt = #{salt}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and t.mobile = #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                and t.email = #{email}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and t.nickname = #{nickname}
+            </if>
+            <if test="gender != null and gender != ''">
+                and t.gender = #{gender}
+            </if>
+            <if test="realname != null and realname != ''">
+                and t.realname = #{realname}
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                and t.id_number = #{idNumber}
+            </if>
+            <if test="headUrl != null and headUrl != ''">
+                and t.head_url = #{headUrl}
+            </if>
+            <if test="loginNumber != null">
+                and t.login_number = #{loginNumber}
+            </if>
+            <if test="lastLoginTime != null">
+                and t.last_login_time = #{lastLoginTime}
+            </if>
+            <if test="mobileVerificationCode != null and mobileVerificationCode != ''">
+                and t.mobile_verification_code = #{mobileVerificationCode}
+            </if>
+            <if test="emailVerificationCode != null and emailVerificationCode != ''">
+                and t.email_verification_code = #{emailVerificationCode}
+            </if>
+            <if test="gmtCreate != null">
+                and t.gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and t.gmt_modified = #{gmtModified}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="isDeleted != null and isDeleted != ''">
+                and t.is_deleted = #{isDeleted}
+            </if>
+    </select>
+
+    <select id="selectUserPage" resultType="top.plgxs.mbg.dto.sys.UserDto">
+        select
+            u.id, u.username, u.nickname, u.mobile, u.email,
+            u.gmt_create as `gmtCreate`, u.dept_id as `deptId`, d.dept_name as `deptName`
+        from t_sys_user u
+        left join t_sys_dept d on u.dept_id = d.id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

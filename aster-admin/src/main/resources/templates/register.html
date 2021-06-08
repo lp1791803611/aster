@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('注册页面')"/>
+
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: inset 0 0 0 1000px #fff;
+            background-color: transparent;
+        }
+
+        .admin-login-background {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            margin-left: -150px;
+            margin-top: -100px;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 40px
+        }
+
+        .admin-input {
+            border-top-style: none;
+            border-right-style: solid;
+            border-bottom-style: solid;
+            border-left-style: solid;
+            height: 50px;
+            width: 300px;
+            padding-bottom: 0px;
+        }
+
+        .admin-input::-webkit-input-placeholder {
+            color: #a78369
+        }
+
+        .layui-icon-username {
+            color: #a78369 !important;
+        }
+
+        .layui-icon-username:hover {
+            color: #9dadce !important;
+        }
+
+        .layui-icon-password {
+            color: #a78369 !important;
+        }
+
+        .layui-icon-password:hover {
+            color: #9dadce !important;
+        }
+
+        .admin-input-username {
+            border-top-style: solid;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .admin-input-verify {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .admin-button {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            width: 300px;
+            height: 50px;
+            border-radius: 5px;
+            background-color: #a78369;
+            border: 1px solid #d8b29f
+        }
+
+        .admin-icon {
+            margin-left: 260px;
+            margin-top: 10px;
+            font-size: 30px;
+        }
+
+        i {
+            position: absolute;
+        }
+
+        .admin-captcha {
+            position: absolute;
+            margin-left: 205px;
+            margin-top: -40px;
+        }
+
+        .checkbox-form {
+            margin: 10px;
+            font-size: 13px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body th:style="'background-image: url(/images/bg.jpg)'">
+<div id="container">
+    <div></div>
+    <div class="admin-login-background">
+        <div class="admin-header">
+            <span>Aster</span>
+        </div>
+        <div class="layui-form">
+            <div>
+                <i class="layui-icon layui-icon-username admin-icon"></i>
+                <input type="text" name="username" placeholder="请输入用户名" lay-verify="username"
+                       autocomplete="off" class="layui-input admin-input admin-input-username">
+            </div>
+            <div>
+                <i class="layui-icon layui-icon-password admin-icon"></i>
+                <input type="password" name="password" placeholder="请输入密码" lay-verify="password"
+                       autocomplete="off" class="layui-input admin-input">
+            </div>
+            <div>
+                <i class="layui-icon layui-icon-password admin-icon"></i>
+                <input type="password" name="confirmPassword" placeholder="请再次输入密码"
+                       lay-verify="confirmPassword" autocomplete="off" class="layui-input admin-input">
+            </div>
+            <div>
+
+            </div>
+            <div th:if="${captchaEnabled==true}">
+                <input type="text" name="validateCode" placeholder="请输入验证码" autocomplete="off"
+                       lay-verify="validateCode" class="layui-input admin-input admin-input-verify">
+                <img class="admin-captcha" width="90" height="30"
+                     th:src="@{captcha/captchaImage(type=${captchaType})}">
+            </div>
+            <div class="checkbox-form" th:classappend="${captchaEnabled == false} ? 'm-t'">
+                <input type="checkbox" id="acceptTerm" name="acceptTerm" lay-skin="primary" checked>
+                <label for="acceptTerm">我已阅读并同意</label>
+                <a href="https://gitee.com/lp1791803611/random/blob/master/README.md"
+                   style="color: #337ab7; margin-left: 10px;" target="_blank">使用条款</a>
+            </div>
+            <button class="layui-btn admin-button" lay-submit lay-filter="register">注 册</button>
+        </div>
+    </div>
+</div>
+<th:block th:include="common/include :: footer"/>
+<script th:inline="javascript"> var captchaType = [[${captchaType}]]; </script>
+<script th:inline="none">
+    $(function () {
+        $('.admin-captcha').click(function () {
+            var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+            $(".admin-captcha").attr("src", url);
+        });
+    });
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        // 自定义验证规则
+        form.verify({
+            username: [
+                /^[a-zA-Z0-9]{2,20}$/
+                , '用户名必须为2到20位,只不能出现特殊字符'
+            ]
+            , password: [
+                /^[\S][a-zA-Z0-9!@#$%^&*?_-]{5,20}$/
+                , '密码必须6到20位，且不能出现空格'
+            ],
+            confirmPassword: function (value) {
+                var pass = $("input[name='password']").val();
+                if (pass != value) {
+                    return '两次密码输入不一致';
+                }
+            }
+        });
+
+        // 进行注册操作
+        form.on('submit(register)', function (data) {
+            data = data.field;
+            $.ajax({
+                url: ctx + "register",
+                type: "post",
+                dataType: "json",
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        layer.alert("<font color='red'>恭喜你，您的账号 " + data.username + " 注册成功！</font>", {
+                                icon: 1,
+                                title: "系统提示"
+                            },
+                            function (index) {
+                                //关闭弹窗
+                                layer.close(index);
+                                location.href = ctx + 'login';
+                            }
+                        );
+                    } else {
+                        $("input[name='validateCode']").val('');
+                        $('.admin-captcha').click();
+                        layer.msg(result.msg, {time: 3000});
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

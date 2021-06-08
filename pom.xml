@@ -3,9 +3,9 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top.plgxs</groupId>
-	<artifactId>random</artifactId>
+	<artifactId>aster</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>random</name>
+	<name>aster</name>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -16,10 +16,10 @@
 	</parent>
 
 	<modules>
-		<module>random-admin</module>
-		<module>random-wx</module>
-        <module>random-common</module>
-		<module>random-mbg</module>
+		<module>aster-admin</module>
+		<module>aster-api</module>
+        <module>aster-common</module>
+		<module>aster-mbg</module>
 	</modules>
 
 	<properties>
@@ -44,6 +44,11 @@
 		<lombok.version>1.16.20</lombok.version>
 		<commons-lang3.version>3.11</commons-lang3.version>
 		<commons-pool2.version>2.9.0</commons-pool2.version>
+		<commons-io.version>2.8.0</commons-io.version>
+		<shiro.version>1.6.0</shiro.version>
+		<shiro-redis.version>3.3.1</shiro-redis.version>
+		<thymeleaf-extras-shiro>2.0.0</thymeleaf-extras-shiro>
+		<kaptcha.version>2.3.2</kaptcha.version>
 	</properties>
 
 	<dependencyManagement>
@@ -183,6 +188,40 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-pool2</artifactId>
 				<version>${commons-pool2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<!-- shiro -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Shiro使用EhCache缓存框架 -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- thymeleaf-shiro -->
+			<dependency>
+				<groupId>com.github.theborakompanioni</groupId>
+				<artifactId>thymeleaf-extras-shiro</artifactId>
+				<version>${thymeleaf-extras-shiro}</version>
+			</dependency>
+			<!-- 图片验证码 -->
+			<dependency>
+				<groupId>com.github.penggle</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>${kaptcha.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
