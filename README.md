@@ -1,7 +1,7 @@
-# random
+# aster
 
 #### 项目说明
-random项目是基于SpringBoot的快速开发框架。
+aster项目是基于SpringBoot的快速开发框架。
 * 管理端采用SpringBoot2.x,MyBatis-plus,shiro,redis,layui等框架开发的一套RBAC权限管理系统，前后端不分离。
 * 支持使用代码生成器快速生成前后端代码，只需编写小部分代码，就能实现基础功能。
 * 
@@ -39,8 +39,8 @@ random项目是基于SpringBoot的快速开发框架。
 管理端：
 1.  clone到idea中
 2.  修改application-local.yml的jdbc信息（doc下有sql文件）
-3.  启动RandomAdminApplication.java
-4.  浏览器输入http://localhost:8080/admin/index
+3.  启动AsterAdminApplication.java
+4.  浏览器输入http://localhost:8080/index
 5.  用户名：admin，密码：123456
 
 #### 博客文档
