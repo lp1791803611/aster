@@ -2,22 +2,24 @@
 
 #### 项目说明
 random项目是基于SpringBoot的快速开发框架。
-* 管理端采用SpringBoot2.x,MyBatis-plus,Spring Security&JWT,redis,layui等框架开发的一套RBAC权限管理系统，前后端不分离。
+* 管理端采用SpringBoot2.x,MyBatis-plus,shiro,redis,layui等框架开发的一套RBAC权限管理系统，前后端不分离。
 * 支持使用代码生成器快速生成前后端代码，只需编写小部分代码，就能实现基础功能。
 * 
 
 #### 已完成部分： 
-1. 集成mybatis-plus
-2. 集成mybatis-plus-generator,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
-3. 集成thymeleaf+layui+layuimini
-4. 集成swagger2
+1. 整合mybatis-plus
+2. 整合mybatis-plus-generator,可生成controller、service、serviceimpl、entity、mapper、xml和list.html、add.html、edit.html等文件。
+3. 整合thymeleaf+layui+layuimini
+4. 整合swagger2
 5. 完成用户管理/角色管理/菜单管理/部门管理/岗位管理/字典管理
-6. 集成redis
+6. 整合redis
+7. 整合Spring Security&JWT
+8. 全局统一异常处理
 
 #### 软件架构
 * 核心框架：Spring Boot 2.4.0
 * 持久层框架：Mybatis Plus 3.4.0
-* 安全框架：Spring Security&JWT 
+* 安全框架：Spring Security&JWT、Shiro
 * 缓存框架：Redis
 * 数据库连接池：阿里巴巴Druid 1.2.3
 * 接口文档：Swagger-ui 2.9.2
@@ -34,12 +36,12 @@ random项目是基于SpringBoot的快速开发框架。
 * Maven 3.6.0 
 
 #### 使用说明
-
+管理端：
 1.  clone到idea中
 2.  修改application-local.yml的jdbc信息（doc下有sql文件）
 3.  启动RandomAdminApplication.java
-4.  浏览器输入http://localhost:8080/random/index
-5.  管理端用户名：admin，密码：123456
+4.  浏览器输入http://localhost:8080/admin/index
+5.  用户名：admin，密码：123456
 
 #### 博客文档
 
