@@ -1,10 +1,9 @@
 package top.plgxs.mbg.mapper.sys;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.data.repository.query.Param;
 import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysMenu;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import java.util.List;
  * @since 2021-02-02
  * @version 1.0
  */
-@Repository("sysMenuMapper")
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     /**
@@ -54,4 +52,12 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      */
     List<SysMenu> getMenuByRoleId(@Param("roleId") String roleId);
 
+    /**
+     * 根据用户id查询菜单
+     * @param userId
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysMenu>
+     * @author Stranger。
+     * @since 2021/6/9
+     */
+    List<SysMenu> selectMenusByUserId(@Param("userId") String userId);
 }

@@ -12,7 +12,6 @@ import top.plgxs.admin.service.sys.SysRoleService;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.admin.utils.ShiroUtils;
 import top.plgxs.mbg.dto.sys.LoginUser;
-import top.plgxs.mbg.entity.sys.SysUser;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -42,14 +41,14 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SysUser user = ShiroUtils.getSysUser();
+        LoginUser user = ShiroUtils.getLoginUser();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 角色列表
         Set<String> roles = new HashSet<String>();
         // 功能列表
         Set<String> menus = new HashSet<String>();
         // 管理员拥有所有权限
-        if (sysUserService.isAdmin(user.getUsername())) {
+        if (sysUserService.isAdmin(user)) {
             info.addRole("admin");
             info.addStringPermission("*:*:*");
         } else {

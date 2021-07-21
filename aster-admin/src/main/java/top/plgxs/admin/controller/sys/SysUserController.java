@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysUserRoleService;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.page.PageDataInfo;
 import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.common.core.constants.enums.DeleteEnum;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
@@ -22,7 +24,6 @@ import top.plgxs.mbg.entity.sys.SysUserRole;
 import top.plgxs.mbg.utils.Convert;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -106,11 +107,11 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody UserDto user) {
         try {
-            //TODO 密码加密
             sysUserService.insertUser(user);
             return ResultInfo.success();
         } catch (Exception e) {
@@ -142,11 +143,11 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody UserDto userDto) {
         try {
-            //TODO 密码加密
             sysUserService.updateUser(userDto);
             return ResultInfo.success();
         } catch (Exception e) {
@@ -162,6 +163,7 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{id}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("id") String id) {
@@ -180,6 +182,7 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids) {
@@ -199,6 +202,7 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021-02-12
      */
+    @Log(title = "用户管理", businessType = BusinessType.SWITCH)
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name = "id") String id, @RequestParam(name = "status") String status) {
@@ -246,19 +250,12 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021/2/13
      */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @GetMapping("/reset/{id}")
     @ResponseBody
     public ResultInfo<String> reset(@PathVariable("id") String id) {
-        SysUser user = new SysUser();
-        user.setId(id);
-        user.setPassword(sysUserService.encryptPassword(user.getUsername(), Constants.PASSWORD_INITIAL, user.getSalt()));
-        user.setGmtModified(LocalDateTime.now());
-        boolean result = sysUserService.updateById(user);
-        if (result) {
-            return ResultInfo.success();
-        } else {
-            return ResultInfo.failed();
-        }
+        sysUserService.resetPassword(id);
+        return ResultInfo.success();
     }
 
     /**
@@ -284,6 +281,7 @@ public class SysUserController {
      * @author Stranger。
      * @since 2021/2/19
      */
+    @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PostMapping("/saveUserRole")
     @ResponseBody
     public ResultInfo<String> saveUserRole(@RequestBody SysUserRole userRole) {
@@ -291,6 +289,38 @@ public class SysUserController {
             return ResultInfo.validateFailed();
         }
         sysUserRoleService.saveUserRole(userRole);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 更新用户基本资料
+     *
+     * @param userDto
+     * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
+     * @author Stranger。
+     * @since 2021-02-12
+     */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateBaseInfo")
+    @ResponseBody
+    public ResultInfo<Object> updateBaseInfo(@RequestBody UserDto userDto) {
+        sysUserService.updateBaseInfo(userDto);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param userDto
+     * @return top.plgxs.common.api.ResultInfo<java.lang.Object>
+     * @author Stranger。
+     * @since 2021-02-12
+     */
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/updatePassword")
+    @ResponseBody
+    public ResultInfo<Object> updatePassword(@RequestBody UserDto userDto) {
+        sysUserService.updatePassword(userDto);
         return ResultInfo.success();
     }
 }

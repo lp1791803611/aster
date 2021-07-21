@@ -10,7 +10,7 @@
         <fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
+                <form class="layui-form layui-form-pane" lay-filter="curr-form" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">查询条件</label>
@@ -97,13 +97,14 @@
 
         // 搜索
         function search() {
-            // var result = JSON.stringify(data.field);
+            // var result = JSON.stringify(form.val('curr-form'));
             //执行搜索重载
             table.reload('currentTableId', {
                 page: {
                     curr: 1
                 }
                 , where: {
+                    // searchParams: result
                     name: $("#name").val()
                 }
             }, 'data');

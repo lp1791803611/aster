@@ -58,4 +58,9 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     public List<SysDictType> getSysDictTypeList() {
         return sysDictTypeMapper.selectSysDictTypeList(null);
     }
+
+    @Override
+    public void clearAll() {
+        dictUtils.clearDictCache();
+    }
 }

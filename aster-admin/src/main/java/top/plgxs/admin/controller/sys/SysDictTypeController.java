@@ -1,20 +1,21 @@
 package top.plgxs.admin.controller.sys;
 
-import javax.annotation.Resource;
-
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysDictTypeService;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.page.PageDataInfo;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.mbg.entity.sys.SysDictType;
-import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -83,6 +84,7 @@ public class SysDictTypeController {
      * @author Stranger。
      * @since 2021-02-23
      */
+    @Log(title = "字典类型管理", businessType = BusinessType.INSERT)
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysDictType sysDictType){
@@ -114,6 +116,7 @@ public class SysDictTypeController {
      * @author Stranger。
      * @since 2021-02-23
      */
+    @Log(title = "字典类型管理", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody SysDictType sysDictType){
@@ -135,6 +138,7 @@ public class SysDictTypeController {
      * @author Stranger。
      * @since 2021-02-23
      */
+    @Log(title = "字典类型管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{id}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("id") String id){
@@ -155,6 +159,7 @@ public class SysDictTypeController {
      * @author Stranger。
      * @since 2021-02-23
      */
+    @Log(title = "字典类型管理", businessType = BusinessType.DELETE)
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids){
@@ -173,6 +178,7 @@ public class SysDictTypeController {
      * @author Stranger。
      * @since 2021-02-23
      */
+    @Log(title = "字典类型管理", businessType = BusinessType.SWITCH)
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name="id") String id, @RequestParam(name = "status") String status){

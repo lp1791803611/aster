@@ -1,10 +1,12 @@
 package top.plgxs.admin.service.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import top.plgxs.common.core.api.TreeTable;
-import top.plgxs.common.core.api.node.ZTreeNode;
-import top.plgxs.mbg.entity.sys.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.plgxs.common.core.api.TreeTable;
+import top.plgxs.common.core.api.menu.MenuInfo;
+import top.plgxs.common.core.api.node.ZTreeNode;
+import top.plgxs.mbg.dto.sys.LoginUser;
+import top.plgxs.mbg.entity.sys.SysMenu;
 
 import java.util.List;
 import java.util.Set;
@@ -61,11 +63,12 @@ public interface SysMenuService extends IService<SysMenu> {
 
     /**
      * 更新一条菜单
+     * @param oldCode 旧编码
      * @param sysMenu
      * @author Stranger。
      * @since 2021/2/8 0008
      */
-    int updateMenu(SysMenu sysMenu);
+    int updateMenu(String oldCode, SysMenu sysMenu);
 
     /**
      * 逻辑删除一条菜单，包含子菜单
@@ -129,4 +132,13 @@ public interface SysMenuService extends IService<SysMenu> {
      * @since 2021/3/16
      */
     List<String> getMenuIdByRoleId(List<String> roleIds);
+
+    /**
+     * 根据用户id查询菜单
+     * @param user
+     * @return java.util.List<top.plgxs.common.core.api.menu.MenuInfo>
+     * @author Stranger。
+     * @since 2021/6/9
+     */
+    List<MenuInfo> selectMenusByUserId(LoginUser user);
 }

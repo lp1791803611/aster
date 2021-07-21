@@ -18,5 +18,15 @@ public class RedisConstant {
     /**
      * 字典管理 cache key
      */
-    public static final String SYS_DICT_KEY = "random:dict:";
+    public static final String SYS_DICT_KEY = "aster:dict:";
+
+    /**
+     * 系统设置 cache key
+     */
+    public static final String SYS_CONFIG_KEY = "aster:config:";
+
+    /**
+     * 用户锁定 cache key
+     */
+    public static final String SYS_LOCK_USER = "aster:lock:";
 }

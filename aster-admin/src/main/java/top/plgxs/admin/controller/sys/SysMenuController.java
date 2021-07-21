@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysMenuService;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.TreeTable;
 import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.common.core.api.page.PageDataInfo;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.mbg.entity.sys.SysMenu;
 
 import javax.annotation.Resource;
@@ -84,6 +86,7 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021-02-02
      */
+    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysMenu sysMenu) {
@@ -120,14 +123,15 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021-02-02
      */
-    @PostMapping("/update")
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/update/{oldCode}")
     @ResponseBody
-    public ResultInfo<Object> update(@RequestBody SysMenu sysMenu) {
+    public ResultInfo<Object> update(@PathVariable("oldCode") String oldCode, @RequestBody SysMenu sysMenu) {
         if (sysMenu == null || StringUtils.isBlank(sysMenu.getId())
                 || StringUtils.isBlank(sysMenu.getParentCode())) {
             return ResultInfo.validateFailed();
         }
-        int result = sysMenuService.updateMenu(sysMenu);
+        int result = sysMenuService.updateMenu(oldCode, sysMenu);
         if (result > 0) {
             return ResultInfo.success();
         } else {
@@ -143,6 +147,7 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021-02-02
      */
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{code}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("code") String code) {
@@ -164,6 +169,7 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021-02-02
      */
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> codes) {
@@ -186,6 +192,7 @@ public class SysMenuController {
      * @author Stranger。
      * @since 2021-02-02
      */
+    @Log(title = "菜单管理", businessType = BusinessType.SWITCH)
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name = "code") String code, @RequestParam(name = "status") String status) {

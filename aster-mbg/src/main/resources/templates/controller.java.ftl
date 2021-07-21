@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ${cfg.customServicePackage}.${table.serviceName};
-import top.plgxs.common.api.ResultInfo;
-import top.plgxs.common.page.PageDataInfo;
+import top.plgxs.common.core.api.ResultInfo;
+import top.plgxs.common.core.api.page.PageDataInfo;
 import ${cfg.customEntityPackage}.${entity};
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -146,6 +146,7 @@ public class ${table.controllerName} {
         if(${entity?uncap_first} == null || StringUtils.isBlank(${entity?uncap_first}.getId())){
             return ResultInfo.validateFailed();
         }
+        ${entity?uncap_first}.setGmtModified(LocalDateTime.now());
         boolean result = ${table.serviceName ? uncap_first}.updateById(${entity?uncap_first});
         if(result){
             return ResultInfo.success();

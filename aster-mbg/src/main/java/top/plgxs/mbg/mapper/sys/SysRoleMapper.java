@@ -1,9 +1,9 @@
 package top.plgxs.mbg.mapper.sys;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.repository.query.Param;
 import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.mbg.entity.sys.SysRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,7 +16,6 @@ import java.util.List;
  * @since 2021-02-13
  * @version 1.0
  */
-@Repository("sysRoleMapper")
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     /**
@@ -36,4 +35,22 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      */
     List<ZTreeNode> roleTreeList();
 
+    /**
+     * 根据用户查询角色
+     * @param userId
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysRole>
+     * @author Stranger。
+     * @since 2021/6/10
+     */
+    List<SysRole> selectByUserId(@Param("userId") String userId);
+
+    /**
+     * 查询用户是否为超级管理员
+     * @param userId 用户id
+     * @param superCode 超级管理员角色编码
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysRole>
+     * @author Stranger。
+     * @since 2021/6/10
+     */
+    List<SysRole> isAdmin(@Param("userId") String userId, @Param("superCode") String superCode);
 }

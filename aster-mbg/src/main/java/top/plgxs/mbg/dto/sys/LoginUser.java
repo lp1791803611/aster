@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>用户登录信息</p>
  *
@@ -13,7 +15,9 @@ import lombok.Data;
  */
 @ApiModel(value="用户登录信息")
 @Data
-public class LoginUser {
+public class LoginUser implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @ApiModelProperty(value = "主键")
     private String id;
 
@@ -31,6 +35,12 @@ public class LoginUser {
     }
 
     public LoginUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public LoginUser(String id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }

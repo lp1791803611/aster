@@ -8,7 +8,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import top.plgxs.common.core.util.BeanUtils;
 import top.plgxs.common.core.util.StringUtils;
-import top.plgxs.mbg.entity.sys.SysUser;
+import top.plgxs.mbg.dto.sys.LoginUser;
 
 /**
  * shiro工具类
@@ -29,17 +29,17 @@ public class ShiroUtils {
         getSubject().logout();
     }
 
-    public static SysUser getSysUser() {
-        SysUser user = null;
+    public static LoginUser getLoginUser() {
+        LoginUser user = null;
         Object obj = getSubject().getPrincipal();
         if (StringUtils.isNotNull(obj)) {
-            user = new SysUser();
+            user = new LoginUser();
             BeanUtils.copyBeanProp(user, obj);
         }
         return user;
     }
 
-    public static void setSysUser(SysUser user) {
+    public static void setLoginUser(LoginUser user) {
         Subject subject = getSubject();
         PrincipalCollection principalCollection = subject.getPrincipals();
         String realmName = principalCollection.getRealmNames().iterator().next();
@@ -49,11 +49,11 @@ public class ShiroUtils {
     }
 
     public static String getUserId() {
-        return getSysUser().getId();
+        return getLoginUser().getId();
     }
 
     public static String getUsername() {
-        return getSysUser().getUsername();
+        return getLoginUser().getUsername();
     }
 
     public static String getIp() {

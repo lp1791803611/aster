@@ -10,7 +10,7 @@ import top.plgxs.common.security.config.SecurityConfig;
 import javax.annotation.Resource;
 
 /**
- * random-common-security模块相关配置
+ * aster-common-security模块相关配置
  * @author Stranger。
  * @version 1.0
  * @since 2021/3/4 21:30

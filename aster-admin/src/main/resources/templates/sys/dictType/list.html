@@ -75,7 +75,7 @@
                     {field: 'dictTypeName', sort: true, title: '字典类型名称'},
                     {
                         field: 'dictTypeCode', title: '字典类型编码', sort: true,  templet: function (d) {
-                            var url = ctx + '/sysDict/list?dictTypeCode=' + d.dictTypeCode;
+                            var url = ctx + 'sysDict/list?dictTypeCode=' + d.dictTypeCode;
                             return '<a style="color: #01AAED;" href="' + url + '">' + d.dictTypeCode + '</a>';
                         }
                     },

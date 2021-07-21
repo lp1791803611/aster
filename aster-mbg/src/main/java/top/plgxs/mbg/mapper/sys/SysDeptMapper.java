@@ -1,9 +1,8 @@
 package top.plgxs.mbg.mapper.sys;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.plgxs.common.core.api.node.LayuiTreeNode;
 import top.plgxs.mbg.entity.sys.SysDept;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * @since 2021-02-08
  * @version 1.0
  */
-@Repository("sysDeptMapper")
 public interface SysDeptMapper extends BaseMapper<SysDept> {
 
     /**

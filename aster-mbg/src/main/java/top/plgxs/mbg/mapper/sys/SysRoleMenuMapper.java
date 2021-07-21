@@ -1,8 +1,7 @@
 package top.plgxs.mbg.mapper.sys;
 
-import top.plgxs.mbg.entity.sys.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import top.plgxs.mbg.entity.sys.SysRoleMenu;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @since 2021-02-22
  * @version 1.0
  */
-@Repository("sysRoleMenuMapper")
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
     /**

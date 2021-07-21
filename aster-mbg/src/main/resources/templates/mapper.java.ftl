@@ -18,7 +18,6 @@ import java.util.List;
 <#if kotlin>
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
-@Repository("${table.mapperName?uncap_first}")
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
     /**

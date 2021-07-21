@@ -1,9 +1,11 @@
 package top.plgxs.common.core.constants.enums;
 
 /**
- * 用户会话
- * 
- * @author ruoyi
+ * 用户会话枚举类
+ *
+ * @author Stranger。
+ * @version 1.0
+ * @since 2021/6/9 21:11
  */
 public enum OnlineStatus
 {

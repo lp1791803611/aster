@@ -1,8 +1,7 @@
 package top.plgxs.mbg.mapper.sys;
 
-import top.plgxs.mbg.entity.sys.SysUserPosition;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import top.plgxs.mbg.entity.sys.SysUserPosition;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @since 2021-02-13
  * @version 1.0
  */
-@Repository("sysUserPositionMapper")
 public interface SysUserPositionMapper extends BaseMapper<SysUserPosition> {
 
     /**

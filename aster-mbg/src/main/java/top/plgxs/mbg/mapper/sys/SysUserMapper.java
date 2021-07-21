@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import top.plgxs.mbg.dto.sys.UserDto;
+import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.entity.sys.SysUser;
 
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.List;
  * @since 2021-02-12
  * @version 1.0
  */
-@Repository("sysUserMapper")
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
@@ -43,4 +42,21 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     IPage<UserDto> selectUserPage(Page<UserDto> page, @Param(Constants.WRAPPER) QueryWrapper<UserDto> queryWrapper);
 
+    /**
+     * 获取数据库业务表名
+     * @param database 数据库
+     * @return java.util.List<java.lang.String>
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    List<String> getTableNames(@Param("database") String database);
+
+    /**
+     * 获取表字段信息
+     * @param database 数据库
+     * @param tableName 表名
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    List<TableColumn> getTableColumn(@Param("database") String database, @Param("tableName") String tableName);
 }

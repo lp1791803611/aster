@@ -2,6 +2,8 @@ package top.plgxs.common.core.api;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>layui treetable格式</p>
  *
@@ -10,7 +12,9 @@ import lombok.Data;
  * @since 2021/2/2 0002 16:35
  */
 @Data
-public class TreeTable {
+public class TreeTable implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 编码
      */

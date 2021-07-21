@@ -8,17 +8,31 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.plgxs.admin.service.sys.SysConfigService;
+import top.plgxs.admin.service.sys.SysDictTypeService;
+import top.plgxs.admin.service.sys.SysMenuService;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.admin.utils.ShiroUtils;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
+import top.plgxs.common.core.api.menu.HomeInfo;
+import top.plgxs.common.core.api.menu.LogoInfo;
+import top.plgxs.common.core.api.menu.MenuInfo;
+import top.plgxs.common.core.api.menu.MenuInit;
 import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.common.core.exception.BusinessException;
+import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.entity.sys.SysUser;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>登录</p>
@@ -31,8 +45,20 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
     @Resource
     private SysUserService sysUserService;
-    @Value("${aster.isRegister}")
-    private Boolean isRegister;
+    @Resource
+    private SysMenuService sysMenuService;
+    @Resource
+    private SysDictTypeService sysDictTypeService;
+    @Resource
+    private SysConfigService sysConfigService;
+    @Value("${aster.name}")
+    private String asterName;
+    @Value("${aster.homeHref}")
+    private String homeHref;
+    @Value("${aster.logoHref}")
+    private String logoHref;
+    @Value("${aster.logoImg}")
+    private String logoImg;
 
     /**
      * 登录界面
@@ -103,7 +129,7 @@ public class LoginController {
     @PostMapping("/register")
     @ResponseBody
     public ResultInfo register(SysUser user, HttpServletRequest request) {
-        if (!isRegister) {
+        if (!sysConfigService.isRegister()) {
             throw new BusinessException("当前系统没有开启注册功能！");
         }
         if (!ObjectUtil.isEmpty(request.getAttribute(Constants.CURRENT_CAPTCHA))) {
@@ -121,9 +147,72 @@ public class LoginController {
      * @since 2021/6/8
      */
     @GetMapping("/index")
-    public String index() {
+    public String index(ModelMap mmap) {
+        Integer themeValue = sysConfigService.getThemeValue();
+        mmap.put("themeValue", themeValue);
+        mmap.put("user", ShiroUtils.getLoginUser());
         return "index";
     }
 
+    /**
+     * 初始化菜单列表
+     *
+     * @return top.plgxs.common.core.api.menu.MenuInit
+     * @author Stranger。
+     * @since 2021/6/9
+     */
+    @GetMapping("/init")
+    @ResponseBody
+    public MenuInit initMenu(ModelMap mmap) {
+        LoginUser user = ShiroUtils.getLoginUser();
+        MenuInit init = new MenuInit();
+        init.setHomeInfo(new HomeInfo(asterName, homeHref));
+        init.setLogoInfo(new LogoInfo(asterName, logoImg, logoHref));
+        List<MenuInfo> menuInfoList = sysMenuService.selectMenusByUserId(user);
+        init.setMenuInfo(menuInfoList);
+        return init;
+    }
 
+    /**
+     * 清除缓存
+     * @param mmap
+     * @return top.plgxs.common.core.api.ResultInfo
+     * @author Stranger。
+     * @since 2021/6/10
+     */
+    @Log(title = "缓存管理", businessType = BusinessType.CLEAN)
+    @GetMapping("/clearAll")
+    @ResponseBody
+    public ResultInfo clearAll(ModelMap mmap) {
+        sysDictTypeService.clearAll();
+        sysConfigService.clearAll();
+        return ResultInfo.success("服务端清理缓存成功", null);
+    }
+
+    /**
+     * 用户基本资料
+     * @param mmap
+     * @return java.lang.String
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    @RequestMapping("/user-setting")
+    public String userSetting(ModelMap mmap) {
+        SysUser user = sysUserService.getById(ShiroUtils.getUserId());
+        mmap.put("user", user);
+        return "user-setting";
+    }
+
+    /**
+     * 修改密码
+     * @param mmap
+     * @return java.lang.String
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    @RequestMapping("/user-password")
+    public String userPassword(ModelMap mmap) {
+        mmap.put("username", ShiroUtils.getUsername());
+        return "user-password";
+    }
 }

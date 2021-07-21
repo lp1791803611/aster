@@ -37,9 +37,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">菜单url</label>
+        <label class="layui-form-label">菜单url</label>
         <div class="layui-input-block">
-            <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" value="" class="layui-input">
+            <input type="text" name="menuUrl" placeholder="请输入菜单url" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -179,6 +179,7 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            data.field.menuIcon = 'fa ' + (data.field.menuIcon == null ? 'fa-star' : data.field.menuIcon);
             $.ajax({
                 url: ctx + 'sysMenu/insert',
                 type: 'POST',

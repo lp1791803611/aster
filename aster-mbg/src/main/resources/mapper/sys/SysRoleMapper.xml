@@ -62,4 +62,18 @@
         where t.is_deleted = '0'
         ORDER BY t.sort ASC
     </select>
+
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_sys_role r
+        left join t_sys_user_role ur on r.id = ur.role_id
+        where ur.user_id = #{userId} and r.status = '0' and r.is_deleted = '0'
+    </select>
+
+    <select id="isAdmin" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_sys_role r
+        left join t_sys_user_role ur on r.id = ur.role_id
+        where ur.user_id = #{userId} and r.role_code = #{superCode} and r.status = '0' and r.is_deleted = '0'
+    </select>
 </mapper>

@@ -22,6 +22,7 @@ layui.config({
     step: 'step-lay/step', // 分步表单扩展
     treetable: 'treetable-lay/treetable', //table树形扩展
     tableSelect: 'tableSelect/tableSelect', // table选择扩展
+    xmSelect: 'xm-select/xm-select', // 下拉选择框,多选/分组/搜索/分页/树
     iconPickerFa: 'iconPicker/iconPickerFa', // fa图标选择扩展
     iconPicker: 'iconPicker/iconPicker', // 图标选择扩展
     echarts: 'echarts/echarts', // echarts图表扩展

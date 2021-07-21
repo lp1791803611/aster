@@ -269,7 +269,7 @@
                     end: function () {}
                 });
             } else if (obj.event === 'reset') {
-                layer.confirm('是否重置密码为123456', function (index) {
+                layer.confirm('是否重置密码?', function (index) {
                     layer.close(index);
                     $.ajax({
                         url: ctx + 'sysUser/reset/' + data.id,

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysPositionService;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.node.LayuiTreeNode;
 import top.plgxs.common.core.api.page.PageDataInfo;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.mbg.entity.sys.SysPosition;
 import top.plgxs.mbg.utils.Convert;
 
@@ -60,7 +62,7 @@ public class SysPositionController {
                                                   @RequestParam(name = "limit", defaultValue = "10") Integer pageSize) {
         QueryWrapper<SysPosition> queryWrapper = new QueryWrapper<>();
         //TODO 查询条件
-        queryWrapper.orderByDesc("gmt_modified");
+        queryWrapper.orderByDesc("gmt_create");
         Page<SysPosition> page = new Page<>(pageNo, pageSize);
         IPage<SysPosition> pageList = sysPositionService.page(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<SysPosition>(pageList.getRecords(), pageList.getTotal()));
@@ -85,6 +87,7 @@ public class SysPositionController {
      * @author Stranger。
      * @since 2021-02-01
      */
+    @Log(title = "职位管理", businessType = BusinessType.INSERT)
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysPosition sysPosition) {
@@ -118,6 +121,7 @@ public class SysPositionController {
      * @author Stranger。
      * @since 2021-02-01
      */
+    @Log(title = "职位管理", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody SysPosition sysPosition) {
@@ -140,6 +144,7 @@ public class SysPositionController {
      * @author Stranger。
      * @since 2021-02-01
      */
+    @Log(title = "职位管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{id}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("id") String id) {
@@ -161,6 +166,7 @@ public class SysPositionController {
      * @author Stranger。
      * @since 2021-02-01
      */
+    @Log(title = "职位管理", businessType = BusinessType.DELETE)
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids) {
@@ -180,6 +186,7 @@ public class SysPositionController {
      * @author Stranger。
      * @since 2021-02-01
      */
+    @Log(title = "职位管理", businessType = BusinessType.SWITCH)
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name = "id") String id, @RequestParam(name = "status") String status) {

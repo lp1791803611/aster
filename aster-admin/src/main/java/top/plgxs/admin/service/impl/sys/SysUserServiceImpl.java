@@ -6,33 +6,35 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import top.plgxs.admin.service.monitor.SysLoginLogService;
+import top.plgxs.admin.service.sys.SysConfigService;
 import top.plgxs.admin.service.sys.SysUserService;
 import top.plgxs.admin.utils.ShiroUtils;
 import top.plgxs.common.core.constants.Constants;
 import top.plgxs.common.core.constants.enums.DeleteEnum;
 import top.plgxs.common.core.constants.enums.StatusEnum;
 import top.plgxs.common.core.exception.BusinessException;
+import top.plgxs.common.redis.constant.RedisConstant;
+import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.dto.sys.UserDto;
+import top.plgxs.mbg.dto.gen.TableColumn;
+import top.plgxs.mbg.entity.sys.SysRole;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserPosition;
+import top.plgxs.mbg.mapper.sys.SysRoleMapper;
 import top.plgxs.mbg.mapper.sys.SysUserMapper;
 import top.plgxs.mbg.mapper.sys.SysUserPositionMapper;
-import top.plgxs.mbg.mapper.sys.SysUserRoleMapper;
 import top.plgxs.mbg.utils.Convert;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
@@ -50,18 +52,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Resource
     private SysUserPositionMapper sysUserPositionMapper;
     @Resource
-    private SysUserRoleMapper sysUserRoleMapper;
+    private SysRoleMapper sysRoleMapper;
+    @Resource
+    private SysLoginLogService sysLoginLogService;
+    @Resource
+    private SysConfigService sysConfigService;
     @Value(value = "${user.password.maxRetryCount}")
     private String maxRetryCount;
+    @Value(value = "${user.password.lockMinutes}")
+    private String lockMinutes;
     @Resource
-    private CacheManager cacheManager;
-
-    private Cache<String, AtomicInteger> loginRecordCache;
-
-    @PostConstruct
-    public void init() {
-        loginRecordCache = cacheManager.getCache(Constants.LOGINRECORDCACHE);
-    }
+    private RedisUtils redisUtils;
 
     /**
      * 数据查询列表
@@ -101,6 +102,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public void insertUser(UserDto user) {
         SysUser sysUser = Convert.convertDtoToUser(user);
+        String password = this.encryptPassword(user.getUsername(), user.getPassword(), Constants.PASSWORD_SALT);
+        sysUser.setPassword(password);
         sysUser.setGmtCreate(LocalDateTime.now());
         sysUserMapper.insert(sysUser);
         // 插入用户职位关系
@@ -142,6 +145,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void updateUser(UserDto userDto) {
         // 更新用户信息
         SysUser sysUser = Convert.convertDtoToUser(userDto);
+        sysUser.setGmtModified(LocalDateTime.now());
         sysUserMapper.updateById(sysUser);
 
         // 插入用户职位关系
@@ -214,53 +218,62 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public LoginUser login(String username, String password) {
         // 用户名或密码为空 错误
         if (StrUtil.isBlank(username) || StrUtil.isBlank(password)) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "用户名或密码为空");
             throw new BusinessException("用户名或密码为空！");
         }
         // 密码如果不在指定范围内 错误
         if (password.length() < Constants.PASSWORD_MIN_LENGTH
                 || password.length() > Constants.PASSWORD_MAX_LENGTH) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "密码不在指定范围内");
             throw new BusinessException("密码不在指定范围内！");
         }
 
         // 用户名不在指定范围内 错误
         if (username.length() < Constants.USERNAME_MIN_LENGTH
                 || username.length() > Constants.USERNAME_MAX_LENGTH) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "用户名不在指定范围内");
             throw new BusinessException("用户名不在指定范围内！");
         }
 
         SysUser user = this.getUserByUsername(username);
         if (user == null) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "用户不存在");
             throw new BusinessException("用户不存在！");
         }
 
         if (DeleteEnum.DELETEED.getCode().equals(user.getIsDeleted())) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "用户已被删除");
             throw new BusinessException("用户已被删除！");
         }
 
         if (StatusEnum.DISABLE.getCode().equals(user.getStatus())) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), "用户已被冻结");
             throw new BusinessException("用户已被冻结，请联系管理员解封！");
         }
 
         this.check(user, password);
 
-        return new LoginUser(username, password);
+        sysLoginLogService.insertLoginLog(username, StatusEnum.ENABLE.getCode(), "登录成功");
+
+        return new LoginUser(user.getId(), username, user.getPassword());
     }
 
     @Override
     public void register(SysUser user) {
         String username = user.getUsername(), password = user.getPassword();
+        String msg = "";
         if (StrUtil.isBlank(username)) {
-            throw new BusinessException("用户名不能为空");
+            msg = "用户名不能为空";
         } else if (StrUtil.isBlank(password)) {
-            throw new BusinessException("用户密码不能为空");
+            msg = "用户密码不能为空";
         } else if (password.length() < Constants.PASSWORD_MIN_LENGTH
                 || password.length() > Constants.PASSWORD_MAX_LENGTH) {
-            throw new BusinessException("密码长度必须在5到20个字符之间");
+            msg = "密码长度必须在5到20个字符之间";
         } else if (username.length() < Constants.USERNAME_MIN_LENGTH
                 || username.length() > Constants.USERNAME_MAX_LENGTH) {
-            throw new BusinessException("账户长度必须在2到20个字符之间");
+            msg = "账户长度必须在2到20个字符之间";
         } else if (Constants.USER_NAME_NOT_UNIQUE.equals(this.checkUserNameUnique(username))) {
-            throw new BusinessException("保存用户'" + username + "'失败，注册账号已存在");
+            msg = "保存用户'" + username + "'失败，注册账号已存在";
         } else {
             user.setUsername(username);
             user.setPassword(this.encryptPassword(user.getUsername(), user.getPassword(), Constants.PASSWORD_SALT));
@@ -270,25 +283,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             user.setIsDeleted(DeleteEnum.OK.getCode());
             int regFlag = sysUserMapper.insert(user);
             if (regFlag <= 0) {
-                throw new BusinessException("注册失败,请联系系统管理人员");
+                msg = "注册失败";
             }
+        }
+        if (StrUtil.isNotBlank(msg)) {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.DISABLE.getCode(), msg);
+            throw new BusinessException(msg);
+        } else {
+            sysLoginLogService.insertLoginLog(username, StatusEnum.ENABLE.getCode(), "注册成功");
         }
     }
 
     @Override
     public void check(SysUser user, String password) {
         String loginName = user.getUsername();
-        AtomicInteger retryCount = loginRecordCache.get(loginName);
+        Integer retryCount = (Integer) redisUtils.get(RedisConstant.SYS_LOCK_USER + loginName);
         if (retryCount == null) {
-            retryCount = new AtomicInteger(0);
-            loginRecordCache.put(loginName, retryCount);
+            retryCount = 0;
+            redisUtils.set(RedisConstant.SYS_LOCK_USER + loginName, retryCount, Long.valueOf(lockMinutes) * 60);
         }
         // 密码错误次数
-        if (retryCount.incrementAndGet() > Integer.valueOf(maxRetryCount).intValue()) {
-            throw new BusinessException("密码错误" + Integer.valueOf(maxRetryCount).intValue() + "次，账户锁定！");
+        if (retryCount > Integer.valueOf(maxRetryCount).intValue()) {
+            // 更新缓存失效时间
+            redisUtils.expire(RedisConstant.SYS_LOCK_USER + loginName, Long.valueOf(lockMinutes) * 60);
+            sysLoginLogService.insertLoginLog(user.getUsername(), StatusEnum.DISABLE.getCode(), "密码错误" + Integer.valueOf(maxRetryCount).intValue() + "次，账户锁定");
+            throw new BusinessException("密码错误" + Integer.valueOf(maxRetryCount).intValue() + "次，账户锁定" + lockMinutes + "分钟！");
         }
         if (!newMatches(user, password)) {
-            loginRecordCache.put(loginName, retryCount);
+            retryCount = retryCount + 1;
+            redisUtils.set(RedisConstant.SYS_LOCK_USER + loginName, retryCount, Long.valueOf(lockMinutes) * 60);
+            sysLoginLogService.insertLoginLog(user.getUsername(), StatusEnum.DISABLE.getCode(), "密码错误");
             throw new BusinessException("密码错误！");
         } else {
             clearLoginRecordCache(loginName);
@@ -298,15 +322,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 是否超级管理员
      *
-     * @param username 用户名
+     * @param user 用户
      * @return boolean
      * @author Stranger。
      * @since 2021/6/1
      */
     @Override
-    public boolean isAdmin(String username) {
-        SysUser user = this.getUserByUsername(username);
-        if (Constants.SUPER_ADMIN_ID.equals(user.getId())) {
+    public boolean isAdmin(LoginUser user) {
+        List<SysRole> roles = sysRoleMapper.isAdmin(user.getId(), Constants.SUPER_ADMIN_ROLE);
+        if (CollUtil.isNotEmpty(roles)) {
             return true;
         }
         return false;
@@ -331,17 +355,118 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return Constants.USER_NAME_NOT_UNIQUE;
     }
 
-    public void clearLoginRecordCache(String loginName) {
-        loginRecordCache.remove(loginName);
+    /**
+     * 解锁用户
+     *
+     * @param username 用户名
+     * @return void
+     * @author Stranger。
+     * @since 2021/7/4
+     */
+    @Override
+    public void clearLoginRecordCache(String username) {
+        redisUtils.del(RedisConstant.SYS_LOCK_USER + username);
+    }
+
+    /**
+     * 获取数据库业务表名
+     * @return java.util.List<java.lang.String>
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    @Override
+    public List<String> getTableNames() {
+        return sysUserMapper.getTableNames("aster");
+    }
+
+    /**
+     * 获取表字段信息
+     * @param tableName
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    @Override
+    public List<TableColumn> getTableColumn(String tableName) {
+        return sysUserMapper.getTableColumn("aster", tableName);
     }
 
     public boolean newMatches(SysUser user, String newPassword) {
         return user.getPassword().equals(encryptPassword(user.getUsername(), newPassword, Constants.PASSWORD_SALT));
     }
 
+    /**
+     * 生成密码
+     *
+     * @param loginName 用户名
+     * @param password  密码
+     * @param salt      秘钥
+     * @return java.lang.String
+     * @author Stranger。
+     * @since 2021/6/26
+     */
     @Override
     public String encryptPassword(String loginName, String password, String salt) {
         return new Md5Hash(loginName + password + salt).toHex();
+    }
+
+    /*
+     * 更新用户基本资料
+     * @param userDto
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    @Override
+    public int updateBaseInfo(UserDto userDto) {
+        if (StrUtil.isBlank(userDto.getUsername())) {
+            throw new BusinessException("用户名为空！");
+        }
+        SysUser user = this.getUserByUsername(userDto.getUsername());
+        user.setMobile(userDto.getMobile());
+        user.setEmail(userDto.getEmail());
+        user.setGmtModified(LocalDateTime.now());
+        return sysUserMapper.updateById(user);
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param userDto
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    @Override
+    public int updatePassword(UserDto userDto) {
+        String username = userDto.getUsername();
+        SysUser user = this.getUserByUsername(username);
+        String oldPassword = this.encryptPassword(username, userDto.getOldPassword(), Constants.PASSWORD_SALT);
+        if (!user.getPassword().equals(oldPassword)) {
+            throw new BusinessException("旧的密码不正确！");
+        }
+        if (StrUtil.isBlank(userDto.getPassword())) {
+            throw new BusinessException("新的密码为空！");
+        }
+        String password = this.encryptPassword(username, userDto.getPassword(), Constants.PASSWORD_SALT);
+        user.setPassword(password);
+        return sysUserMapper.updateById(user);
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param id
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/30
+     */
+    @Override
+    public int resetPassword(String id) {
+        String password = sysConfigService.getValueByKey(Constants.PASSWORD_CONFIG_KEY);
+        SysUser user = sysUserMapper.selectById(id);
+        user.setPassword(this.encryptPassword(user.getUsername(), password, Constants.PASSWORD_SALT));
+        user.setGmtModified(LocalDateTime.now());
+        return sysUserMapper.updateById(user);
     }
 
     /**

@@ -2,6 +2,8 @@ package top.plgxs.common.core.api.node;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * ztree组件节点数据格式
  *
@@ -10,7 +12,8 @@ import lombok.Data;
  * @since 2021/2/6 21:20
  */
 @Data
-public class ZTreeNode {
+public class ZTreeNode implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 节点id
      */

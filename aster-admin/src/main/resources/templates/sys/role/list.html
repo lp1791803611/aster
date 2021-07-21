@@ -47,10 +47,14 @@
 </div>
 <th:block th:include="common/include :: footer"/>
 
-        <script type="text/html" id="statusTpl">
-            <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
-                   {{d.status=='1'?'':'checked'}}/>
-        </script>
+<script type="text/html" id="statusTpl">
+    {{# if(d.roleCode == 'super_admin') { }}
+    <span>启用</span>
+    {{# } else { }}
+    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用"
+           {{d.status=='1'?'':'checked'}} />
+    {{# } }}
+</script>
 
 <script th:inline="javascript">
     layui.use(['form', 'table'], function () {
@@ -170,51 +174,62 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'edit') {
-
-                var index = layer.open({
-                    title: '编辑',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: ctx + 'sysRole/edit/' + data.id,
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+                if (data.roleCode == 'super_admin') {
+                    layer.alert("超级管理员角色不允许编辑");
+                } else {
+                    var index = layer.open({
+                        title: '编辑',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: ctx + 'sysRole/edit/' + data.id,
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                }
                 return false;
             } else if (obj.event === 'delete') {
-                layer.confirm('真的删除行么', function (index) {
-                    layer.close(index);
-                    $.ajax({
-                        url: ctx + 'sysRole/delete/' + data.id,
-                        type: 'GET',
-                        async: false,
-                        contentType: 'application/json; charset=UTF-8',
-                        dataType: "json",
-                        success: function (res) {
-                            layer.msg(res.msg);
-                            obj.del();
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            layer.close(index);
-                            if (XMLHttpRequest.status == 404) {
-                                window.location.href = ctx + "404";
-                            } else {
-                                layer.msg("服务器好像出了点问题！请稍后试试");
+                if (data.roleCode == 'super_admin') {
+                    layer.alert("超级管理员角色不允许删除");
+                } else {
+                    layer.confirm('真的删除行么', function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            url: ctx + 'sysRole/delete/' + data.id,
+                            type: 'GET',
+                            async: false,
+                            contentType: 'application/json; charset=UTF-8',
+                            dataType: "json",
+                            success: function (res) {
+                                layer.msg(res.msg);
+                                obj.del();
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                layer.close(index);
+                                if (XMLHttpRequest.status == 404) {
+                                    window.location.href = ctx + "404";
+                                } else {
+                                    layer.msg("服务器好像出了点问题！请稍后试试");
+                                }
                             }
-                        }
+                        });
                     });
-                });
+                }
             } else if (obj.event === 'assignMenu') {
-                layer.open({
-                    type: 2,
-                    title: '分配权限',
-                    area: ['300px', '400px'],
-                    content: ctx + 'sysRole/assignMenu?roleId=' + data.id,
-                    end: function () {}
-                });
+                if (data.roleCode == 'super_admin') {
+                    layer.alert("超级管理员角色不允许修改权限");
+                } else {
+                    layer.open({
+                        type: 2,
+                        title: '分配权限',
+                        area: ['300px', '400px'],
+                        content: ctx + 'sysRole/assignMenu?roleId=' + data.id,
+                        end: function () {}
+                    });
+                }
             }
         });
 

@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Api(tags = "LoginController", value = "用户登录")
 @RestController
-public class LoginController {
+public class LoginApiController {
     @Resource
     private AdminService adminService;
     @Resource

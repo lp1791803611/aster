@@ -70,6 +70,9 @@ public class ResultInfo<T> implements Serializable {
      * @since 2020/12/23 0023 16:06
      */
     public static <T> ResultInfo<T> success(T data) {
+        if (data instanceof String) {
+            return success(String.valueOf(data), data);
+        }
         return success(ResultCode.SUCCESS.getMessage(), data);
     }
 

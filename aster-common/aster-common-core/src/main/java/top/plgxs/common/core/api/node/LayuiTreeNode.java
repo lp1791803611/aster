@@ -2,6 +2,7 @@ package top.plgxs.common.core.api.node;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import java.util.List;
  * @since 2021/2/9 23:41
  */
 @Data
-public class LayuiTreeNode {
+public class LayuiTreeNode implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 节点id
      */

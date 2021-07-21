@@ -1,10 +1,15 @@
 package top.plgxs.common.redis.util;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -170,6 +175,34 @@ public class RedisUtils {
             throw new RuntimeException("递减因子必须大于0");
         }
         return redisTemplate.opsForValue().increment(key, -delta);
+    }
+
+    /**
+     * 生成id，格式为yyyyMMddHHmmssSSS00001
+     *
+     * @param key redis key
+     * @author Stranger。
+     * @since 2021/4/7 0007
+     */
+    public String generateId(String key) {
+        LocalDateTime now = LocalDateTime.now();
+        // key的格式为out-order:yyyyMMdd
+        key = key + DateUtil.format(now, DatePattern.PURE_DATE_PATTERN);
+        RedisAtomicLong atomic = new RedisAtomicLong(key, redisTemplate.getConnectionFactory());
+        Long expire = atomic.getExpire();
+        if (expire == -1) {
+            // 设置有效期为当天
+            LocalDateTime expireTime = now.toLocalDate().plusDays(1).atStartOfDay();
+            atomic.expireAt(Date.from(expireTime.atZone(ZoneId.systemDefault()).toInstant()));
+        }
+        // redis计数，当天该key的数
+        Long counter = atomic.incrementAndGet();
+        String num = String.format("%1$06d", counter);
+        // 时间戳yyyyMMddHHmmssSSS
+        String orderIdPrefix = DateUtil.format(now, DatePattern.PURE_DATETIME_MS_PATTERN);
+        StringBuilder sb = new StringBuilder();
+        sb.append(orderIdPrefix).append(num);
+        return sb.toString();
     }
 
     // ================================Map=================================

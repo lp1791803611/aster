@@ -6,11 +6,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import top.plgxs.admin.service.sys.SysMenuService;
-import top.plgxs.common.core.constants.Constants;
+import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.admin.utils.ConvertUtils;
 import top.plgxs.common.core.api.TreeTable;
+import top.plgxs.common.core.api.menu.MenuInfo;
 import top.plgxs.common.core.api.node.ZTreeNode;
+import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.constants.enums.MenuTypeEnum;
 import top.plgxs.common.core.constants.enums.StatusEnum;
 import top.plgxs.common.core.exception.BusinessException;
+import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.entity.sys.SysMenu;
 import top.plgxs.mbg.entity.sys.SysRoleMenu;
 import top.plgxs.mbg.mapper.sys.SysMenuMapper;
@@ -39,6 +44,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysUserRoleMapper sysUserRoleMapper;
     @Resource
     private SysRoleMenuMapper sysRoleMenuMapper;
+    @Resource
+    private SysUserService sysUserService;
 
     /**
      * 数据查询列表
@@ -157,9 +164,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public int updateMenu(SysMenu sysMenu) {
+    public int updateMenu(String oldCode, SysMenu sysMenu) {
         // 判断编码是否已存在
-        if (StringUtils.isNotBlank(this.getMenuNameByCode(sysMenu.getCode()))) {
+        if (!oldCode.equals(sysMenu.getCode()) && StringUtils.isNotBlank(this.getMenuNameByCode(sysMenu.getCode()))) {
             throw new BusinessException("编码已存在");
         }
         // 判断父级编码是否为空,为空则设置父为顶级
@@ -320,6 +327,28 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
         return menuIds;
+    }
+
+    /**
+     * 根据用户id查询菜单
+     * @param user
+     * @return java.util.List<top.plgxs.common.core.api.menu.MenuInfo>
+     * @author Stranger。
+     * @since 2021/6/9
+     */
+    @Override
+    public List<MenuInfo> selectMenusByUserId(LoginUser user) {
+        List<SysMenu> menus = new ArrayList<>();
+        if (sysUserService.isAdmin(user)) {
+            QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("status", StatusEnum.ENABLE.getCode());
+            queryWrapper.ne("menu_type", MenuTypeEnum.BUTTON.getCode());
+            queryWrapper.orderByAsc("sort");
+            menus = sysMenuMapper.selectList(queryWrapper);
+        } else {
+            menus = sysMenuMapper.selectMenusByUserId(user.getId());
+        }
+        return ConvertUtils.convertMenuInfoList(menus);
     }
 
     /**

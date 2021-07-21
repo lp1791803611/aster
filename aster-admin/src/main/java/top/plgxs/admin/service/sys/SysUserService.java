@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.dto.sys.UserDto;
+import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.entity.sys.SysUser;
 
 import java.util.List;
@@ -123,12 +124,12 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 是否超级管理员
-     * @param username 用户名
+     * @param user 用户
      * @return boolean
      * @author Stranger。
      * @since 2021/6/1
      */
-    boolean isAdmin(String username);
+    boolean isAdmin(LoginUser user);
 
     /**
      * 用户名是否唯一
@@ -149,4 +150,56 @@ public interface SysUserService extends IService<SysUser> {
      * @since 2021/6/7
      */
     String encryptPassword(String username, String password, String salt);
+
+    /**
+     * 更新用户基本资料
+     * @param userDto
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    int updateBaseInfo(UserDto userDto);
+
+    /**
+     * 更新密码
+     * @param userDto
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/26
+     */
+    int updatePassword(UserDto userDto);
+
+    /**
+     * 重置密码
+     * @param id 用户id
+     * @return int
+     * @author Stranger。
+     * @since 2021/6/30
+     */
+    int resetPassword(String id);
+
+    /**
+     * 解锁用户
+     * @param username
+     * @return void
+     * @author Stranger。
+     * @since 2021/7/4
+     */
+    void clearLoginRecordCache(String username);
+
+    /**
+     * 获取数据库业务表名
+     * @return java.util.List<java.lang.String>
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    List<String> getTableNames();
+
+    /**
+     * 获取表字段信息
+     * @param tableName
+     * @author Stranger。
+     * @since 2021/7/9
+     */
+    List<TableColumn> getTableColumn(String tableName);
 }

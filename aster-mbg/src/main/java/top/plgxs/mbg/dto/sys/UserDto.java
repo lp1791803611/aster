@@ -32,4 +32,6 @@ public class UserDto {
     /* 职位信息 */
     private String positionId;
     private String positionName;
+
+    private String oldPassword;
 }

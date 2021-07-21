@@ -13,7 +13,7 @@ public class MybatisPlusConfig {
      * 数据库连接信息
      */
     public static final DbType DB_TYPE = DbType.MYSQL;
-    public static final String DB_URL = "jdbc:mysql://localhost:3306/random?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2b8";
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/aster?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2b8";
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DB_USERNAME = "random";
     public static final String DB_PASSWORD = "random";
@@ -21,10 +21,7 @@ public class MybatisPlusConfig {
     /* 常用配置 */
     // 需要生成的的表名，多个表名传数组。如果想生成整个库的，这里设为null即可
     public static final String[] STRATEGY_TABLE_NAMES = new String[] {
-//            "t_sys_user", "t_sys_role", "t_sys_menu",
-//            "t_sys_dict","t_sys_dict_type",
-//            "t_sys_position","t_sys_dept"
-            "t_sys_dict","t_sys_dict_type"
+            "t_sys_login_log", "t_sys_oper_log"
     };
     // 是否生成前端html模板
     public static final Boolean CUSTOM_HTML_TEMPLATE = true;
@@ -56,6 +53,8 @@ public class MybatisPlusConfig {
     /**
      * 策略配置
      */
+    // 逻辑删除属性名称
+    public static final String STRATEGY_LOGIC_DELETE_FIELD_NAME = "is_deleted";
     // 表前缀
     public static final String[] STRATEGY_TABLE_PREFIX = new String[] {"t_","T_"};
     // rest风格
@@ -64,24 +63,21 @@ public class MybatisPlusConfig {
     public static final boolean STRATEGY_FIELD_ANNOTATION = true;
     // 使用lombok
     public static final boolean STRATEGY_LOMBOK = true;
-
     // 生成序列号
     public static final boolean STRATEGY_VERSION_UID = true;
-    // 逻辑删除属性名称
-    public static final String STRATEGY_LOGIC_DELETE_FIELD_NAME = "is_deleted";
     // 驼峰转连字符,用于controller的RequestMapping。例如: 表名sys_user，为true则转为sys-user，
     public static final boolean STRATEGY_CONTROLLER_MAPPING_HYPHEN_STYLE = false;
 
     /**
      * 设置包名
      */
-    public static final String PACKAGE_COMMON_NAME = "sys";
-    public static final String PACKAGE_ENTITY = OUTPUTDIR + "/random-mbg/src/main/java/top/plgxs/mbg/entity/"+PACKAGE_COMMON_NAME;
-    public static final String PACKAGE_MAPPER = OUTPUTDIR + "/random-mbg/src/main/java/top/plgxs/mbg/mapper/"+PACKAGE_COMMON_NAME;
-    public static final String PACKAGE_MAPPER_XML = OUTPUTDIR + "/random-mbg/src/main/resources/mapper/"+PACKAGE_COMMON_NAME;
-    public static final String PACKAGE_CONTROLLER = OUTPUTDIR + "/random-admin/src/main/java/top/plgxs/admin/controller/"+PACKAGE_COMMON_NAME;
-    public static final String PACKAGE_SERVICE = OUTPUTDIR + "/random-admin/src/main/java/top/plgxs/admin/service/"+PACKAGE_COMMON_NAME;
-    public static final String PACKAGE_SERVICE_IMPL = OUTPUTDIR + "/random-admin/src/main/java/top/plgxs/admin/service/impl/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_COMMON_NAME = "monitor";
+    public static final String PACKAGE_ENTITY = OUTPUTDIR + "/aster-mbg/src/main/java/top/plgxs/mbg/entity/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_MAPPER = OUTPUTDIR + "/aster-mbg/src/main/java/top/plgxs/mbg/mapper/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_MAPPER_XML = OUTPUTDIR + "/aster-mbg/src/main/resources/mapper/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_CONTROLLER = OUTPUTDIR + "/aster-admin/src/main/java/top/plgxs/admin/controller/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_SERVICE = OUTPUTDIR + "/aster-admin/src/main/java/top/plgxs/admin/service/"+PACKAGE_COMMON_NAME;
+    public static final String PACKAGE_SERVICE_IMPL = OUTPUTDIR + "/aster-admin/src/main/java/top/plgxs/admin/service/impl/"+PACKAGE_COMMON_NAME;
 
     /**
      * 配置自定义输出模板
@@ -106,6 +102,16 @@ public class MybatisPlusConfig {
     public static final String CUSTOM_ADD_TEMPLATE = "/templates/add.html";
     public static final String CUSTOM_EDIT_TEMPLATE = "/templates/edit.html";
     // list,add,edit自定义模板输出位置
-    public static final String CUSTOM_HTML_OUTPUT = OUTPUTDIR + "/random-admin/src/main/resources/templates/" + PACKAGE_COMMON_NAME + "/";
+    public static final String CUSTOM_HTML_OUTPUT = OUTPUTDIR + "/aster-admin/src/main/resources/templates/" + PACKAGE_COMMON_NAME + "/";
 
+    public static final String GEN_CUSTOM_LIST_TEMPLATE = "/templates/gen/list.html";
+    public static final String GEN_CUSTOM_ADD_TEMPLATE = "/templates/gen/add.html";
+    public static final String GEN_CUSTOM_EDIT_TEMPLATE = "/templates/gen/edit.html";
+
+    public static final String GEN_TEMPLATE_CONTROLLER = "/templates/gen/controller.java";
+    public static final String GEN_TEMPLATE_SERVICE = "/templates/gen/service.java";
+    public static final String GEN_TEMPLATE_SERVICE_IMPL = "/templates/gen/serviceImpl.java";
+    public static final String GEN_TEMPLATE_ENTITY = "/templates/gen/entity.java";
+    public static final String GEN_TEMPLATE_MAPPER = "/templates/gen/mapper.java";
+    public static final String GEN_TEMPLATE_MAPPER_XML = "/templates/gen/mapper.xml";
 }

@@ -41,9 +41,9 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label required">菜单url</label>
+        <label class="layui-form-label">菜单url</label>
         <div class="layui-input-block">
-            <input type="text" name="menuUrl" lay-verify="required" lay-reqtext="菜单url不能为空" placeholder="请输入菜单url" th:field="*{menuUrl}" class="layui-input">
+            <input type="text" name="menuUrl" placeholder="请输入菜单url" th:field="*{menuUrl}" class="layui-input">
         </div>
     </div>
 
@@ -125,7 +125,7 @@
                 if (value != oldCode) {
                     $.ajax({
                         type: 'GET',
-                        url: ctx + 'sysMenu/verifyCode',
+                        url: ctx + 'sysMenu/verifyCode/',
                         data: {code: value},
                         async: false,
                         dataType: 'json',
@@ -179,7 +179,6 @@
             }
         });
         var icon = [[${sysMenu.menuIcon}]];
-        console.log(icon);
         iconPicker.checkIcon('iconPicker', icon);
 
         // 初始化菜单类型
@@ -210,8 +209,10 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
+            data.field.menuIcon = 'fa ' + (data.field.menuIcon == null ? 'fa-star' : data.field.menuIcon);
+            var oldCode = [[${sysMenu.code}]];
             $.ajax({
-                url: ctx + 'sysMenu/update',
+                url: ctx + 'sysMenu/update/' + oldCode,
                 type: 'POST',
                 async: false,
                 contentType: 'application/json; charset=UTF-8',

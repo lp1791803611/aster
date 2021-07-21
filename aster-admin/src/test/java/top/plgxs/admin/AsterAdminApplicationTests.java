@@ -1,10 +1,9 @@
 package top.plgxs.admin;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.shiro.codec.Base64;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +11,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.common.core.constants.Constants;
+import top.plgxs.common.core.util.AddressUtils;
 import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.entity.sys.SysUser;
-import top.plgxs.mbg.mapper.sys.SysUserMapper;
 
 import javax.annotation.Resource;
 import javax.crypto.KeyGenerator;
@@ -29,8 +29,6 @@ import java.util.List;
 class AsterAdminApplicationTests {
     @Resource
     private SysUserService sysUserService;
-    @Resource
-    private SysUserMapper sysUserMapper;
     @Resource
     private RedisUtils redisUtils;
 
@@ -163,23 +161,26 @@ class AsterAdminApplicationTests {
     }
 
     @Test
-    public void morePage1() {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.likeRight("username", "陈");
-        PageHelper.startPage(1, 5);
-        List<SysUser> list = sysUserMapper.selectList(queryWrapper);
-        PageInfo<SysUser> pageInfo = new PageInfo<>(list);
-        System.out.println("pageNum" + pageInfo.getPageNum());
-        System.out.println("pageSize" + pageInfo.getPageSize());
-        System.out.println("totalCount" + pageInfo.getTotal());
-        System.out.println("totalPages" + pageInfo.getPages());
-        list.forEach(System.out::println);
-    }
-
-    @Test
     public void test() throws NoSuchAlgorithmException {
         KeyGenerator keygen = KeyGenerator.getInstance("AES");
         SecretKey deskey = keygen.generateKey();
         System.out.println(Base64.encodeToString(deskey.getEncoded()));
+    }
+
+    @Test
+    public void passwordTest() {
+        String password = sysUserService.encryptPassword("yuangong01", "123456", Constants.PASSWORD_SALT);
+        System.out.println(password);
+    }
+
+    @Test
+    public void ipaddress(){
+        String address = AddressUtils.getRealAddressByIP("182.150.46.120");
+        System.out.println(address);
+    }
+
+    @Test
+    public void replace(){
+        System.out.println(StrUtil.toCamelCase("user_type"));
     }
 }

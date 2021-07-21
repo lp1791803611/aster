@@ -2,6 +2,7 @@ package top.plgxs.common.core.api.page;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,9 @@ import java.util.List;
  * @since 2021/1/28 0028 11:39
  */
 @Data
-public class PageDataInfo<T> {
+public class PageDataInfo<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int code;
     private List<T> data;
     private String msg;

@@ -144,9 +144,11 @@
         charset="utf-8"></script>
 <script th:src="@{/js/particles.js}" src="js/particles.js"></script>
 <script th:src="@{/js/app.js}" src="js/app.js"></script>
+<script th:src="@{/js/aster.js}" src="../static/js/aster.js" charset="utf-8"></script>
 <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
 <script th:inline="none">
     $(function () {
+        validateKickout();
         $('.admin-captcha').click(function () {
             var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
             $(".admin-captcha").attr("src", url);
@@ -196,7 +198,35 @@
             });
             return false;
         });
+
     });
+
+    // 同一账号不同地点登录验证
+    function validateKickout() {
+        if ($.common.getParam("kickout") == 1) {
+            layui.use(['layer'], function () {
+                var layer = layui.layer;
+                layer.alert("<font color='red'>您的账号在另一台设备上登录,如非本人操作，请立即修改密码！</font>", {
+                        icon: 0,
+                        title: "系统提示"
+                    },
+                    function(index) {
+                        //关闭弹窗
+                        layer.close(index);
+                        if (top != self) {
+                            top.location = self.location;
+                        } else {
+                            var url  =  location.search;
+                            if (url) {
+                                var oldUrl  = window.location.href;
+                                var newUrl  = oldUrl.substring(0,  oldUrl.indexOf('?'));
+                                self.location  = newUrl;
+                            }
+                        }
+                    });
+            });
+        }
+    }
 </script>
 </body>
 </html>

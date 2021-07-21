@@ -12,9 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import top.plgxs.admin.service.sys.SysRoleMenuService;
 import top.plgxs.admin.service.sys.SysRoleService;
+import top.plgxs.common.core.annotation.Log;
 import top.plgxs.common.core.api.ResultInfo;
 import top.plgxs.common.core.api.node.ZTreeNode;
 import top.plgxs.common.core.api.page.PageDataInfo;
+import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.mbg.entity.sys.SysRole;
 
 import javax.annotation.Resource;
@@ -92,6 +94,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021-02-22
      */
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping("/insert")
     @ResponseBody
     public ResultInfo<Object> insert(@RequestBody SysRole sysRole) {
@@ -125,6 +128,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021-02-22
      */
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     @ResponseBody
     public ResultInfo<Object> update(@RequestBody SysRole sysRole) {
@@ -147,6 +151,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021-02-22
      */
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @GetMapping("/delete/{id}")
     @ResponseBody
     public ResultInfo<Object> delete(@PathVariable("id") String id) {
@@ -168,6 +173,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021-02-22
      */
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PostMapping("/batchDelete")
     @ResponseBody
     public ResultInfo<Object> batchDelete(@RequestBody List<String> ids) {
@@ -187,6 +193,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021-02-22
      */
+    @Log(title = "角色管理", businessType = BusinessType.SWITCH)
     @PostMapping("/switchStatus")
     @ResponseBody
     public ResultInfo<String> switchStatus(@RequestParam(name = "id") String id, @RequestParam(name = "status") String status) {
@@ -258,6 +265,7 @@ public class SysRoleController {
      * @author Stranger。
      * @since 2021/2/19
      */
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PostMapping("/saveRoleMenu")
     @ResponseBody
     public ResultInfo<String> saveRoleMenu(@RequestBody JSONObject jsonObject) {

@@ -99,10 +99,24 @@
 
     <select id="selectUserPage" resultType="top.plgxs.mbg.dto.sys.UserDto">
         select
-            u.id, u.username, u.nickname, u.mobile, u.email,
+            u.id, u.username, u.nickname, u.mobile, u.email, u.status,
             u.gmt_create as `gmtCreate`, u.dept_id as `deptId`, d.dept_name as `deptName`
         from t_sys_user u
         left join t_sys_dept d on u.dept_id = d.id
         ${ew.customSqlSegment}
+    </select>
+
+    <select id="getTableNames" resultType="java.lang.String" parameterType="java.lang.String">
+        select t.TABLE_NAME from information_schema.`TABLES` t
+        where t.TABLE_SCHEMA = #{database}
+            and LEFT(t.TABLE_NAME,4) != 'qrtz'
+    </select>
+
+    <select id="getTableColumn" resultType="top.plgxs.mbg.dto.gen.TableColumn" parameterType="java.lang.String">
+        SELECT COLUMN_NAME as `columnName`, COLUMN_COMMENT as `columnComment`, COLUMN_TYPE as `columnType`,
+            IF(IS_NULLABLE='NO', '0', '1') as isRequired, IF(COLUMN_KEY='PRI', '0', '1') as columnKey
+        from information_schema.`COLUMNS`
+        where TABLE_SCHEMA = #{database}
+            and TABLE_NAME = #{tableName}
     </select>
 </mapper>

@@ -18,8 +18,8 @@ public class SwaggerConfig extends BaseSwaggerConfig {
     public SwaggerProperties swaggerProperties() {
         return SwaggerProperties.builder()
                 .apiBasePackage("top.plgxs.api.controller")
-                .title("random系统")
-                .description("random接口文档")
+                .title("Aster系统")
+                .description("Aster接口文档")
                 .contactName("Stranger.")
                 .version("1.0")
                 .enableSecurity(true)

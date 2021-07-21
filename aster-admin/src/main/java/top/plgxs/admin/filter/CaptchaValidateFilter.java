@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 验证码过滤器
  *
- * @author ruoyi
+ * @author Stranger。
+ * @version 1.0
+ * @since 2021/6/9 21:11
  */
 public class CaptchaValidateFilter extends AccessControlFilter {
     /**

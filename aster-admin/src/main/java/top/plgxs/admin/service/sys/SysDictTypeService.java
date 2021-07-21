@@ -22,4 +22,13 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * @date 2021-02-23
      */
     List<SysDictType> getSysDictTypeList();
+
+    /**
+     * 清除缓存
+     * @return void
+     * @author Stranger。
+     * @since 2021/6/10
+     */
+    void clearAll();
+
 }

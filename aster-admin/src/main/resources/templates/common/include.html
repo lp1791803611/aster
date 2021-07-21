@@ -12,6 +12,9 @@
     <title th:text="${title}"></title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}" href="../static/images/favicon.ico">
     <link rel="stylesheet" th:href="@{/lib/layui-v2.5.5/css/layui.css}" href="../static/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" th:href="@{/css/layuimini.css?v=2.0.4.2}" href="css/layuimini.css?v=2.0.4.2" media="all">
+    <link rel="stylesheet" th:href="@{/css/themes/default.css}" href="css/themes/default.css" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" href="lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" th:href="@{/css/public.css}" href="../static/css/public.css" media="all">
 </head>
 
@@ -20,7 +23,8 @@
     <script th:inline="javascript"> var ctx = [[@{/}]];</script>
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js" charset="utf-8"></script>
     <script th:src="@{/lib/layui-v2.5.5/layui.js}" src="../static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
-    <script th:src="@{/js/common.js}" src="../static/js/common.js" charset="utf-8"></script>
+    <script th:src="@{/js/lay-config.js?v=2.0.0}" src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script th:src="@{/js/aster.js}" src="../static/js/aster.js" charset="utf-8"></script>
 </div>
 
 <div th:fragment="font-css">
@@ -49,6 +53,16 @@
     <script th:src="@{/lib/xmselect/xm-select.js}"></script>
 </div>
 
+<!-- echarts -->
+<div th:fragment="echarts">
+    <script th:src="@{/lib/echarts/echarts.min.js}"></script>
+    <script th:src="@{/lib/echarts/echarts-liquidfill.min.js}"></script>
+</div>
+
+<!-- step -->
+<div th:fragment="step-css">
+    <link th:href="@{/js/lay-module/step-lay/step.css}" rel="stylesheet"/>
+</div>
 
 </body>
 </html>
