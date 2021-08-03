@@ -88,10 +88,10 @@
             elem: '#currentTableId',
             url: ctx + 'sysUser/pageList',
             toolbar: '#toolbarDemo',
-            defaultToolbar: ['filter', 'exports', 'print', {
-                title: '提示',
-                layEvent: 'LAYTABLE_TIPS',
-                icon: 'layui-icon-tips'
+            defaultToolbar: ['filter', 'print', {
+                title: '导出',
+                layEvent: 'LAYTABLE_EXCEL',
+                icon: 'layui-icon-export'
             }],
             parseData: function (res) {
                 return res.data;
@@ -213,6 +213,10 @@
                 } else {
                     layer.alert("请先选择行");
                 }
+            } else if (obj.event == 'LAYTABLE_EXCEL') {
+                var name = $("#name").val();
+                var deptId = Dept.condition.id;
+                window.location.href = ctx + "sysUser/export?deptId=" + deptId + "&name=" + name;
             }
         });
 
@@ -266,7 +270,8 @@
                     title: '分配角色',
                     area: ['300px', '400px'],
                     content: ctx + 'sysUser/assignRole?userId=' + data.id,
-                    end: function () {}
+                    end: function () {
+                    }
                 });
             } else if (obj.event === 'reset') {
                 layer.confirm('是否重置密码?', function (index) {

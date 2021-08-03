@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.sys.SysConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.sys.SysConfig">
+        <id column="id" property="id" />
+        <result column="config_name" property="configName" />
+        <result column="config_key" property="configKey" />
+        <result column="config_value" property="configValue" />
+        <result column="config_type" property="configType" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, config_name, config_key, config_value, config_type, gmt_create, gmt_modified, status, is_deleted, remark
+    </sql>
+
+    <select id="selectSysConfigList" parameterType="top.plgxs.mbg.entity.sys.SysConfig" resultType="top.plgxs.mbg.entity.sys.SysConfig">
+        select <include refid="Base_Column_List"/>
+        from t_sys_config t
+        where 1 = 1
+            <if test="id != null and id != ''">
+                and t.id = #{id}
+            </if>
+            <if test="configName != null and configName != ''">
+                and t.config_name = #{configName}
+            </if>
+            <if test="configKey != null and configKey != ''">
+                and t.config_key = #{configKey}
+            </if>
+            <if test="configValue != null and configValue != ''">
+                and t.config_value = #{configValue}
+            </if>
+            <if test="configType != null and configType != ''">
+                and t.config_type = #{configType}
+            </if>
+            <if test="gmtCreate != null">
+                and t.gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and t.gmt_modified = #{gmtModified}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="isDeleted != null and isDeleted != ''">
+                and t.is_deleted = #{isDeleted}
+            </if>
+            <if test="remark != null and remark != ''">
+                and t.remark = #{remark}
+            </if>
+    </select>
+
+    <update id="switchTheme" parameterType="java.lang.String">
+        update t_sys_config set config_value = #{value} where config_key = #{key}
+    </update>
+
+    <select id="export" resultType="top.plgxs.mbg.dto.export.ConfigExport">
+        select id, config_name as `configName`, config_key as `configKey`,
+            config_value as `configValue`, config_type as `configType`,
+            gmt_create as `gmtCreate`, remark
+        from t_sys_config
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

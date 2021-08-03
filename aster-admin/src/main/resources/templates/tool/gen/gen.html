@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('生成代码')"/>
+    <th:block th:include="common/include :: step-css"/>
+    <style>
+        .label-width {
+            width: 130px;
+        }
+
+        .input-width {
+            width: 250px;
+        }
+
+        /* 防止下拉框的下拉列表被隐藏---必须设置--- 此样式和表格的样式有冲突 如果表格列数太多 会出现错乱的情况 目前我的解决方法是忽略下拉框的美化渲染 <select lay-ignore> */
+        .layui-table-cell {
+            overflow: visible;
+        }
+
+        .layui-table-box {
+            overflow: visible;
+        }
+
+        .layui-table-body {
+            overflow: visible;
+        }
+
+        /* 设置下拉框的高度与表格单元相同 */
+        td .layui-form-select {
+            margin-top: -10px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+    </style>
+</head>
+<body style="background: #fff;">
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding-top: 10px;">
+                    <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                        <div carousel-item>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;padding-top: 40px;">
+                                    <div class="layui-row layui-col-space5">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">表名称:</label>
+                                                <div class="layui-input-block">
+                                                    <div id="tableName" class="xm-select-demo"
+                                                         style="width:250px;padding-left: 50px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label label-width">表前缀:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="tablePrefix" autocomplete="off" value="t_"
+                                                           class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">作者:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="author" autocomplete="off"
+                                                           value="Stranger."
+                                                           lay-verify="required" lay-reqtext="作者不能为空"
+                                                           class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">是否覆盖原文件:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="radio" name="fileOverride" value="0" title="是">
+                                                    <input type="radio" name="fileOverride" value="1" title="否"
+                                                           checked="checked">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">是否生成Controller:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="radio" name="isController" value="0" title="是"
+                                                           checked="checked" lay-filter="isController">
+                                                    <input type="radio" name="isController" value="1" title="否"
+                                                           lay-filter="isController">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">是否生成Service:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="radio" name="isService" value="0" title="是"
+                                                           checked="checked" lay-filter="isService">
+                                                    <input type="radio" name="isService" value="1" title="否"
+                                                           lay-filter="isService">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">是否生成Html:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="radio" name="isHtml" value="0" title="是"
+                                                           checked="checked">
+                                                    <input type="radio" name="isHtml" value="1" title="否">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label label-width">逻辑删除字段名:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="deleteColumn" autocomplete="off"
+                                                           value="is_deleted" class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md4"></div>
+                                        <div class="layui-col-md4">
+                                            <div class="layui-form-item">
+                                                <div class="layui-input-block">
+                                                    <button class="layui-btn" lay-submit lay-filter="formStep">
+                                                        &emsp;下一步&emsp;
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md4"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;padding-top: 10px;">
+                                    <div style="overflow-y: auto">
+                                        <table class="layui-hide" id="currentTableId"
+                                               lay-filter="currentTableFilter"></table>
+                                    </div>
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md4"></div>
+                                        <div class="layui-col-md4">
+                                            <div class="layui-form-item">
+                                                <div class="layui-input-block">
+                                                    <button type="button" class="layui-btn layui-btn-primary pre">上一步
+                                                    </button>
+                                                    <button class="layui-btn" lay-submit lay-filter="formStep2">
+                                                        &emsp;下一步&emsp;
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md4"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;padding-top: 10px;">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">输出路径:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="outputDir" autocomplete="off"
+                                                           lay-verify="required"
+                                                           lay-reqtext="输出路径不能为空" value="D:/aster/outputdir"
+                                                           class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label required label-width">不同文件放在不同模块:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="radio" name="separate" value="0" title="是" lay-filter="separate">
+                                                    <input type="radio" name="separate" value="1" title="否"
+                                                           checked="checked" lay-filter="separate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15" name="nonSeparate">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label label-width">模块名称:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="moduleName" autocomplete="off"
+                                                           placeholder="例如：aster-mbg" class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label label-width">包名:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="packageName" autocomplete="off"
+                                                           placeholder="例如：top.plgxs.mbg" class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15" name="nonSeparate">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md5">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label label-width">业务名:</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="businessName" autocomplete="off"
+                                                           placeholder="例如：system" class="layui-input input-width">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md5">
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div class="layui-row layui-col-space15" name="isSeparate" style="display: none;">
+                                        <div class="layui-col-md1"></div>
+                                        <div class="layui-col-md10">
+                                            <table class="layui-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>文件类型</th>
+                                                    <th>模块名称</th>
+                                                    <th>包名</th>
+                                                    <th>业务名称</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr id="controller">
+                                                    <td>Controller/Html</td>
+                                                    <td>
+                                                        <input type="text" name="controllerModuleName" lay-verify="controller_v"
+                                                               placeholder="例如：aster-mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="controllerPackageName" lay-verify="controller_v"
+                                                               placeholder="例如：top.plgxs.mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="controllerBusinessName" lay-verify="controller_v"
+                                                               placeholder="例如：system" class="layui-input">
+                                                    </td>
+                                                </tr>
+                                                <tr id="service">
+                                                    <td>Service/Impl</td>
+                                                    <td>
+                                                        <input type="text" name="serviceModuleName" lay-verify="service_v"
+                                                               placeholder="例如：aster-mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="servicePackageName" lay-verify="service_v"
+                                                               placeholder="例如：top.plgxs.mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="serviceBusinessName" lay-verify="service_v"
+                                                               placeholder="例如：system" class="layui-input">
+                                                    </td>
+                                                </tr>
+                                                <tr id="entity">
+                                                    <td>Entity</td>
+                                                    <td>
+                                                        <input type="text" name="entityModuleName" lay-verify="entity_v"
+                                                               placeholder="例如：aster-mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="entityPackageName" lay-verify="entity_v"
+                                                               placeholder="例如：top.plgxs.mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="entityBusinessName" lay-verify="entity_v"
+                                                               placeholder="例如：system" class="layui-input">
+                                                    </td>
+                                                </tr>
+                                                <tr id="mapper">
+                                                    <td>Mapper/Xml</td>
+                                                    <td>
+                                                        <input type="text" name="mapperModuleName" lay-verify="mapper_v"
+                                                               placeholder="例如：aster-mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="mapperPackageName" lay-verify="mapper_v"
+                                                               placeholder="例如：top.plgxs.mbg" class="layui-input">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="mapperBusinessName" lay-verify="mapper_v"
+                                                               placeholder="例如：system" class="layui-input">
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="layui-col-md1"></div>
+                                    </div>
+                                    <div style="text-align: center;margin-top: 30px;">
+                                        <div class="layui-row layui-col-space15">
+                                            <div class="layui-col-md4"></div>
+                                            <div class="layui-col-md4">
+                                                <div class="layui-form-item">
+                                                    <div class="layui-input-block">
+                                                        <button type="button" class="layui-btn layui-btn-primary pre">上一步
+                                                        </button>
+                                                        <button class="layui-btn" lay-submit lay-filter="formStep3">
+                                                            &emsp;生成代码&emsp;
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-col-md4"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<th:block th:include="common/include :: footer"/>
+
+<script type="text/html" id="addTemplet">
+    {{# if(d.isAdd=='0' && d.columnKey != '0') { }}
+    <input type="checkbox" name="isAdd" lay-skin="primary" lay-filter="switch" value="0" checked />
+    {{# } else { }}
+    <input type="checkbox" name="isAdd" lay-skin="primary" lay-filter="switch" value="1" />
+    {{# } }}
+</script>
+<script type="text/html" id="editTemplet">
+    {{# if(d.isEdit=='0' && d.columnKey != '0') { }}
+    <input type="checkbox" name="isEdit" lay-skin="primary" lay-filter="switch" value="0" checked />
+    {{# } else { }}
+    <input type="checkbox" name="isEdit" lay-skin="primary" lay-filter="switch" value="1" />
+    {{# } }}
+</script>
+<script type="text/html" id="requiredTemplet">
+    {{# if(d.isRequired=='0' && d.columnKey != '0') { }}
+    <input type="checkbox" name="isRequired" lay-skin="primary" lay-filter="switch" value="0" checked />
+    {{# } else { }}
+    <input type="checkbox" name="isRequired" lay-skin="primary" lay-filter="switch" value="1" />
+    {{# } }}
+</script>
+<script type="text/html" id="listTemplet">
+    {{# if(d.isList=='0' && d.columnKey != '0') { }}
+    <input type="checkbox" name="isList" lay-skin="primary" lay-filter="switch" value="0" checked />
+    {{# } else { }}
+    <input type="checkbox" name="isList" lay-skin="primary" lay-filter="switch" value="1" />
+    {{# } }}
+</script>
+<script type="text/html" id="searchTemplet">
+    {{# if(d.isSearch=='0' && d.columnKey != '0') { }}
+    <input type="checkbox" name="isSearch" lay-skin="primary" lay-filter="switch" value="0" checked />
+    {{# } else { }}
+    <input type="checkbox" name="isSearch" lay-skin="primary" lay-filter="switch" value="1" />
+    {{# } }}
+</script>
+<script type="text/html" id="searchTypeTemplet">
+    <select name="searchType" th:with="type=${@dict.getDict('SEARCH_TYPE')}">
+        <option value="">请选择</option>
+        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+    </select>
+</script>
+<script type="text/html" id="showTypeTemplet">
+    <select name="showType" th:with="type=${@dict.getDict('SHOW_TYPE')}">
+        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+    </select>
+</script>
+<script type="text/html" id="dictTypeTemplet">
+    <select name="dictType" th:with="type=${@dict.getDictType()}">
+        <option value="">请选择</option>
+        <option th:each="dict : ${type}" th:text="${dict.dictTypeCode}" th:value="${dict.dictTypeCode}"></option>
+    </select>
+</script>
+
+<script th:inline="javascript">
+    layui.use(['form', 'step', 'xmSelect', 'table'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            step = layui.step,
+            xmSelect = layui.xmSelect,
+            table = layui.table;
+
+        step.render({
+            elem: '#stepForm',
+            filter: 'stepForm',
+            width: '100%', //设置容器宽度
+            stepWidth: '750px',
+            height: '500px',
+            stepItems: [{
+                title: '基本信息'
+            }, {
+                title: 'Html信息'
+            }, {
+                title: '生成信息'
+            }]
+        });
+
+        var tableSelect = xmSelect.render({
+            el: '#tableName',
+            radio: true,
+            clickClose: true,
+            name: 'tableName',
+            layVerify: 'required',
+            model: {
+                icon: 'hidden',
+                label: {
+                    type: 'text'
+                }
+            },
+            filterable: true, //搜索工具
+            paging: true, //分页
+            pageSize: 5,
+            empty: '呀, 没有数据呢',
+            data: []
+        });
+
+        tableSelect.update({
+            data: getTableNames()
+        });
+
+        var tableData = {
+            basic: null,
+            columns: null,
+            output: null
+        };
+
+        form.on('submit(formStep)', function (data) {
+            tableData.basic = data.field;
+            // 初始化列表
+            var tableName = $("input[name='tableName']").val();
+            initTable(tableName);
+            form.render();
+            step.next('#stepForm');
+            return false;
+        });
+
+        form.on('checkbox(switch)', function (data) {
+            if (this.checked) {
+                this.value = "0";
+            } else {
+                this.value = "1";
+            }
+            form.render();
+        });
+
+        form.on('submit(formStep2)', function (data) {
+            var checkStatus = table.checkStatus('currentTableId').data;
+            tableData.columns = checkStatus;
+            $("input[name='columnKey']").each(function(i) {
+                tableData.columns[i].columnKey= $(this).val();
+            });
+            $("input[name='isAdd']").each(function(i) {
+                tableData.columns[i].isAdd = $(this).val();
+            });
+            $("input[name='isEdit']").each(function(i) {
+                tableData.columns[i].isEdit = $(this).val();
+            });
+            $("input[name='isRequired']").each(function(i) {
+                tableData.columns[i].isRequired = $(this).val();
+            });
+            $("input[name='isList']").each(function(i) {
+                tableData.columns[i].isList = $(this).val();
+            });
+            $("input[name='isSearch']").each(function(i) {
+                tableData.columns[i].isSearch = $(this).val();
+            });
+
+            $("select[name='searchType']").each(function(i) {
+                tableData.columns[i].searchType = $(this).val();
+            });
+            $("select[name='showType']").each(function(i) {
+                tableData.columns[i].showType = $(this).val();
+            });
+            $("select[name='dictType']").each(function(i) {
+                tableData.columns[i].dictType = $(this).val();
+            });
+            step.next('#stepForm');
+            return false;
+        });
+
+        form.on('submit(formStep3)', function (data) {
+            tableData.output = data.field;
+            $.common.postJSON(ctx + 'gen/generator', "application/json", JSON.stringify(tableData), function (res) {
+                layer.msg(res.msg);
+            });
+            step.next('#stepForm');
+            return false;
+        });
+
+        $('.pre').click(function () {
+            step.pre('#stepForm');
+        });
+
+        $('.next').click(function () {
+            step.next('#stepForm');
+        });
+
+        function initTable(tableName) {
+            table.render({
+                elem: '#currentTableId',
+                url: ctx + 'gen/getTableColumn?tableName=' + tableName,
+                parseData: function (res) {
+                    return res.data;
+                },
+                height: 'full-200',
+                cols: [
+                    [
+                        {type: "checkbox", LAY_CHECKED: true},
+                        {field: 'columnName', title: '字段列名'},
+                        {field: 'columnComment', title: '字段注释'},
+                        {field: 'columnType', title: '字段类型'},
+                        {field: 'propertyName', title: 'Java属性', width: 130,  templet: function (d) {
+                                return '<input type="text" name="propertyName" value="' + d.propertyName + '" ' +
+                                    'class="layui-input" style="height: 30px;">';
+                        }},
+                        {field: 'columnKey', title: '主键', width: 60, templet: function (d) {
+                                if (d.columnKey == '0') {
+                                    return '<input type="checkbox" name="columnKey" lay-filter="switch" lay-skin="primary"  value="0" checked>';
+                                } else {
+                                    return '<input type="checkbox" name="columnKey" lay-filter="switch" lay-skin="primary"  value="1">';
+                                }
+                        }},
+                        {field: 'isAdd', title: '插入', width: 60, templet: '#addTemplet'},
+                        {field: 'isEdit', title: '编辑', width: 60, templet: '#editTemplet'},
+                        {field: 'isRequired', title: '必填', width: 60, templet: '#requiredTemplet'},
+                        {field: 'isList', title: '列表', width: 60, templet: '#listTemplet'},
+                        {field: 'isSearch', title: '查询', width: 60, templet: '#searchTemplet'},
+                        {field: 'searchType', title: '查询方式', templet: '#searchTypeTemplet'},
+                        {field: 'showType', title: '显示方式', templet: '#showTypeTemplet'},
+                        {field: 'dictType', title: '字典类型', templet: '#dictTypeTemplet'}
+                    ]
+                ],
+                page: false,
+                skin: 'line'
+            });
+        }
+
+        form.on('radio(separate)', function (data) {
+            var value = data.value;
+            if (value == '1') {
+                $("div[name='nonSeparate']").show();
+                $("div[name='isSeparate']").hide();
+            } else {
+                $("div[name='nonSeparate']").hide();
+                $("div[name='isSeparate']").show();
+            }
+            form.render();
+        });
+
+        form.on('radio(isController)', function (data) {
+            var value = data.value;
+            if (value == '1') {
+                $("#controller").hide();
+            } else {
+                $("#controller").show();
+            }
+            form.render();
+        });
+        form.on('radio(isService)', function (data) {
+            var value = data.value;
+            if (value == '1') {
+                $("#service").hide();
+            } else {
+                $("#service").show();
+            }
+            form.render();
+        });
+    });
+
+
+    function getTableNames() {
+        var value;
+        $.ajax({
+            url: ctx + 'gen/getTableNames',
+            type: 'GET',
+            async: false,
+            dataType: "json",
+            success: function (res) {
+                value = res.data;
+            }
+        });
+        return value;
+    }
+</script>
+</body>
+</html>

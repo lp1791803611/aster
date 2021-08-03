@@ -119,4 +119,14 @@
         where TABLE_SCHEMA = #{database}
             and TABLE_NAME = #{tableName}
     </select>
+
+    <select id="export" resultType="top.plgxs.mbg.dto.export.UserExport">
+        select
+            u.id, u.username, u.nickname, u.mobile, u.email, u.status,
+            u.gmt_create as `gmtCreate`, d.dept_name as `deptName`,
+            u.gender, u.realname, u.id_number as `idNumber`
+        from t_sys_user u
+        left join t_sys_dept d on u.dept_id = d.id
+        ${ew.customSqlSegment}
+    </select>
 </mapper>

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import top.plgxs.mbg.dto.export.UserExport;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.entity.sys.SysUser;
@@ -59,4 +60,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @since 2021/7/9
      */
     List<TableColumn> getTableColumn(@Param("database") String database, @Param("tableName") String tableName);
+
+    /**
+     * 导出
+     * @param queryWrapper 查询条件
+     * @return java.util.List<top.plgxs.mbg.dto.export.UserExport>
+     * @author Stranger。
+     * @since 2021/7/24
+     */
+    List<UserExport> export(@Param(Constants.WRAPPER) QueryWrapper<SysUser> queryWrapper);
 }

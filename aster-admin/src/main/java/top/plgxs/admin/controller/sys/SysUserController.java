@@ -18,12 +18,15 @@ import top.plgxs.common.core.api.page.PageDataInfo;
 import top.plgxs.common.core.constants.Constants;
 import top.plgxs.common.core.constants.enums.BusinessType;
 import top.plgxs.common.core.constants.enums.DeleteEnum;
+import top.plgxs.common.core.util.ExcelUtils;
+import top.plgxs.mbg.dto.export.UserExport;
 import top.plgxs.mbg.dto.sys.UserDto;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserRole;
 import top.plgxs.mbg.utils.Convert;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -86,6 +89,15 @@ public class SysUserController {
         Page<UserDto> page = new Page<>(pageNo, pageSize);
         IPage<UserDto> pageList = sysUserService.selectUserPage(page, queryWrapper);
         return ResultInfo.success(new PageDataInfo<UserDto>(pageList.getRecords(), pageList.getTotal()));
+    }
+
+    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public void export(@RequestParam(name = "name", required = false) String name,
+                       @RequestParam(name = "deptId", required = false) String deptId,
+                       HttpServletResponse response) {
+        List<UserExport> list = sysUserService.export(name, deptId);
+        ExcelUtils.exportExcel(response, "用户列表", UserExport.class, list);
     }
 
     /**

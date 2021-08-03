@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('新增')"/>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">参数名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="configName" lay-verify="required"
+                               lay-reqtext="参数名称不能为空" placeholder="请输入参数名称" value=""
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">参数键名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="configKey" lay-verify="required|unique_key"
+                               lay-reqtext="参数键名不能为空" placeholder="请输入参数键名" value=""
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">参数键值</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="configValue" lay-verify="required"
+                               lay-reqtext="参数键值不能为空" placeholder="请输入参数键值" value=""
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">系统内置</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="configType" value="0" title="是" checked/>
+                        <input type="radio" name="configType" value="1" title="否"/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                    </div>
+                </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<th:block th:include="common/include :: footer"/>
+
+<script th:inline="javascript">
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        // 添加表单验证方法
+        form.verify({
+            unique_key: function (value) {
+                var checkResult = "";
+                $.ajax({
+                    type: 'GET',
+                    url: ctx + 'sysConfig/verifyKey',
+                    data: {key: value},
+                    async: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.success){
+                            checkResult = res.msg;
+                        }
+                    }
+                });
+                return checkResult;
+            }
+        });
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            $.ajax({
+                url: ctx + 'sysConfig/insert',
+                type: 'POST',
+                async: false,
+                contentType: 'application/json; charset=UTF-8',
+                dataType: "json",
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                    var index = layer.alert(res.msg, {
+                        title: '提示信息'
+                    }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
+                        // 关闭弹出层
+                        layer.close(index);
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index);
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
+                        layer.msg("服务器好像出了点问题！请稍后试试");
+                    }
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>

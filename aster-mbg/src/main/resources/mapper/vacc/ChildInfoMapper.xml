@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.vacc.ChildInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.vacc.ChildInfo">
+        <id column="child_id" property="childId" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="idcard_type" property="idcardType" />
+        <result column="idcard_no" property="idcardNo" />
+        <result column="birth_card_no" property="birthCardNo" />
+        <result column="gender" property="gender" />
+        <result column="country_code" property="countryCode" />
+        <result column="birth_date" property="birthDate" />
+        <result column="birth_time" property="birthTime" />
+        <result column="birth_hospital" property="birthHospital" />
+        <result column="parity" property="parity" />
+        <result column="race" property="race" />
+        <result column="birth_weight" property="birthWeight" />
+        <result column="live_address" property="liveAddress" />
+        <result column="nationality_code" property="nationalityCode" />
+        <result column="household_property" property="householdProperty" />
+        <result column="household_type" property="householdType" />
+        <result column="family_phone" property="familyPhone" />
+        <result column="shot_message_mark" property="shotMessageMark" />
+        <result column="shot_message_time" property="shotMessageTime" />
+        <result column="father_name" property="fatherName" />
+        <result column="father_card_type" property="fatherCardType" />
+        <result column="father_idcard" property="fatherIdcard" />
+        <result column="father_phone" property="fatherPhone" />
+        <result column="father_workplace" property="fatherWorkplace" />
+        <result column="mother_name" property="motherName" />
+        <result column="mother_card_type" property="motherCardType" />
+        <result column="mother_idcard" property="motherIdcard" />
+        <result column="mother_phone" property="motherPhone" />
+        <result column="mother_workplace" property="motherWorkplace" />
+        <result column="mother_hb" property="motherHb" />
+        <result column="contraindication_mark" property="contraindicationMark" />
+        <result column="contraindication" property="contraindication" />
+        <result column="infectious_his_mark" property="infectiousHisMark" />
+        <result column="infectious_his" property="infectiousHis" />
+        <result column="allergy_his_mark" property="allergyHisMark" />
+        <result column="allergy_his" property="allergyHis" />
+        <result column="aefi_his_mark" property="aefiHisMark" />
+        <result column="aefi_his" property="aefiHis" />
+        <result column="record_status" property="recordStatus" />
+        <result column="record_date" property="recordDate" />
+        <result column="record_area_id" property="recordAreaId" />
+        <result column="record_organ_code" property="recordOrganCode" />
+        <result column="record_organ_name" property="recordOrganName" />
+        <result column="create_date" property="createDate" />
+        <result column="create_area_code" property="createAreaCode" />
+        <result column="create_org_code" property="createOrgCode" />
+        <result column="creator" property="creator" />
+        <result column="bar_code" property="barCode" />
+        <result column="insurcode" property="insurcode" />
+        <result column="healthc_code" property="healthcCode" />
+        <result column="create_time" property="createTime" />
+        <result column="info_integrity_mark" property="infoIntegrityMark" />
+        <result column="last_update_time" property="lastUpdateTime" />
+        <result column="last_update_person" property="lastUpdatePerson" />
+        <result column="last_update_person_name" property="lastUpdatePersonName" />
+        <result column="last_update_org" property="lastUpdateOrg" />
+        <result column="input_time" property="inputTime" />
+        <result column="inputer" property="inputer" />
+        <result column="inputer_name" property="inputerName" />
+        <result column="input_org_code" property="inputOrgCode" />
+        <result column="status" property="status" />
+        <result column="data_source" property="dataSource" />
+        <result column="province_id" property="provinceId" />
+        <result column="guardian" property="guardian" />
+        <result column="all_integrity_mark" property="allIntegrityMark" />
+        <result column="merge_child_id" property="mergeChildId" />
+        <result column="create_organ" property="createOrgan" />
+        <result column="client_mark" property="clientMark" />
+        <result column="family_mobile" property="familyMobile" />
+        <result column="case_version" property="caseVersion" />
+        <result column="live_areaid" property="liveAreaid" />
+        <result column="live_town" property="liveTown" />
+        <result column="last_vaccination_time" property="lastVaccinationTime" />
+        <result column="remark" property="remark" />
+        <result column="case_type" property="caseType" />
+        <result column="is_should_vacc" property="isShouldVacc" />
+        <result column="relation_ship" property="relationShip" />
+        <result column="whether_merge" property="whetherMerge" />
+        <result column="is_migrate" property="isMigrate" />
+        <result column="wechat_id" property="wechatId" />
+        <result column="school_id" property="schoolId" />
+        <result column="kindergarten_id" property="kindergartenId" />
+        <result column="hiv_mark" property="hivMark" />
+        <result column="avoid_vaccine" property="avoidVaccine" />
+        <result column="avoid_vaccine_reason" property="avoidVaccineReason" />
+        <result column="app_id" property="appId" />
+        <result column="mun_barcode_decrypt" property="munBarcodeDecrypt" />
+        <result column="mun_barcode_encryption" property="munBarcodeEncryption" />
+        <result column="wechat_id2" property="wechatId2" />
+        <result column="wechat_id3" property="wechatId3" />
+        <result column="wechat_id4" property="wechatId4" />
+        <result column="is_abortion" property="isAbortion" />
+        <result column="nationality_address" property="nationalityAddress" />
+        <result column="mother_race" property="motherRace" />
+        <result column="father_race" property="fatherRace" />
+        <result column="father_hb" property="fatherHb" />
+        <result column="junior_school_id" property="juniorSchoolId" />
+        <result column="school_year" property="schoolYear" />
+        <result column="kindergarten_year" property="kindergartenYear" />
+        <result column="junior_year" property="juniorYear" />
+        <result column="school_class" property="schoolClass" />
+        <result column="kindergarten_class" property="kindergartenClass" />
+        <result column="junior_class" property="juniorClass" />
+        <result column="data_type" property="dataType" />
+        <result column="obstetric_code" property="obstetricCode" />
+        <result column="quik_short_name" property="quikShortName" />
+        <result column="immu_record" property="immuRecord" />
+        <result column="father_hbega" property="fatherHbega" />
+        <result column="mother_hbega" property="motherHbega" />
+        <result column="gestation_age" property="gestationAge" />
+        <result column="work_space" property="workSpace" />
+        <result column="occupation" property="occupation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        child_id, name, code, idcard_type, idcard_no, birth_card_no, gender, country_code, birth_date, birth_time, birth_hospital, parity, race, birth_weight, live_address, nationality_code, household_property, household_type, family_phone, shot_message_mark, shot_message_time, father_name, father_card_type, father_idcard, father_phone, father_workplace, mother_name, mother_card_type, mother_idcard, mother_phone, mother_workplace, mother_hb, contraindication_mark, contraindication, infectious_his_mark, infectious_his, allergy_his_mark, allergy_his, aefi_his_mark, aefi_his, record_status, record_date, record_area_id, record_organ_code, record_organ_name, create_date, create_area_code, create_org_code, creator, bar_code, insurcode, healthc_code, create_time, info_integrity_mark, last_update_time, last_update_person, last_update_person_name, last_update_org, input_time, inputer, inputer_name, input_org_code, status, data_source, province_id, guardian, all_integrity_mark, merge_child_id, create_organ, client_mark, family_mobile, case_version, live_areaid, live_town, last_vaccination_time, remark, case_type, is_should_vacc, relation_ship, whether_merge, is_migrate, wechat_id, school_id, kindergarten_id, hiv_mark, avoid_vaccine, avoid_vaccine_reason, app_id, mun_barcode_decrypt, mun_barcode_encryption, wechat_id2, wechat_id3, wechat_id4, is_abortion, nationality_address, mother_race, father_race, father_hb, junior_school_id, school_year, kindergarten_year, junior_year, school_class, kindergarten_class, junior_class, data_type, obstetric_code, quik_short_name, immu_record, father_hbega, mother_hbega, gestation_age, work_space, occupation
+    </sql>
+
+    <select id="selectChildInfoList" parameterType="top.plgxs.mbg.entity.vacc.ChildInfo" resultType="top.plgxs.mbg.entity.vacc.ChildInfo">
+        select <include refid="Base_Column_List"/>
+        from c_child_info t
+        where 1 = 1
+            <if test="childId != null and childId != ''">
+                and t.child_id = #{childId}
+            </if>
+            <if test="name != null and name != ''">
+                and t.name = #{name}
+            </if>
+            <if test="code != null and code != ''">
+                and t.code = #{code}
+            </if>
+            <if test="idcardType != null and idcardType != ''">
+                and t.idcard_type = #{idcardType}
+            </if>
+            <if test="idcardNo != null and idcardNo != ''">
+                and t.idcard_no = #{idcardNo}
+            </if>
+            <if test="birthCardNo != null and birthCardNo != ''">
+                and t.birth_card_no = #{birthCardNo}
+            </if>
+            <if test="gender != null and gender != ''">
+                and t.gender = #{gender}
+            </if>
+            <if test="countryCode != null and countryCode != ''">
+                and t.country_code = #{countryCode}
+            </if>
+            <if test="birthDate != null and birthDate != ''">
+                and t.birth_date = #{birthDate}
+            </if>
+            <if test="birthTime != null and birthTime != ''">
+                and t.birth_time = #{birthTime}
+            </if>
+            <if test="birthHospital != null and birthHospital != ''">
+                and t.birth_hospital = #{birthHospital}
+            </if>
+            <if test="parity != null">
+                and t.parity = #{parity}
+            </if>
+            <if test="race != null and race != ''">
+                and t.race = #{race}
+            </if>
+            <if test="birthWeight != null">
+                and t.birth_weight = #{birthWeight}
+            </if>
+            <if test="liveAddress != null and liveAddress != ''">
+                and t.live_address = #{liveAddress}
+            </if>
+            <if test="nationalityCode != null and nationalityCode != ''">
+                and t.nationality_code = #{nationalityCode}
+            </if>
+            <if test="householdProperty != null and householdProperty != ''">
+                and t.household_property = #{householdProperty}
+            </if>
+            <if test="householdType != null and householdType != ''">
+                and t.household_type = #{householdType}
+            </if>
+            <if test="familyPhone != null and familyPhone != ''">
+                and t.family_phone = #{familyPhone}
+            </if>
+            <if test="shotMessageMark != null and shotMessageMark != ''">
+                and t.shot_message_mark = #{shotMessageMark}
+            </if>
+            <if test="shotMessageTime != null and shotMessageTime != ''">
+                and t.shot_message_time = #{shotMessageTime}
+            </if>
+            <if test="fatherName != null and fatherName != ''">
+                and t.father_name = #{fatherName}
+            </if>
+            <if test="fatherCardType != null and fatherCardType != ''">
+                and t.father_card_type = #{fatherCardType}
+            </if>
+            <if test="fatherIdcard != null and fatherIdcard != ''">
+                and t.father_idcard = #{fatherIdcard}
+            </if>
+            <if test="fatherPhone != null and fatherPhone != ''">
+                and t.father_phone = #{fatherPhone}
+            </if>
+            <if test="fatherWorkplace != null and fatherWorkplace != ''">
+                and t.father_workplace = #{fatherWorkplace}
+            </if>
+            <if test="motherName != null and motherName != ''">
+                and t.mother_name = #{motherName}
+            </if>
+            <if test="motherCardType != null and motherCardType != ''">
+                and t.mother_card_type = #{motherCardType}
+            </if>
+            <if test="motherIdcard != null and motherIdcard != ''">
+                and t.mother_idcard = #{motherIdcard}
+            </if>
+            <if test="motherPhone != null and motherPhone != ''">
+                and t.mother_phone = #{motherPhone}
+            </if>
+            <if test="motherWorkplace != null and motherWorkplace != ''">
+                and t.mother_workplace = #{motherWorkplace}
+            </if>
+            <if test="motherHb != null and motherHb != ''">
+                and t.mother_hb = #{motherHb}
+            </if>
+            <if test="contraindicationMark != null and contraindicationMark != ''">
+                and t.contraindication_mark = #{contraindicationMark}
+            </if>
+            <if test="contraindication != null and contraindication != ''">
+                and t.contraindication = #{contraindication}
+            </if>
+            <if test="infectiousHisMark != null and infectiousHisMark != ''">
+                and t.infectious_his_mark = #{infectiousHisMark}
+            </if>
+            <if test="infectiousHis != null and infectiousHis != ''">
+                and t.infectious_his = #{infectiousHis}
+            </if>
+            <if test="allergyHisMark != null and allergyHisMark != ''">
+                and t.allergy_his_mark = #{allergyHisMark}
+            </if>
+            <if test="allergyHis != null and allergyHis != ''">
+                and t.allergy_his = #{allergyHis}
+            </if>
+            <if test="aefiHisMark != null and aefiHisMark != ''">
+                and t.aefi_his_mark = #{aefiHisMark}
+            </if>
+            <if test="aefiHis != null and aefiHis != ''">
+                and t.aefi_his = #{aefiHis}
+            </if>
+            <if test="recordStatus != null and recordStatus != ''">
+                and t.record_status = #{recordStatus}
+            </if>
+            <if test="recordDate != null and recordDate != ''">
+                and t.record_date = #{recordDate}
+            </if>
+            <if test="recordAreaId != null and recordAreaId != ''">
+                and t.record_area_id = #{recordAreaId}
+            </if>
+            <if test="recordOrganCode != null and recordOrganCode != ''">
+                and t.record_organ_code = #{recordOrganCode}
+            </if>
+            <if test="recordOrganName != null and recordOrganName != ''">
+                and t.record_organ_name = #{recordOrganName}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and t.create_date = #{createDate}
+            </if>
+            <if test="createAreaCode != null and createAreaCode != ''">
+                and t.create_area_code = #{createAreaCode}
+            </if>
+            <if test="createOrgCode != null and createOrgCode != ''">
+                and t.create_org_code = #{createOrgCode}
+            </if>
+            <if test="creator != null and creator != ''">
+                and t.creator = #{creator}
+            </if>
+            <if test="barCode != null and barCode != ''">
+                and t.bar_code = #{barCode}
+            </if>
+            <if test="insurcode != null and insurcode != ''">
+                and t.insurcode = #{insurcode}
+            </if>
+            <if test="healthcCode != null and healthcCode != ''">
+                and t.healthc_code = #{healthcCode}
+            </if>
+            <if test="createTime != null">
+                and t.create_time = #{createTime}
+            </if>
+            <if test="infoIntegrityMark != null and infoIntegrityMark != ''">
+                and t.info_integrity_mark = #{infoIntegrityMark}
+            </if>
+            <if test="lastUpdateTime != null">
+                and t.last_update_time = #{lastUpdateTime}
+            </if>
+            <if test="lastUpdatePerson != null and lastUpdatePerson != ''">
+                and t.last_update_person = #{lastUpdatePerson}
+            </if>
+            <if test="lastUpdatePersonName != null and lastUpdatePersonName != ''">
+                and t.last_update_person_name = #{lastUpdatePersonName}
+            </if>
+            <if test="lastUpdateOrg != null and lastUpdateOrg != ''">
+                and t.last_update_org = #{lastUpdateOrg}
+            </if>
+            <if test="inputTime != null">
+                and t.input_time = #{inputTime}
+            </if>
+            <if test="inputer != null and inputer != ''">
+                and t.inputer = #{inputer}
+            </if>
+            <if test="inputerName != null and inputerName != ''">
+                and t.inputer_name = #{inputerName}
+            </if>
+            <if test="inputOrgCode != null and inputOrgCode != ''">
+                and t.input_org_code = #{inputOrgCode}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="dataSource != null and dataSource != ''">
+                and t.data_source = #{dataSource}
+            </if>
+            <if test="provinceId != null">
+                and t.province_id = #{provinceId}
+            </if>
+            <if test="guardian != null and guardian != ''">
+                and t.guardian = #{guardian}
+            </if>
+            <if test="allIntegrityMark != null and allIntegrityMark != ''">
+                and t.all_integrity_mark = #{allIntegrityMark}
+            </if>
+            <if test="mergeChildId != null and mergeChildId != ''">
+                and t.merge_child_id = #{mergeChildId}
+            </if>
+            <if test="createOrgan != null and createOrgan != ''">
+                and t.create_organ = #{createOrgan}
+            </if>
+            <if test="clientMark != null and clientMark != ''">
+                and t.client_mark = #{clientMark}
+            </if>
+            <if test="familyMobile != null and familyMobile != ''">
+                and t.family_mobile = #{familyMobile}
+            </if>
+            <if test="caseVersion != null and caseVersion != ''">
+                and t.case_version = #{caseVersion}
+            </if>
+            <if test="liveAreaid != null and liveAreaid != ''">
+                and t.live_areaid = #{liveAreaid}
+            </if>
+            <if test="liveTown != null and liveTown != ''">
+                and t.live_town = #{liveTown}
+            </if>
+            <if test="lastVaccinationTime != null and lastVaccinationTime != ''">
+                and t.last_vaccination_time = #{lastVaccinationTime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and t.remark like concat('%',  #{remark}, '%')
+            </if>
+            <if test="caseType != null and caseType != ''">
+                and t.case_type = #{caseType}
+            </if>
+            <if test="isShouldVacc != null and isShouldVacc != ''">
+                and t.is_should_vacc = #{isShouldVacc}
+            </if>
+            <if test="relationShip != null and relationShip != ''">
+                and t.relation_ship = #{relationShip}
+            </if>
+            <if test="whetherMerge != null and whetherMerge != ''">
+                and t.whether_merge = #{whetherMerge}
+            </if>
+            <if test="isMigrate != null and isMigrate != ''">
+                and t.is_migrate = #{isMigrate}
+            </if>
+            <if test="wechatId != null and wechatId != ''">
+                and t.wechat_id = #{wechatId}
+            </if>
+            <if test="schoolId != null and schoolId != ''">
+                and t.school_id = #{schoolId}
+            </if>
+            <if test="kindergartenId != null and kindergartenId != ''">
+                and t.kindergarten_id = #{kindergartenId}
+            </if>
+            <if test="hivMark != null and hivMark != ''">
+                and t.hiv_mark = #{hivMark}
+            </if>
+            <if test="avoidVaccine != null and avoidVaccine != ''">
+                and t.avoid_vaccine like concat('%',  #{avoidVaccine}, '%')
+            </if>
+            <if test="avoidVaccineReason != null and avoidVaccineReason != ''">
+                and t.avoid_vaccine_reason like concat('%',  #{avoidVaccineReason}, '%')
+            </if>
+            <if test="appId != null and appId != ''">
+                and t.app_id = #{appId}
+            </if>
+            <if test="munBarcodeDecrypt != null and munBarcodeDecrypt != ''">
+                and t.mun_barcode_decrypt = #{munBarcodeDecrypt}
+            </if>
+            <if test="munBarcodeEncryption != null and munBarcodeEncryption != ''">
+                and t.mun_barcode_encryption = #{munBarcodeEncryption}
+            </if>
+            <if test="wechatId2 != null and wechatId2 != ''">
+                and t.wechat_id2 = #{wechatId2}
+            </if>
+            <if test="wechatId3 != null and wechatId3 != ''">
+                and t.wechat_id3 = #{wechatId3}
+            </if>
+            <if test="wechatId4 != null and wechatId4 != ''">
+                and t.wechat_id4 = #{wechatId4}
+            </if>
+            <if test="isAbortion != null and isAbortion != ''">
+                and t.is_abortion = #{isAbortion}
+            </if>
+            <if test="nationalityAddress != null and nationalityAddress != ''">
+                and t.nationality_address = #{nationalityAddress}
+            </if>
+            <if test="motherRace != null and motherRace != ''">
+                and t.mother_race = #{motherRace}
+            </if>
+            <if test="fatherRace != null and fatherRace != ''">
+                and t.father_race = #{fatherRace}
+            </if>
+            <if test="fatherHb != null and fatherHb != ''">
+                and t.father_hb = #{fatherHb}
+            </if>
+            <if test="juniorSchoolId != null and juniorSchoolId != ''">
+                and t.junior_school_id = #{juniorSchoolId}
+            </if>
+            <if test="schoolYear != null and schoolYear != ''">
+                and t.school_year = #{schoolYear}
+            </if>
+            <if test="kindergartenYear != null and kindergartenYear != ''">
+                and t.kindergarten_year = #{kindergartenYear}
+            </if>
+            <if test="juniorYear != null and juniorYear != ''">
+                and t.junior_year = #{juniorYear}
+            </if>
+            <if test="schoolClass != null and schoolClass != ''">
+                and t.school_class = #{schoolClass}
+            </if>
+            <if test="kindergartenClass != null and kindergartenClass != ''">
+                and t.kindergarten_class = #{kindergartenClass}
+            </if>
+            <if test="juniorClass != null and juniorClass != ''">
+                and t.junior_class = #{juniorClass}
+            </if>
+            <if test="dataType != null and dataType != ''">
+                and t.data_type = #{dataType}
+            </if>
+            <if test="obstetricCode != null and obstetricCode != ''">
+                and t.obstetric_code = #{obstetricCode}
+            </if>
+            <if test="quikShortName != null and quikShortName != ''">
+                and t.quik_short_name = #{quikShortName}
+            </if>
+            <if test="immuRecord != null and immuRecord != ''">
+                and t.immu_record = #{immuRecord}
+            </if>
+            <if test="fatherHbega != null and fatherHbega != ''">
+                and t.father_hbega = #{fatherHbega}
+            </if>
+            <if test="motherHbega != null and motherHbega != ''">
+                and t.mother_hbega = #{motherHbega}
+            </if>
+            <if test="gestationAge != null and gestationAge != ''">
+                and t.gestation_age = #{gestationAge}
+            </if>
+            <if test="workSpace != null and workSpace != ''">
+                and t.work_space = #{workSpace}
+            </if>
+            <if test="occupation != null and occupation != ''">
+                and t.occupation = #{occupation}
+            </if>
+    </select>
+</mapper>

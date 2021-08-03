@@ -1,188 +1,81 @@
-# 项目相关配置
-aster:
-  # 名称
-  name: Aster
-  # 版本
-  version: 1.0.0
-  # 版权年份
-  copyrightYear: 2021
-  # 实例演示开关
-  demoEnabled: true
-  # 文件路径 示例（ Windows配置D:/aster/uploadPath，Linux配置 /home/aster/uploadPath）
-  profile: D:/aster/uploadPath
-  # 获取ip地址开关
-  addressEnabled: false
-  # 主页url
-  homeHref: page/welcome-1.html
-  # LOGO url
-  logoHref: index
-  # logo image
-  logoImg: images/logo.png
-
-server:
-  servlet:
-    context-path: /
-    session:
-      timeout: 30m
-  port: 8080
-
 spring:
+  # 动态数据源配置
   datasource:
-    url: jdbc:mysql://localhost:3306/aster?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: aster
-    password: aster12138
     druid:
-      initial-size: 5 #连接池初始化大小
-      min-idle: 10 #最小空闲连接数
-      max-active: 20 #最大连接数
-      web-stat-filter:
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
-      stat-view-servlet: #访问监控网页的登录用户名和密码
-        login-username: druid
-        login-password: druid
-  thymeleaf:
-    #开发配置为false,避免修改模板还要重启服务器
-    cache: false
-    #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
-    #mode: HTML5
-    #编码 可不用配置
-    #encoding: UTF-8
-    #内容类别,可不用配置
-    #content-type: text/html
-    #配置模板路径，默认是templates，可以不用配置
-    #prefix: classpath:/templates
-  # 文件上传
-  servlet:
-    multipart:
-      # 单个文件大小
-      max-file-size:  20MB
-      # 设置总上传的文件大小
-      max-request-size:  100MB
-  redis:
-    host: localhost # Redis服务器地址
-#    host: 39.105.147.149 # Redis服务器地址
-    database: 0 # Redis数据库索引（默认为0）
-    port: 6379 # Redis服务器连接端口
-    password: # Redis服务器连接密码（默认为空）
-#    password: stranger12138 # Redis服务器连接密码（默认为空）
-    timeout: 3000 # 连接超时时间（毫秒）
-    # 下面可以不加，加的话必须引入commons-pool2的依赖
-    lettuce:
-      pool:
-        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
-        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-idle: 8 # 连接池中的最大空闲连接
-        min-idle: 0 # 连接池中的最小空闲连接
+      stat-view-servlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        loginUsername: aster
+        loginPassword: aster12138
+    dynamic:
+      druid: # 以下是全局默认值，可以全局更改
+        # 监控统计拦截的filters
+        filters: stat,wall
+        initial-size: 5 # 初始化时建立物理连接的个数
+        min-idle: 5 # 最小连接池数量
+        max-active: 20 # 最大连接池数量
+        max-wait: 60000 # 获取连接等待超时时间,单位毫秒
+        time-between-eviction-runs-millis: 60000 # 间隔多久进行一次检测，检测需要关闭的空闲连接
+        min-evictable-idle-time-millis: 300000 # 连接的最小生存时间.连接保持空闲而不被驱逐的最小时间
+        validation-query: SELECT 'x'
+        test-while-idle: true # 申请连接时检测空闲时间，根据空闲时间再检测连接是否有效.建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRun
+        test-on-borrow: false # 申请连接时直接检测连接是否有效.申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        test-on-return: false # 归还连接时检测连接是否有效.归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        pool-prepared-statements: false # 打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+        max-pool-prepared-statement-per-connection-size: 20 # 设置PSCache值
+        stat:
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        wall:
+          multi-statement-allow: true
+      primary: master # 设置默认的数据源或者数据源组,默认值即为master
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/aster?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+          username: aster
+          password: aster12138
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_0:
+          url: jdbc:mysql://localhost:3306/aster_0?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+          username: aster
+          password: aster12138
+          driver-class-name: com.mysql.cj.jdbc.Driver
 
-#mybatis
-mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  # typeAliasesPackage: top.plgxs.entity
-  global-config:
-    db-config:
-      #主键类型
-      #AUTO 数据库ID自增
-      #INPUT 用户输入ID
-      #ID_WORKER 全局唯一ID，Long类型的主键
-      #ID_WORKER_STR 字符串全局唯一ID
-      #UUID 全局唯一ID，UUID类型的主键
-      #NONE 该类型为未设置主键类型
-      id-type: ID_WORKER_STR
-      #逻辑删除配置
-      logic-delete-value: 1  #逻辑已删除值(默认为 1)
-      logic-not-delete-value: 0  #逻辑未删除值(默认为 0)
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: false
-    call-setters-on-nulls: true
+  # 分表配置
+  shardingsphere:
+    # 打开sql控制台输出日志
+    props:
+      sql:
+        show: true
+    datasource:
+      # 数据源名称,多个以逗号分隔,名称不能重复
+      names: shardingmaster
+      shardingmaster:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/aster?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        username: aster
+        password: aster12138
+    sharding:
+      tables:
+        c_child_info:
+          # 分表策略, 分表：2, 真实表名：c_child_info_0
+          actualDataNodes: shardingmaster.c_child_info_$->{0..1}
+          # 分库策略
+          databaseStrategy:
+            none:
+          tableStrategy:
+            inline:
+              # 分片列名称
+              shardingColumn: child_id
+              # 分片算法行表达式
+              algorithmExpression: c_child_info_$->{(child_id.hashCode() & Integer.MAX_VALUE) % 2}
+          # 主键策略 雪花算法
+          keyGenerator:
+            type: SNOWFLAKE
+            column: child_id
 
-# 用户配置
-user:
-  password:
-    # 密码最大错误次数
-    maxRetryCount: 5
-    # 错误{maxRetryCount}次数，锁定{lockMinutes}分钟
-    lockMinutes: 10
 
-# Shiro
-shiro:
-  user:
-    # 登录地址
-    loginUrl: /login
-    # 权限认证失败地址
-    unauthorizedUrl: /unauth
-    # 首页地址
-    indexUrl: /index
-    # 验证码开关
-    captchaEnabled: true
-    # 验证码类型 math 数组计算 char 字符
-    captchaType: math
-  cookie:
-    # 设置Cookie的域名 默认空，即当前访问的域名
-    domain:
-    # 设置cookie的有效访问路径
-    path: /
-    # 设置HttpOnly属性
-    httpOnly: true
-    # 设置Cookie的过期时间，天为单位
-    maxAge: 30
-    # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
-    cipherKey: xoS/YbQ5cGKeorVP2nrPmA==
-  session:
-    # Session超时时间，-1代表永不过期（默认30分钟）
-    expireTime: 30
-    # 同步session到数据库的周期（默认1分钟）
-    dbSyncPeriod: 1
-    # 相隔多久检查一次session的有效性，默认就是10分钟
-    validationInterval: 10
-    # 同一个用户最大会话数，比如2的意思是同一个账号允许最多同时两个人登录（默认-1不限制）
-    maxSession: -1
-    # 踢出之前登录的/之后登录的用户，默认踢出之前登录的用户
-    kickoutAfter: false
-
-# 自定义redis key
-redis:
-  prefix: 'aster'
-  key:
-    resourceList: 'menu:resourceList'
-  expire:
-    common: 86400 # 超期时间24h
-
-jwt:
-  # JWT存储的请求头
-  header: Authorization
-  # JWT加解密使用的密钥(Base64编码)
-  secret: Stranger
-  # JWT令牌过期时间 此处单位/秒 (60*60*24*1)(1天)
-  expiration: 86400
-  # JWT令牌前缀
-  tokenHead: 'Bearer '
-
-secure:
-  ignored:
-    # 安全路径白名单
-    urls:
-      - /swagger-ui.html
-      - /swagger-resources/**
-      - /swagger/**
-      - /**/v2/api-docs
-      - /api/**
-      - /css/**
-      - /images/**
-      - /js/**
-      - /lib/**
-      - /page/**
-      - /login
-      - /register
-      - /info
-      - /logout
-      - /index
-
-# 日志
-logging:
-  level:
-    root: warn
-    top.plgxs.mbg.mapper: trace
-  pattern:
-    console: '%p%m%n'

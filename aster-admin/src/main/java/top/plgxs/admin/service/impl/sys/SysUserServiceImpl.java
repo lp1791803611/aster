@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,10 @@ import top.plgxs.common.core.constants.enums.StatusEnum;
 import top.plgxs.common.core.exception.BusinessException;
 import top.plgxs.common.redis.constant.RedisConstant;
 import top.plgxs.common.redis.util.RedisUtils;
+import top.plgxs.mbg.dto.export.UserExport;
+import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.dto.sys.UserDto;
-import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.entity.sys.SysRole;
 import top.plgxs.mbg.entity.sys.SysUser;
 import top.plgxs.mbg.entity.sys.SysUserPosition;
@@ -388,6 +390,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<TableColumn> getTableColumn(String tableName) {
         return sysUserMapper.getTableColumn("aster", tableName);
+    }
+
+    @Override
+    public List<UserExport> export(String name, String deptId) {
+
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("u.is_deleted", DeleteEnum.OK.getCode());
+        if (StringUtils.isNotBlank(deptId) && !Constants.TOP_DEPT_ID.equals(deptId)) {
+            queryWrapper.eq("u.dept_id", deptId);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            queryWrapper.and(qw -> qw.like("u.username", name).or().like("u.nickname", name)
+                    .or().like("u.mobile", name)).or().like("u.email", name);
+        }
+        queryWrapper.orderByDesc("u.gmt_create");
+        return sysUserMapper.export(queryWrapper);
     }
 
     public boolean newMatches(SysUser user, String newPassword) {

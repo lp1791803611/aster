@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('系统访问记录')"/>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form" th:object="${sysLoginLog}">
+    <input name="id" type="hidden" th:field="*{id}"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">登录账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="loginName" lay-verify="required"
+                               lay-reqtext="登录账号不能为空" placeholder="请输入登录账号"
+                               th:field="*{loginName}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">登录IP地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ipAddress" lay-verify="required"
+                               lay-reqtext="登录IP地址不能为空" placeholder="请输入登录IP地址"
+                               th:field="*{ipAddress}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">登录地点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="loginLocation" lay-verify="required"
+                               lay-reqtext="登录地点不能为空" placeholder="请输入登录地点"
+                               th:field="*{loginLocation}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">浏览器类型</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="browser" lay-verify="required"
+                               lay-reqtext="浏览器类型不能为空" placeholder="请输入浏览器类型"
+                               th:field="*{browser}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">操作系统</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="os" lay-verify="required"
+                               lay-reqtext="操作系统不能为空" placeholder="请输入操作系统"
+                               th:field="*{os}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用"
+                               th:checked="${sysLoginLog.status == '1' ? false : true}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">提示消息</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="msg" lay-verify="required"
+                               lay-reqtext="提示消息不能为空" placeholder="请输入提示消息"
+                               th:field="*{msg}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">访问时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="loginTime" lay-verify="required"
+                               lay-reqtext="访问时间不能为空" placeholder="请输入访问时间"
+                               th:field="*{loginTime}" class="layui-input">
+                    </div>
+                </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+</div>
+<th:block th:include="common/include :: footer"/>
+
+<script th:inline="javascript">
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            data.field.status = $("input[name='status']").is(':checked') == true ? 0 : 1;
+            $.ajax({
+                url: ctx + 'sysLoginLog/update',
+                type: 'POST',
+                async: false,
+                contentType: 'application/json; charset=UTF-8',
+                dataType: "json",
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                    var index = layer.alert(res.msg, {
+                        title: '提示信息'
+                    }, function () {
+                        // 重新加载列表
+                        window.parent.location.reload();
+                        // 关闭弹出层
+                        layer.close(index);
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index);
+                    if (XMLHttpRequest.status == 404) {
+                        window.location.href = "404";
+                    } else {
+                        layer.msg("服务器好像出了点问题！请稍后试试");
+                    }
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

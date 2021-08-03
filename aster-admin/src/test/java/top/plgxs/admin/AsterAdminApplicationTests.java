@@ -1,9 +1,6 @@
 package top.plgxs.admin;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.codec.Base64;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.plgxs.admin.service.sys.SysUserService;
+import top.plgxs.admin.service.vacc.ChildInfoService;
 import top.plgxs.common.core.constants.Constants;
 import top.plgxs.common.core.util.AddressUtils;
-import top.plgxs.common.redis.util.RedisUtils;
 import top.plgxs.mbg.entity.sys.SysUser;
+import top.plgxs.mbg.entity.vacc.ChildInfo;
 
 import javax.annotation.Resource;
 import javax.crypto.KeyGenerator;
@@ -30,19 +28,7 @@ class AsterAdminApplicationTests {
     @Resource
     private SysUserService sysUserService;
     @Resource
-    private RedisUtils redisUtils;
-
-    @Test
-    public void set() {
-        redisUtils.set("user", "Stranger");
-    }
-
-    @Test
-    public void get() {
-        String value = redisUtils.get("user").toString();
-        System.out.println(value);
-    }
-
+    private ChildInfoService childInfoService;
 
     // INSERT INTO t_sys_user ( id, username, mobile ) VALUES ( ?, ?, ? )
     @Test
@@ -133,32 +119,7 @@ class AsterAdminApplicationTests {
         list.forEach(System.out::println);
     }
 
-    // WHERE (username LIKE ?) LIMIT ?
-    @Test
-    public void testPage() {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.likeRight("username", "陈");
 
-        IPage<SysUser> page = new Page<>(1, 5);
-        IPage<SysUser> iPage = sysUserService.page(page, queryWrapper);
-        // IPage<SysUser> userIPage = sysUserMapper.selectPage(page, queryWrapper);
-        System.out.println("总页数" + iPage.getPages());
-        System.out.println("总记录数" + iPage.getTotal());
-        List<SysUser> list = iPage.getRecords();
-        list.forEach(System.out::println);
-    }
-
-    @Test
-    public void morePage() {
-		/*QueryWrapper<Map<String,Object>> queryWrapper = new QueryWrapper<>();
-		queryWrapper.likeRight("username","陈");
-		Page<Map<String,Object>> page = new Page<>(1,5);
-		IPage<Map<String,Object>> iPage = sysUserMapper.selectUserPage2(page,queryWrapper);
-		System.out.println("总页数"+iPage.getPages());
-		System.out.println("总记录数"+iPage.getTotal());
-		List<Map<String,Object>> list = iPage.getRecords();
-		list.forEach(System.out::println);*/
-    }
 
     @Test
     public void test() throws NoSuchAlgorithmException {
@@ -180,7 +141,18 @@ class AsterAdminApplicationTests {
     }
 
     @Test
-    public void replace(){
-        System.out.println(StrUtil.toCamelCase("user_type"));
+    public void master(){
+        childInfoService.selectMaster();
+        childInfoService.selectSlave();
     }
+
+    @Test
+    public void sharding(){
+//        childInfoService.insertSharding();
+        List<ChildInfo> list = childInfoService.selectSharding();
+        for (ChildInfo childInfo : list) {
+            System.out.println(childInfo.getChildId());
+        }
+    }
+
 }

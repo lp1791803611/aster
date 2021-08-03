@@ -1,69 +1,47 @@
-server:
-  servlet:
-    context-path: /random
-    session:
-      timeout: 30m
-  port: 8080
-
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/random?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: random
-    password: random
     druid:
-      initial-size: 5 #连接池初始化大小
-      min-idle: 10 #最小空闲连接数
-      max-active: 20 #最大连接数
-      web-stat-filter:
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
-      stat-view-servlet: #访问监控网页的登录用户名和密码
-        login-username: druid
-        login-password: druid
-  thymeleaf:
-    #开发配置为false,避免修改模板还要重启服务器
-    cache: false
-    #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
-    #mode: HTML5
-    #编码 可不用配置
-    #encoding: UTF-8
-    #内容类别,可不用配置
-    #content-type: text/html
-    #配置模板路径，默认是templates，可以不用配置
-    #prefix: classpath:/templates
-  redis:
-    host: localhost # Redis服务器地址
-    database: 0 # Redis数据库索引（默认为0）
-    port: 6379 # Redis服务器连接端口
-    password: # Redis服务器连接密码（默认为空）
-    timeout: 300ms # 连接超时时间（毫秒）
+      stat-view-servlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        loginUsername: aster
+        loginPassword: aster12138
 
-#mybatis
-mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  #typeAliasesPackage: top.plgxs.entity
-  global-config:
-    db-config:
-      #主键类型
-      #AUTO 数据库ID自增
-      #INPUT 用户输入ID
-      #ID_WORKER 全局唯一ID，Long类型的主键
-      #ID_WORKER_STR 字符串全局唯一ID
-      #UUID 全局唯一ID，UUID类型的主键
-      #NONE 该类型为未设置主键类型
-      id-type: ID_WORKER_STR
-      #逻辑删除配置
-      logic-delete-value: 1  #逻辑已删除值(默认为 1)
-      logic-not-delete-value: 0  #逻辑未删除值(默认为 0)
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: false
-    call-setters-on-nulls: true
+    dynamic:
+      druid: # 以下是全局默认值，可以全局更改
+        # 监控统计拦截的filters
+        filters: stat,wall
+        initial-size: 5 # 初始化时建立物理连接的个数
+        min-idle: 5 # 最小连接池数量
+        max-active: 20 # 最大连接池数量
+        max-wait: 60000 # 获取连接等待超时时间,单位毫秒
+        time-between-eviction-runs-millis: 60000 # 间隔多久进行一次检测，检测需要关闭的空闲连接
+        min-evictable-idle-time-millis: 300000 # 连接的最小生存时间.连接保持空闲而不被驱逐的最小时间
+        validation-query: SELECT 'x'
+        test-while-idle: true # 申请连接时检测空闲时间，根据空闲时间再检测连接是否有效.建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRun
+        test-on-borrow: false # 申请连接时直接检测连接是否有效.申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        test-on-return: false # 归还连接时检测连接是否有效.归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        pool-prepared-statements: false # 打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+        max-pool-prepared-statement-per-connection-size: 20 # 设置PSCache值
+        stat:
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        wall:
+          multi-statement-allow: true
+      primary: master # 设置默认的数据源或者数据源组,默认值即为master
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/aster?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+          username: aster
+          password: aster12138
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_1:
+          url: jdbc:mysql://localhost:3306/aster_0?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+          username: aster
+          password: aster12138
+          driver-class-name: com.mysql.cj.jdbc.Driver
 
-# 日志
-logging:
-  level:
-    root: warn
-    top.plgxs.mbg.mapper: trace
-  pattern:
-    console: '%p%m%n'
+

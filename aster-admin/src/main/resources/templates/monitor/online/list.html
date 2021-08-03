@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('系统访问记录列表')"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" lay-filter="login-form" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="username" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="batch-force"> 强退</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+    </div>
+</div>
+<th:block th:include="common/include :: footer"/>
+
+<script th:inline="javascript">
+    $(function () {
+        search();
+    });
+
+    // 搜索
+    function search() {
+        var username = $("#username").val();
+        $.ajax({
+            url: ctx + 'online/pageList',
+            type: 'POST',
+            async: false,
+            data: {
+                username:username
+            },
+            dataType: "json",
+            success: function (res) {
+                var onlineData = res.data;
+                var onlineTotal = res.data.count;
+                layui.use(['table', 'form'], function () {
+                    var $ = layui.jquery,
+                        table = layui.table,
+                        form = layui.form;
+
+                    table.render({
+                        elem: '#currentTableId',
+                        data: onlineData,
+                        toolbar: '#toolbarDemo',
+                        defaultToolbar: ['filter', 'exports', 'print', {
+                            title: '提示',
+                            layEvent: 'LAYTABLE_TIPS',
+                            icon: 'layui-icon-tips'
+                        }],
+                        cols: [
+                            [
+                                {type: "checkbox"},
+                                {field: 'sessionId', title: '会话ID', sort: true},
+                                {field: 'username', title: '登录用户', sort: true},
+                                {field: 'ipaddr', title: '主机IP', sort: true},
+                                {field: 'loginLocation', title: '登录地点', sort: true},
+                                {field: 'browser', title: '浏览器', sort: true},
+                                {field: 'os', title: '操作系统', sort: true},
+                                {
+                                    field: 'status', title: '状态', templet: function (d) {
+                                        if (d.status == '1') {
+                                            return '<span class="layui-badge layui-bg-red">离线</span>';
+                                        } else {
+                                            return '<span class="layui-badge layui-bg-green">在线</span>';
+                                        }
+                                    }
+                                },
+                                {field: 'startTimestamp', title: '登录时间', sort: true, hide: true},
+                                {field: 'lastAccessTime', title: '最后访问时间', sort: true}
+                            ]
+                        ],
+                        limits: [10, 15, 20, 25, 50, 100],
+                        limit: 15,
+                        page: true,
+                        skin: 'line'
+                    });
+
+                    /**
+                     * toolbar监听事件
+                     */
+                    table.on('toolbar(currentTableFilter)', function (obj) {
+                        if (obj.event === 'batch-force') {  // 监听强退操作
+                            var checkStatus = table.checkStatus('currentTableId')
+                                , data = checkStatus.data;
+                            if (data != null && data.length > 0) {
+                                layer.confirm('是否强退？', function (index) {
+                                    layer.close(index);
+
+                                    var onlines = [];
+                                    for (var i = 0; i < data.length; i++) {
+                                        var obj = {};
+                                        obj.sessionId = data[i].sessionId;
+                                        obj.username = data[i].username;
+                                        onlines[i] = obj;
+                                    }
+
+                                    $.ajax({
+                                        url: ctx + 'online/batchForceLogout',
+                                        type: 'POST',
+                                        async: false,
+                                        data: JSON.stringify(onlines),
+                                        contentType: 'application/json; charset=UTF-8',
+                                        dataType: "json",
+                                        success: function (res) {
+                                            layer.msg(res.msg);
+                                            search();
+                                        },
+                                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                            layer.close(index);
+                                            if (XMLHttpRequest.status == 404) {
+                                                window.location.href = ctx + "/404";
+                                            } else {
+                                                layer.msg("服务器好像出了点问题！请稍后试试");
+                                            }
+                                        }
+                                    });
+                                });
+                            } else {
+                                layer.alert("请先选择行");
+                            }
+                        }
+                    });
+
+                    // 监听搜索操作
+                    form.on('submit(data-search-btn)', function (data) {
+                        //执行搜索重载
+                        search();
+                        return false;
+                    });
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                layer.close(index);
+                if (XMLHttpRequest.status == 404) {
+                    window.location.href = ctx + "/404";
+                } else {
+                    layer.msg("服务器好像出了点问题！请稍后试试");
+                }
+            }
+        });
+    }
+</script>

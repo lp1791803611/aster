@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: header('操作日志记录')"/>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form" th:object="${sysOperLog}">
+    <input name="id" type="hidden" th:field="*{id}"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">模块标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" readonly="readonly"
+                               th:field="*{title}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">业务类型</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="businessType" readonly="readonly"
+                               th:value="${@dict.getLabel('BUSINESS_TYPE', sysOperLog.businessType)}"  class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">方法名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="method" readonly="readonly"
+                               th:field="*{method}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求方式</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="requestMethod" readonly="readonly"
+                               th:field="*{requestMethod}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作类别</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operatorType" readonly="readonly"
+                               th:value="${@dict.getLabel('OPERATOR_TYPE', sysOperLog.operatorType)}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作人员</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operName" readonly="readonly"
+                               th:field="*{operName}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求URL</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operUrl" readonly="readonly"
+                               th:field="*{operUrl}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主机地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operIp" readonly="readonly"
+                               th:field="*{operIp}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作地点</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operLocation" readonly="readonly"
+                               th:field="*{operLocation}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求参数</label>
+                    <div class="layui-input-block">
+                        <textarea type="text" name="operParam" readonly="readonly"
+                               th:field="*{operParam}" class="layui-input">
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">返回参数</label>
+                    <div class="layui-input-block">
+                        <textarea type="text" name="jsonResult" readonly="readonly"
+                               th:field="*{jsonResult}" class="layui-input">
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">错误消息</label>
+                    <div class="layui-input-block">
+                        <textarea type="text" name="errorMsg" readonly="readonly"
+                                  th:field="*{errorMsg}" class="layui-input"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="operTime" readonly="readonly"
+                               th:field="*{operTime}" class="layui-input">
+                    </div>
+                </div>
+</div>
+</div>
+<th:block th:include="common/include :: footer"/>
+
+<script th:inline="javascript">
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+    });
+</script>
+</body>
+</html>

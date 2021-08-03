@@ -19,6 +19,26 @@ public enum StatusEnum {
         this.message = message;
     }
 
+    public static String getCode(String value) {
+        StatusEnum[] enums = StatusEnum.values();
+        for (StatusEnum bEnum : enums) {
+            if (bEnum.getMessage().equals(value)) {
+                return bEnum.getCode();
+            }
+        }
+        return null;
+    }
+
+    public static String getMessage(String code) {
+        StatusEnum[] enums = StatusEnum.values();
+        for (StatusEnum bEnum : enums) {
+            if (bEnum.getCode().equals(code)) {
+                return bEnum.getMessage();
+            }
+        }
+        return null;
+    }
+
     public String getCode() {
         return this.code;
     }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.plgxs.mbg.mapper.monitor.SysLoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.plgxs.mbg.entity.monitor.SysLoginLog">
+        <id column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="ip_address" property="ipAddress" />
+        <result column="login_location" property="loginLocation" />
+        <result column="browser" property="browser" />
+        <result column="os" property="os" />
+        <result column="status" property="status" />
+        <result column="msg" property="msg" />
+        <result column="login_time" property="loginTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_name, ip_address, login_location, browser, os, status, msg, login_time
+    </sql>
+
+    <select id="selectSysLoginLogList" parameterType="top.plgxs.mbg.entity.monitor.SysLoginLog" resultType="top.plgxs.mbg.entity.monitor.SysLoginLog">
+        select <include refid="Base_Column_List"/>
+        from t_sys_login_log t
+        where 1 = 1
+            <if test="id != null and id != ''">
+                and t.id = #{id}
+            </if>
+            <if test="loginName != null and loginName != ''">
+                and t.login_name = #{loginName}
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and t.ip_address = #{ipAddress}
+            </if>
+            <if test="loginLocation != null and loginLocation != ''">
+                and t.login_location = #{loginLocation}
+            </if>
+            <if test="browser != null and browser != ''">
+                and t.browser = #{browser}
+            </if>
+            <if test="os != null and os != ''">
+                and t.os = #{os}
+            </if>
+            <if test="status != null and status != ''">
+                and t.status = #{status}
+            </if>
+            <if test="msg != null and msg != ''">
+                and t.msg = #{msg}
+            </if>
+            <if test="loginTime != null">
+                and t.login_time = #{loginTime}
+            </if>
+    </select>
+</mapper>

@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.plgxs.mbg.dto.export.UserExport;
+import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.dto.sys.LoginUser;
 import top.plgxs.mbg.dto.sys.UserDto;
-import top.plgxs.mbg.dto.gen.TableColumn;
 import top.plgxs.mbg.entity.sys.SysUser;
 
 import java.util.List;
@@ -202,4 +203,14 @@ public interface SysUserService extends IService<SysUser> {
      * @since 2021/7/9
      */
     List<TableColumn> getTableColumn(String tableName);
+
+    /**
+     * 导出excel
+     * @param name
+     * @param deptId 部门id
+     * @return java.util.List<top.plgxs.mbg.entity.sys.SysUser>
+     * @author Stranger。
+     * @since 2021/7/24
+     */
+    List<UserExport> export(String name, String deptId);
 }
