@@ -61,7 +61,7 @@ aster项目是基于SpringBoot的快速开发框架。
 2.  修改application-local.yml的jdbc信息（doc下有sql文件）
 3.  启动AsterAdminApplication.java
 4.  浏览器输入http://localhost:8080/index
-5.  用户名：admin，密码：123456
+5.  用户名：admin，密码：111111
 
 #### 博客文档
 
